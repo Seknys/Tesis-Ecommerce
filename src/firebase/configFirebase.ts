@@ -1,5 +1,6 @@
 import { initializeApp, FirebaseApp, FirebaseOptions } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import {getFirestore} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 import { getAnalytics } from "firebase/analytics";
@@ -19,18 +20,17 @@ import { getAuth } from "firebase/auth";
 
 //FIX ME: This is a temporary fix for the firebase config issue
 const firebaseConfig = {
-  apiKey: "AIzaSyA0ErYbWTssIoyv73Dq4j7DqX8sJWpgOlI",
-  authDomain: "ecommerce-tesis.firebaseapp.com",
-  databaseURL: "https://ecommerce-tesis-default-rtdb.firebaseio.com",
-  projectId: "ecommerce-tesis",
-  storageBucket: "ecommerce-tesis.appspot.com",
-  messagingSenderId: "903478974837",
-  appId: "1:903478974837:web:71ce50e1fb8369df765b3c",
-  measurementId: "G-DPNQ8HCHPG",
+  apiKey: "AIzaSyC2yPe_HUMUqpjLn1DsWEaVJEXQowl2fC4",
+  authDomain: "ecommerce-epn.firebaseapp.com",
+  projectId: "ecommerce-epn",
+  storageBucket: "ecommerce-epn.appspot.com",
+  messagingSenderId: "839374928303",
+  appId: "1:839374928303:web:a143f9be3d5e1e0c4ed75a",
+  measurementId: "G-XKQXS28LSF"
 };
 
 export const app: FirebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getDatabase(app);
+export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const analytics = getAnalytics(app);

@@ -1,27 +1,26 @@
 import { onValue, ref } from "firebase/database";
+import {
+  collection,
+  doc,
+  DocumentData,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { Icategories } from "../interfaces/interface";
 
-export const getCategories = () => {
-  const categoriesRef = ref(db, "categories");
+const categoryRef = collection(db, "categories");
 
-  //Return a promise
-  return new Promise<Icategories[]>((resolve, reject) => {
-    onValue(
-      categoriesRef,
-      (snapshot) => {
-        const data = snapshot.val();
-        const dataValues: Icategories[] = Object.values(data);
+export const getCategories = (fSnapshot: (snapshot: DocumentData) => void) => {
+  onSnapshot(collection(db, "categories"), fSnapshot);
+};
 
-        resolve(dataValues);
-      },
-      (error) => {
-        reject(error);
-      }
-      //   ,
-      //   {
-      //     onlyOnce: true,
-      //   }
-    );
-  });
+export const getOneCategory = (
+  uid: string,
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  const q = query(categoryRef, where("uid", "==", uid));
+  return onSnapshot(q, fSnapshot);
 };

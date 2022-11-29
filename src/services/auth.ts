@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/configFirebase";
 import { ref, onValue, set, push, remove } from "firebase/database";
+import { doc, setDoc } from "firebase/firestore";
 
 export const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
@@ -42,8 +43,7 @@ export const signOutUser = () => {
 };
 
 export const userLogin = async (email: string, password: string) => {
-  return await signInWithEmailAndPassword(auth, email, password)
-    
+  return await signInWithEmailAndPassword(auth, email, password);
 };
 
 export const RegisterWithEmail = async (
@@ -52,7 +52,6 @@ export const RegisterWithEmail = async (
   name: string,
   lastName: string
 ) => {
-  console.log("Params", email, password, name, lastName);
   await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -65,7 +64,7 @@ export const RegisterWithEmail = async (
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log("Bak", errorCode, errorMessage);
-      throw new Error( errorCode);
+      throw new Error(errorCode);
     });
 };
 
@@ -75,12 +74,18 @@ const SaveUserToFireBase = async (
   lastName: string,
   email: string
 ) => {
-  const userRef = ref(db, "users/" + uid);
-  set(userRef, {
+  // const userRef = ref(db, "users/" + uid);
+  // set(userRef, {
+  //   name: name,
+  //   lastName: lastName,
+  //   email: email,
+  // }).then(() => {
+  //   console.log("User saved");
+  // });
+
+  await setDoc(doc(db, "users", uid), {
     name: name,
     lastName: lastName,
     email: email,
-  }).then(() => {
-    console.log("User saved");
   });
 };

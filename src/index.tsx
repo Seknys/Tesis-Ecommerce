@@ -5,6 +5,7 @@ import { theme } from "./theme";
 import reportWebVitals from "./reportWebVitals";
  import "./i18n";
 import { Box, NativeBaseProvider, Text } from "native-base";
+import "./index.css"
 
 // extend the theme
 const root = ReactDOM.createRoot(

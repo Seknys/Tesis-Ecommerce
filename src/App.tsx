@@ -93,7 +93,7 @@ import React from "react";
 import { NativeBaseProvider, Box, Button, Text } from "native-base";
 import MainHeader from "./components/MainHeader";
 import Login from "./pages/auth/Login";
-import BasicExample from "./routing";
+
 import {
   BrowserRouter as Router,
   Redirect,
@@ -103,6 +103,7 @@ import {
 import Register from "./pages/auth/Register";
 import HomePage from "./pages/home/Home";
 import { toast, ToastContainer } from "react-toastify";
+import MainHome from "./pages/home/MainHome";
 
 // function Home() {
 //   return (
@@ -129,6 +130,8 @@ import { toast, ToastContainer } from "react-toastify";
 // }
 
 export default function App() {
+
+  
   
 
   return (
@@ -144,6 +147,9 @@ export default function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/home" component={HomePage} />
+          {/* <Route path="/home/:id" children={MainHome} /> */}
+          {/* <Route path="/home/scanner_cat" component={Login} /> */}
+          <Route  path="/category/:id" component={MainHome} />
         </Switch>
       </Router>
       
