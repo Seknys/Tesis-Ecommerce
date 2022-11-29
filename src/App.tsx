@@ -93,6 +93,16 @@ import React from "react";
 import { NativeBaseProvider, Box, Button, Text } from "native-base";
 import MainHeader from "./components/MainHeader";
 import Login from "./pages/auth/Login";
+import BasicExample from "./routing";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import Register from "./pages/auth/Register";
+import HomePage from "./pages/home/Home";
+import { toast, ToastContainer } from "react-toastify";
 
 // function Home() {
 //   return (
@@ -119,12 +129,24 @@ import Login from "./pages/auth/Login";
 // }
 
 export default function App() {
-  return (
-    <>
-      <MainHeader />
-      <Login />
+  
 
-      {/* <Text>Esto es un text</Text> */}
-    </>
+  return (
+    <React.Fragment>
+      <MainHeader />
+
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/home" component={HomePage} />
+        </Switch>
+      </Router>
+      
+    </React.Fragment>
   );
 }

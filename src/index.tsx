@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { theme } from "./theme";
 import reportWebVitals from "./reportWebVitals";
-import "./i18n";
+ import "./i18n";
 import { Box, NativeBaseProvider, Text } from "native-base";
 
 // extend the theme
