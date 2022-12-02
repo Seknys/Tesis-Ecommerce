@@ -13,41 +13,22 @@ import { FaRegUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import OverlayMenu from "./OverlayMenu";
 import logo from "../assets/LogoTest.png";
+import "./style.css"
 
 export default function MainHeader() {
   const [showMenu, setShowMenu] = useState(true);
   const [checked, setChecked] = useState(false);
 
   return (
-    <HStack w="100%" h="60" alignItems={"center"} bg="#E84EAA">
-      <Box flex={1}>
-        <IconContext.Provider
-          value={{
-            color: "white",
-            size: "2em",
-            style: { alignSelf: "center" },
-          }}
-        >
-          <GoThreeBars />
-        </IconContext.Provider>
-        <Menu width={300}>
-          <OverlayMenu />
-        </Menu>
-      </Box>
-      <HStack flex={7} alignItems={"center"}>
-        <Text fontSize="2xl" color="white">
-          Up World
-        </Text>
-        <Image
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
-          }}
-          alt="Alternate Text"
-          width={50}
-          height={50}
-          ml="25"
-        />
-        <Box ml='10%'>
+    <div className="headerStyle">
+      <HStack
+        w="100%"
+        h="60"
+        alignItems={"center"}
+    
+     
+      >
+        <Box flex={1}>
           <IconContext.Provider
             value={{
               color: "white",
@@ -55,38 +36,66 @@ export default function MainHeader() {
               style: { alignSelf: "center" },
             }}
           >
-            <BiSearchAlt />
+            <GoThreeBars />
           </IconContext.Provider>
+          <Menu width={300}>
+            <OverlayMenu />
+          </Menu>
         </Box>
-      </HStack>
-      <HStack
-        flex={2}
-        alignItems={"center"}
-        justifyContent="space-evenly"
-        pr="5%"
-      >
-        <Box>
-        <IconContext.Provider
-          value={{
-            color: "white",
-            size: "2em",
-            style: { alignSelf: "center" },
-          }}
+        <HStack flex={7} alignItems={"center"}>
+          <Text fontSize="2xl" color="white">
+            Up World
+          </Text>
+          <Image
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
+            }}
+            alt="Alternate Text"
+            width={50}
+            height={50}
+            ml="25"
+          />
+          <Box ml="10%">
+            <IconContext.Provider
+              value={{
+                color: "white",
+                size: "2em",
+                style: { alignSelf: "center" },
+              }}
+            >
+              <BiSearchAlt />
+            </IconContext.Provider>
+          </Box>
+        </HStack>
+        <HStack
+          flex={2}
+          alignItems={"center"}
+          justifyContent="space-evenly"
+          pr="5%"
         >
-          <MdShoppingCart />
-        </IconContext.Provider>
-        </Box>
-     
-        <IconContext.Provider
-          value={{
-            color: "white",
-            size: "2em",
-            style: { alignSelf: "center" },
-          }}
-        >
-          <FaRegUser />
-        </IconContext.Provider>
+          <Box>
+            <IconContext.Provider
+              value={{
+                color: "white",
+                size: "2em",
+                style: { alignSelf: "center" },
+              }}
+            >
+              <MdShoppingCart />
+            </IconContext.Provider>
+          </Box>
+
+          <IconContext.Provider
+            value={{
+              color: "white",
+              size: "2em",
+              style: { alignSelf: "center" },
+            }}
+          >
+            <FaRegUser />
+          </IconContext.Provider>
+        </HStack>
       </HStack>
-    </HStack>
+    </div>
   );
 }
