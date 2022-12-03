@@ -15,5 +15,7 @@ export interface Iproducts {
   price: number;
   tags: string[];
   uid: string;
+  feat:string[];
+  stock:number;
 
 }

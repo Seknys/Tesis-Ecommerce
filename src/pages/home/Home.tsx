@@ -51,6 +51,8 @@ export default function HomePage({ history }: any) {
         flexDirection="row"
         justifyContent="space-around"
       >
+
+
         {categories?.map((category: Icategories, index) => (
           // <Link to={`${url}/${category.uid}`} key={category.uid}>
           <Link to={`category/${category.uid}`} key={category.uid}>

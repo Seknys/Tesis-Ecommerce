@@ -104,6 +104,7 @@ import Register from "./pages/auth/Register";
 import HomePage from "./pages/home/Home";
 import { toast, ToastContainer } from "react-toastify";
 import MainHome from "./pages/home/MainHome";
+import ProductDisplay from "./pages/home/ProductDisplay";
 
 // function Home() {
 //   return (
@@ -130,13 +131,11 @@ import MainHome from "./pages/home/MainHome";
 // }
 
 export default function App() {
-
-  
-  
-
   return (
     <React.Fragment>
-      <MainHeader />
+      <Box w="100%" position="sticky" top={"0px"} zIndex={10}>
+        <MainHeader />
+      </Box>
 
       <Router>
         <Switch>
@@ -149,10 +148,10 @@ export default function App() {
           <Route path="/home" component={HomePage} />
           {/* <Route path="/home/:id" children={MainHome} /> */}
           {/* <Route path="/home/scanner_cat" component={Login} /> */}
-          <Route  path="/category/:id" component={MainHome} />
+          <Route path="/category/:id" component={MainHome} />
+          <Route path="/product/:uid" component={ProductDisplay} />
         </Switch>
       </Router>
-      
     </React.Fragment>
   );
 }

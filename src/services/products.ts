@@ -1,6 +1,8 @@
 import {
   collection,
+  doc,
   DocumentData,
+  getDoc,
   onSnapshot,
   query,
   where,
@@ -15,4 +17,11 @@ export const getProductsByCategory = (
 ) => {
   const q = query(productRef, where("catUid", "==", category));
   return onSnapshot(q, fSnapshot);
+};
+
+export const getProductByUid = (
+  uid: string,
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  return onSnapshot(doc(db, "products", uid), fSnapshot);
 };

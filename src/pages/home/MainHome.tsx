@@ -14,7 +14,7 @@ import {
   PresenceTransition,
 } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SideBarMenu from "../../components/SidebarMenu";
 import { Icategories, Iproducts } from "../../interfaces/interface";
 import { getOneCategory } from "../../services/basicOperations";
@@ -22,7 +22,7 @@ import { getProductsByCategory } from "../../services/products";
 import "./style.css";
 import { motion } from "framer-motion";
 
-export default function MainHome() {
+export default function MainHome({ history }: any) {
   const { id } = useParams<{ id: string }>();
 
   const [category, setCategory] = useState<Icategories>();
@@ -71,14 +71,17 @@ export default function MainHome() {
         >
           {products?.map((product, index) => (
             <Pressable
-              key={product.uid}
               // mr="5%"
+              key={product.uid}
               mt="25"
               onHoverIn={() => {
                 setHover({ value: true, index: index });
               }}
               onHoverOut={() => setHover(null)}
-              onPress={() => setIsOpen(!isOpen)}
+              onPress={() => {
+                setIsOpen(!isOpen);
+                history.push(`/product/${product.uid}`);
+              }}
             >
               <div className="example-container">
                 <motion.div
@@ -88,7 +91,7 @@ export default function MainHome() {
                   <Box
                     w="220"
                     h="290"
-                    overflow="hidden"
+                    // overflow="hidden"
                     _dark={{
                       borderColor: "coolGray.600",
                       backgroundColor: "gray.700",
@@ -105,58 +108,66 @@ export default function MainHome() {
                         fallbackSource={{
                           uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token=67f3837f-dfd2-42e8-8490-972b5ccb6f7d",
                         }}
-                        alt="image"
+                        alt={product.name}
                         w="220"
                         h="160"
                         resizeMode="cover"
                       />
 
                       {/* <Box>
-                        <Box
-                          bg="violet.500"
-                          _dark={{
-                            bg: "violet.400",
-                          }}
-                          _text={{
-                            color: "warmGray.50",
-                            fontWeight: "700",
-                            fontSize: "xs",
-                          }}
-                          position="absolute"
-                          bottom="0"
-                          px="3"
-                          py="1.5"
-                          borderRadius={35}
-                        >
-                          <Text> {category?.name}</Text>
-                        </Box>
-                        {product.sold > 15 && (
-                          <Box
-                            bg="red.500"
-                            _dark={{
-                              bg: "red.400",
-                            }}
-                            _text={{
-                              color: "warmGray.50",
-                              fontWeight: "700",
-                              fontSize: "xs",
-                            }}
-                            position="absolute"
-                            top="0"
-                            right="0"
-                            px="3"
-                            py="1.5"
-                            borderRadius={5}
-                          >
-                            <Text> Best Seller </Text>
-                          </Box>
-                        )}
-                      </Box> */}
+                       <Box
+                         bg="violet.500"
+                         _dark={{
+                           bg: "violet.400",
+                         }}
+                         _text={{
+                           color: "warmGray.50",
+                           fontWeight: "700",
+                           fontSize: "xs",
+                         }}
+                         position="absolute"
+                         bottom="0"
+                         px="3"
+                         py="1.5"
+                         borderRadius={35}
+                       >
+                         <Text> {category?.name}</Text>
+                       </Box>
+                       {product.sold > 15 && (
+                         <Box
+                           bg="red.500"
+                           _dark={{
+                             bg: "red.400",
+                           }}
+                           _text={{
+                             color: "warmGray.50",
+                             fontWeight: "700",
+                             fontSize: "xs",
+                           }}
+                           position="absolute"
+                           top="0"
+                           right="0"
+                           px="3"
+                           py="1.5"
+                           borderRadius={5}
+                         >
+                           <Text> Best Seller </Text>
+                         </Box>
+                       )}
+                     </Box> */}
                     </Box>
-                    <Box>
-                      <Text fontSize="2xl">{product.name}</Text>
+                    <Box pl='3'> 
+                      <Text fontSize="2xl">
+                        {product.name.length > 16
+                          ? `${product.name.substring(0, 15)}...`
+                          : product.name}
+                      </Text>
                       <Text fontSize="xl">{product.price}</Text>
-                      <Text>{product.desc}</Text>
+                      <Text>
+                        {product.desc.length > 30
+                          ? `${product.desc.substring(0, 30)}...`
+                          : product.desc}
+                      </Text>
                     </Box>
                   </Box>
                 </motion.div>

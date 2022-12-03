@@ -55,8 +55,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function SideBarMenu({ children }: IProps) {
-  const [expanded, setExpanded] = useState<string | false>(false);
+  // const [expanded, setExpanded] = useState<string | false>(false);
   const [categories, setCategories] = useState<Icategories[]>([]);
+  const [expanded, setExpanded] = useState<false | number>(0);
 
   useEffect(() => {
     const getCategoriesSnapshot = (snapshot: DocumentData) => {
@@ -68,65 +69,75 @@ export default function SideBarMenu({ children }: IProps) {
     getCategories(getCategoriesSnapshot);
   }, []);
 
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  // const handleChange =
+  //   (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+  //     setExpanded(isExpanded ? panel : false);
+  //   };
 
   return (
     <Box
       flexDirection="row"
       w="100%"
-      mt='75'
-    //   justifyContent="space-around"
-   
-      px='2%'
+      mt="75"
+      //   justifyContent="space-around"
+
+      px="2%"
     >
-      <Box flex={1}  mx='2%'>
+      <Box flex={1} mx="2%">
         {/* <Example/> */}
-        {/* {categories?.map((category: Icategories, index) => (
+        {categories?.map((category: Icategories, index) => (
+          // <Accordion
+          //   key={category.uid}
+          //   expanded={expanded === `panel${index}`}
+          //   onChange={handleChange(`panel${index}`)}
+          // >
+          //   <AccordionSummary
+          //     aria-controls={`panel${index}d-content`}
+          //     id={`panel${index}d-header`}
+          //   >
+          //     <Typography>{category.name}</Typography>
+          //   </AccordionSummary>
+          //   <AccordionDetails>
+          //     <Typography>Link To</Typography>
+          //   </AccordionDetails>
+          // </Accordion>
           <Accordion
             key={category.uid}
-            expanded={expanded === `panel${index}`}
-            onChange={handleChange(`panel${index}`)}
-          >
-            <AccordionSummary
-              aria-controls={`panel${index}d-content`}
-              id={`panel${index}d-header`}
-            >
-              <Typography>{category.name}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Link To</Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))} */}
+            i={index}
+            expanded={expanded}
+            setExpanded={setExpanded}
+            category={category}
+          />
+        ))}
       </Box>
-      <Box flex={6} >
-        {children}
-      </Box>
+      <Box flex={6}>{children}</Box>
     </Box>
   );
 }
 
 interface IPropsA {
-  i:any;
-  expanded:any;
-  setExpanded:any;
+  i: any;
+  expanded: any;
+  setExpanded: any;
+  category: Icategories;
 }
 
-const Accordion = ({ i, expanded, setExpanded }:IPropsA) => {
+const Accordion = ({ i, expanded, setExpanded, category }: IPropsA) => {
   const isOpen = i === expanded;
 
   // By using `AnimatePresence` to mount and unmount the contents, we can animate
   // them in and out while also only rendering the contents of open accordions
   return (
-    <>
+    <Box key={i}>
       <motion.header
         initial={false}
-        animate={{ backgroundColor: isOpen ? "#FF0088" : "#0055FF" }}
+        animate={{ backgroundColor: isOpen ? "#FF0088" : "#E84EAA" }}
         onClick={() => setExpanded(isOpen ? false : i)}
-      />
+      >
+        <Text fontSize="2xl" ml="25" bold color="white">
+          {category.name}
+        </Text>
+      </motion.header>
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.section
@@ -136,26 +147,31 @@ const Accordion = ({ i, expanded, setExpanded }:IPropsA) => {
             exit="collapsed"
             variants={{
               open: { opacity: 1, height: "auto" },
-              collapsed: { opacity: 0, height: 0 }
+              collapsed: { opacity: 0, height: 0 },
             }}
             transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
-            <ContentPlaceholder />
+            {/* <ContentPlaceholder /> */}
+            <Box>
+              <Text fontSize="xl" ml="25" mb="19" pt="0" color="black">
+                {category.name}
+              </Text>
+            </Box>
           </motion.section>
         )}
       </AnimatePresence>
-    </>
+    </Box>
   );
 };
 
- const Example = () => {
-  // This approach is if you only want max one section open at a time. If you want multiple
-  // sections to potentially be open simultaneously, they can all be given their own `useState`.
-  const [expanded, setExpanded] = useState<false | number>(0);
+// const Example = () => {
+//   // This approach is if you only want max one section open at a time. If you want multiple
+//   // sections to potentially be open simultaneously, they can all be given their own `useState`.
+//   const [expanded, setExpanded] = useState<false | number>(0);
 
-  return accordionIds.map((i) => (
-    <Accordion i={i} expanded={expanded} setExpanded={setExpanded} />
-  ));
-};
+//   return accordionIds.map((i) => (
+//     <Accordion i={i} expanded={expanded} setExpanded={setExpanded} />
+//   ));
+// };
 
-const accordionIds = [0, 1, 2, 3];
+// const accordionIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];

@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Pressable, Text, Image } from "native-base";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import UseAnimations from "react-useanimations";
 import activity from "react-useanimations/lib/activity";
@@ -13,23 +13,45 @@ import { FaRegUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import OverlayMenu from "./OverlayMenu";
 import logo from "../assets/LogoTest.png";
-import "./style.css"
+import "./style.css";
+import { motion, useCycle } from "framer-motion";
+import { useDimensions } from "./hamburgerMenu/use-dimentions";
+import { Navigation } from "./hamburgerMenu/Navigation";
+import { MenuToggle } from "./hamburgerMenu/MenuToggle";
+import "./hamburgerMenu/styleHamburger.css";
+
+const sidebar = {
+  open: (height = 1000) => ({
+    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+    transition: {
+      type: "spring",
+      stiffness: 20,
+      restDelta: 2,
+    },
+  }),
+  closed: {
+    clipPath: "circle(30px at 40px 40px)",
+    transition: {
+      delay: 0.5,
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
 
 export default function MainHeader() {
   const [showMenu, setShowMenu] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [isOpen, toggleOpen] = useCycle(false, true);
+  const containerRef = useRef(null);
+  const { height } = useDimensions(containerRef);
 
   return (
     <div className="headerStyle">
-      <HStack
-        w="100%"
-        h="60"
-        alignItems={"center"}
-    
-     
-      >
+      <HStack w="100%" h="60" alignItems={"center"} >
         <Box flex={1}>
-          <IconContext.Provider
+          {/* <IconContext.Provider
             value={{
               color: "white",
               size: "2em",
@@ -37,10 +59,20 @@ export default function MainHeader() {
             }}
           >
             <GoThreeBars />
-          </IconContext.Provider>
-          <Menu width={300}>
+          </IconContext.Provider> */}
+          {/* <Menu width={300}>
             <OverlayMenu />
-          </Menu>
+          </Menu> */}
+          <motion.nav
+            initial={false}
+            animate={isOpen ? "open" : "closed"}
+            custom={height}
+            ref={containerRef}
+          >
+            <motion.div className="backgroundss" variants={sidebar} />
+            <Navigation />
+            <MenuToggle toggle={() => toggleOpen()} />
+          </motion.nav>
         </Box>
         <HStack flex={7} alignItems={"center"}>
           <Text fontSize="2xl" color="white">

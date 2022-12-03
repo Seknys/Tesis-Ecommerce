@@ -1,5 +1,7 @@
 .headerStyle div {
   background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
+
+
 }
 
 /* body {
@@ -60,9 +62,9 @@ header {
   margin-bottom: 20px;
 }
 
-section {
+/* section {
   overflow: hidden;
-}
+} */
 
 @media (max-width: 600px) {
   .content-placeholder {
@@ -83,4 +85,3 @@ section {
     margin-bottom: 20px;
   }
 }
- 
