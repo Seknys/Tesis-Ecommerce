@@ -51,24 +51,22 @@ export default function HomePage({ history }: any) {
         flexDirection="row"
         justifyContent="space-around"
       >
-
-
         {categories?.map((category: Icategories, index) => (
           // <Link to={`${url}/${category.uid}`} key={category.uid}>
-          <Link to={`category/${category.uid}`} key={category.uid}>
-            <Pressable
-              onHoverIn={() => setHover({ value: true, index: index })}
-              onHoverOut={() => setHover(null)}
-              key={category.uid}
-              borderRadius="30"
-              borderColor="primary"
-              borderWidth="3"
-              my="25"
-              bg="white"
 
-              // w='120'
-              // h='120'
-            >
+          <Pressable
+            onHoverIn={() => setHover({ value: true, index: index })}
+            onHoverOut={() => setHover(null)}
+            key={category.uid}
+            borderRadius="30"
+            borderColor="primary"
+            borderWidth="3"
+            my="25"
+
+            // w='120'
+            // h='120'
+          >
+            <Link to={`category/${category.uid}`}>
               <Image
                 source={{ uri: category.img }}
                 alt="Alternate Text"
@@ -95,8 +93,8 @@ export default function HomePage({ history }: any) {
                   </Text>
                 </Box>
               )}
-            </Pressable>
-          </Link>
+            </Link>
+          </Pressable>
         ))}
       </Container>
     </Center>

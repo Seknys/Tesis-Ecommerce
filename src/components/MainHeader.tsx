@@ -1,9 +1,6 @@
 import { Box, Button, HStack, Pressable, Text, Image } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import UseAnimations from "react-useanimations";
-import activity from "react-useanimations/lib/activity";
-import menu2 from "react-useanimations/lib/menu2";
 import radioButton from "react-useanimations/lib/radioButton";
 import { stack as Menu } from "react-burger-menu";
 import { GoThreeBars } from "react-icons/go";
@@ -14,51 +11,30 @@ import { IconContext } from "react-icons";
 import OverlayMenu from "./OverlayMenu";
 import logo from "../assets/LogoTest.png";
 import "./style.css";
-import { motion, useCycle } from "framer-motion";
-import { useDimensions } from "./hamburgerMenu/use-dimentions";
-import { Navigation } from "./hamburgerMenu/Navigation";
-import { MenuToggle } from "./hamburgerMenu/MenuToggle";
+// import { motion, useCycle } from "framer-motion";
+// import { useDimensions } from "./hamburgerMenu/use-dimensions";
+// import { Navigation } from "./hamburgerMenu/Navigation";
+// import { MenuToggle } from "./hamburgerMenu/MenuToggle";
 import "./hamburgerMenu/styleHamburger.css";
 import UserContext from "../contexts/userContext";
 import { Link } from "react-router-dom";
-
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    transition: {
-      type: "spring",
-      stiffness: 20,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    clipPath: "circle(30px at 40px 40px)",
-    transition: {
-      delay: 0.5,
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
+import { MenuSideIcon } from "./hamburgerMenu/Menu";
 
 export default function MainHeader({ history }: any) {
   const [showMenu, setShowMenu] = useState(true);
   const [checked, setChecked] = useState(false);
-  const [isOpen, toggleOpen] = useCycle(false, true);
-  const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
+
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    console.log("User", user);
-  }, [user]);
+    // console.log("User", user);
+  }, []);
 
   return (
     <div className="headerStyle">
       <HStack w="100%" h="60" alignItems={"center"}>
         <Box flex={1}>
-          {/* <IconContext.Provider
+          <IconContext.Provider
             value={{
               color: "white",
               size: "2em",
@@ -66,20 +42,10 @@ export default function MainHeader({ history }: any) {
             }}
           >
             <GoThreeBars />
-          </IconContext.Provider> */}
-          {/* <Menu width={300}>
+          </IconContext.Provider>
+          <Menu width={300}>
             <OverlayMenu />
-          </Menu> */}
-          <motion.nav
-            initial={false}
-            animate={isOpen ? "open" : "closed"}
-            custom={height}
-            ref={containerRef}
-          >
-            <motion.div className="backgroundss" variants={sidebar} />
-            <Navigation />
-            <MenuToggle toggle={() => toggleOpen()} />
-          </motion.nav>
+          </Menu>
         </Box>
         <HStack flex={7} alignItems={"center"}>
           <Text fontSize="2xl" color="white">
@@ -109,11 +75,42 @@ export default function MainHeader({ history }: any) {
         <HStack
           flex={2}
           alignItems={"center"}
-          justifyContent="space-evenly"
-          pr="5%"
+          justifyContent="space-between"
+          // pr="5%"
+          w="100%"
+  
+          // bg='yellow.600'
         >
+          <Box >
+            {user !== null ? (
+              <Link to="/profile" style={{ textDecoration: "none" }}>
+                <IconContext.Provider
+                  value={{
+                    color: "white",
+                    size: "2em",
+                    style: { alignSelf: "center" },
+                  }}
+                >
+                  <FaRegUser />
+                </IconContext.Provider>
+              </Link>
+            ) : (
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <IconContext.Provider
+                  value={{
+                    color: "white",
+                    size: "2em",
+                    style: { alignSelf: "center" },
+                  }}
+                >
+                  <FaRegUser />
+                </IconContext.Provider>
+              </Link>
+            )}
+          </Box>
+
           <Box>
-            <IconContext.Provider
+            {/* <IconContext.Provider
               value={{
                 color: "white",
                 size: "2em",
@@ -121,34 +118,12 @@ export default function MainHeader({ history }: any) {
               }}
             >
               <MdShoppingCart />
-            </IconContext.Provider>
+            </IconContext.Provider> */}
+            <div style={{ zIndex: 30,width:"100%" }}>
+              <MenuSideIcon />
+            </div>
           </Box>
 
-          {user !== null ? (
-            <Link to="/profile" style={{ textDecoration: "none" }}>
-              <IconContext.Provider
-                value={{
-                  color: "white",
-                  size: "2em",
-                  style: { alignSelf: "center" },
-                }}
-              >
-                <FaRegUser />
-              </IconContext.Provider>
-            </Link>
-          ) : (
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <IconContext.Provider
-                value={{
-                  color: "white",
-                  size: "2em",
-                  style: { alignSelf: "center" },
-                }}
-              >
-                <FaRegUser />
-              </IconContext.Provider>
-            </Link>
-          )}
           {/* <Pressable
           // onPress={() => {
           //   if (user) {

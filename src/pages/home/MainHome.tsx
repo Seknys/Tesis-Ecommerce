@@ -19,7 +19,7 @@ import SideBarMenu from "../../components/SidebarMenu";
 import { Icategories, Iproducts } from "../../interfaces/interface";
 import { getOneCategory } from "../../services/basicOperations";
 import { getProductsByCategory } from "../../services/products";
-import "./style.css";
+// import "./style.css";
 import { motion } from "framer-motion";
 
 export default function MainHome({ history }: any) {

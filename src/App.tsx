@@ -108,6 +108,8 @@ import ProductDisplay from "./pages/home/ProductDisplay";
 import { UserContextProvider } from "./contexts/userContext";
 import { getCurrentUser, getUserByUid, signOutUser } from "./services/auth";
 import ProfileDisplay from "./pages/profile/ProfileDisplay";
+import { MenuSideIcon } from "./components/hamburgerMenu/Menu";
+import "./components/hamburgerMenu/styleHamburger.css";
 
 // function Home() {
 //   return (
@@ -155,27 +157,27 @@ export default function App() {
   return (
     <React.Fragment>
       <UserContextProvider value={{ user, setUser }}>
-        
         <Router>
-        <Box w="100%" position="sticky" top={"0px"} zIndex={10}>
+          {/* <Box w="100%" position="sticky" top={"0px"} zIndex={10}> */}
           <MainHeader />
-        </Box>
+          {/* </Box> */}
           <Switch>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
+            <Box zIndex={-1} bg='#8a2be2'>
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
 
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/home" component={HomePage} />
-            {/* <Route path="/home/:id" children={MainHome} /> */}
-            {/* <Route path="/home/scanner_cat" component={Login} /> */}
-            <Route path="/category/:id" component={MainHome} />
-            <Route path="/product/:uid" component={ProductDisplay} />
-            <Route path="/profile" component={ProfileDisplay} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/home" component={HomePage} />
+              {/* <Route path="/home/:id" children={MainHome} /> */}
+              {/* <Route path="/home/scanner_cat" component={Login} /> */}
+              <Route path="/category/:id" component={MainHome} />
+              <Route path="/product/:uid" component={ProductDisplay} />
+              <Route path="/profile" component={ProfileDisplay} />
+            </Box>
           </Switch>
         </Router>
-    
       </UserContextProvider>
     </React.Fragment>
   );
