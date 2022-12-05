@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/configFirebase";
 import { ref, onValue, set, push, remove } from "firebase/database";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 
 export const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider();
@@ -22,8 +22,8 @@ export const signInWithGoogle = () => {
       // The signed-in user info.
       const user = result.user;
 
-      console.log("Token: ", token);
-      console.log("User", user);
+      // console.log("Token: ", token);
+      // console.log("User", user);
       // ...
     })
     .catch((error) => {
@@ -39,6 +39,7 @@ export const signInWithGoogle = () => {
 };
 
 export const signOutUser = () => {
+  console.log("USerLog Out");
   signOut(auth);
 };
 
@@ -88,4 +89,15 @@ const SaveUserToFireBase = async (
     lastName: lastName,
     email: email,
   });
+};
+
+export const getCurrentUser = (fSnapshot: (snapshot: any) => void) => {
+  return onAuthStateChanged(auth, fSnapshot);
+};
+
+export const getUserByUid = (
+  uid: string,
+  fSnapshot: (snapshot: any) => void
+) => {
+  return onSnapshot(doc(db, "users", uid), fSnapshot);
 };

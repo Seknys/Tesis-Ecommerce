@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Pressable, Text, Image } from "native-base";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import UseAnimations from "react-useanimations";
 import activity from "react-useanimations/lib/activity";
@@ -19,6 +19,8 @@ import { useDimensions } from "./hamburgerMenu/use-dimentions";
 import { Navigation } from "./hamburgerMenu/Navigation";
 import { MenuToggle } from "./hamburgerMenu/MenuToggle";
 import "./hamburgerMenu/styleHamburger.css";
+import UserContext from "../contexts/userContext";
+import { Link } from "react-router-dom";
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -40,16 +42,21 @@ const sidebar = {
   },
 };
 
-export default function MainHeader() {
+export default function MainHeader({ history }: any) {
   const [showMenu, setShowMenu] = useState(true);
   const [checked, setChecked] = useState(false);
   const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("User", user);
+  }, [user]);
 
   return (
     <div className="headerStyle">
-      <HStack w="100%" h="60" alignItems={"center"} >
+      <HStack w="100%" h="60" alignItems={"center"}>
         <Box flex={1}>
           {/* <IconContext.Provider
             value={{
@@ -117,15 +124,52 @@ export default function MainHeader() {
             </IconContext.Provider>
           </Box>
 
-          <IconContext.Provider
-            value={{
-              color: "white",
-              size: "2em",
-              style: { alignSelf: "center" },
-            }}
+          {user !== null ? (
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <IconContext.Provider
+                value={{
+                  color: "white",
+                  size: "2em",
+                  style: { alignSelf: "center" },
+                }}
+              >
+                <FaRegUser />
+              </IconContext.Provider>
+            </Link>
+          ) : (
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <IconContext.Provider
+                value={{
+                  color: "white",
+                  size: "2em",
+                  style: { alignSelf: "center" },
+                }}
+              >
+                <FaRegUser />
+              </IconContext.Provider>
+            </Link>
+          )}
+          {/* <Pressable
+          // onPress={() => {
+          //   if (user) {
+          //     console.log("YES");
+          //     history.push("/profile");
+          //   } else {
+          //     console.log("NO");
+          //     history.push("/login");
+          //   }
+          // }}
           >
-            <FaRegUser />
-          </IconContext.Provider>
+            <IconContext.Provider
+              value={{
+                color: "white",
+                size: "2em",
+                style: { alignSelf: "center" },
+              }}
+            >
+              <FaRegUser />
+            </IconContext.Provider>
+          </Pressable> */}
         </HStack>
       </HStack>
     </div>

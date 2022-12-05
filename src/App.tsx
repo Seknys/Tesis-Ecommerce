@@ -89,7 +89,7 @@
 
 // export default App;
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NativeBaseProvider, Box, Button, Text } from "native-base";
 import MainHeader from "./components/MainHeader";
 import Login from "./pages/auth/Login";
@@ -105,6 +105,9 @@ import HomePage from "./pages/home/Home";
 import { toast, ToastContainer } from "react-toastify";
 import MainHome from "./pages/home/MainHome";
 import ProductDisplay from "./pages/home/ProductDisplay";
+import { UserContextProvider } from "./contexts/userContext";
+import { getCurrentUser, getUserByUid, signOutUser } from "./services/auth";
+import ProfileDisplay from "./pages/profile/ProfileDisplay";
 
 // function Home() {
 //   return (
@@ -131,27 +134,49 @@ import ProductDisplay from "./pages/home/ProductDisplay";
 // }
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const getUserByUidSnapshot = (snapshot: any) => {
+      const user = snapshot.data();
+
+      setUser(user);
+    };
+    const getCurrentUserSnapshot = (snapshot: any) => {
+      if (snapshot) {
+        const userUid = snapshot.uid;
+        getUserByUid(userUid, getUserByUidSnapshot);
+      } else {
+        setUser(null);
+      }
+    };
+    getCurrentUser(getCurrentUserSnapshot);
+  }, []);
+
   return (
     <React.Fragment>
-      <Box w="100%" position="sticky" top={"0px"} zIndex={10}>
-        <MainHeader />
-      </Box>
+      <UserContextProvider value={{ user, setUser }}>
+        
+        <Router>
+        <Box w="100%" position="sticky" top={"0px"} zIndex={10}>
+          <MainHeader />
+        </Box>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
 
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/home" component={HomePage} />
-          {/* <Route path="/home/:id" children={MainHome} /> */}
-          {/* <Route path="/home/scanner_cat" component={Login} /> */}
-          <Route path="/category/:id" component={MainHome} />
-          <Route path="/product/:uid" component={ProductDisplay} />
-        </Switch>
-      </Router>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/home" component={HomePage} />
+            {/* <Route path="/home/:id" children={MainHome} /> */}
+            {/* <Route path="/home/scanner_cat" component={Login} /> */}
+            <Route path="/category/:id" component={MainHome} />
+            <Route path="/product/:uid" component={ProductDisplay} />
+            <Route path="/profile" component={ProfileDisplay} />
+          </Switch>
+        </Router>
+    
+      </UserContextProvider>
     </React.Fragment>
   );
 }
