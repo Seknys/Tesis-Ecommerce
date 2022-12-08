@@ -41,14 +41,22 @@ export const MenuSideIcon = () => {
       ref={containerRef}
     >
       <motion.div className="background" variants={sidebar} />
-      <Navigation />
+
       <MenuToggle toggle={() => toggleOpen()} />
+      {isOpen && <Navigation />}
+
       {!isOpen && (
         <IconContext.Provider
           value={{
             color: "white",
             size: "2.5em",
-            style: { alignSelf: "center", position: "absolute", top: "7px",left:"5px",zIndex:-1 },
+            style: {
+              alignSelf: "center",
+              position: "absolute",
+              top: "7px",
+              left: "5px",
+              zIndex: -1,
+            },
           }}
         >
           <MdShoppingCart />

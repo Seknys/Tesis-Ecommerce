@@ -1,5 +1,16 @@
 html {
-background-color: #8a2be2;
   margin: 0px;
   padding: 0px;
+}
+
+
+
+/* body {
+  height: 93vh;
+  background-color: #000;
+} */
+
+.main-container {
+  height: 100vh;
+  /* background-color: aqua; */
 }

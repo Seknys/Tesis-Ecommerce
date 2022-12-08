@@ -110,6 +110,9 @@ import { getCurrentUser, getUserByUid, signOutUser } from "./services/auth";
 import ProfileDisplay from "./pages/profile/ProfileDisplay";
 import { MenuSideIcon } from "./components/hamburgerMenu/Menu";
 import "./components/hamburgerMenu/styleHamburger.css";
+import { Iuser } from "./interfaces/interface";
+import { RoutesAdmin, RoutesClient } from "./routes/Routes";
+import { use } from "i18next";
 
 // function Home() {
 //   return (
@@ -136,10 +139,11 @@ import "./components/hamburgerMenu/styleHamburger.css";
 // }
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<Iuser | null>(null);
   useEffect(() => {
     const getUserByUidSnapshot = (snapshot: any) => {
       const user = snapshot.data();
+      console.log("UserRole: ", user.role);
 
       setUser(user);
     };
@@ -157,27 +161,10 @@ export default function App() {
   return (
     <React.Fragment>
       <UserContextProvider value={{ user, setUser }}>
-        <Router>
-          {/* <Box w="100%" position="sticky" top={"0px"} zIndex={10}> */}
-          <MainHeader />
-          {/* </Box> */}
-          <Switch>
-            <Box zIndex={-1} bg='#8a2be2'>
-              <Route exact path="/">
-                <Redirect to="/home" />
-              </Route>
-
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-              <Route path="/home" component={HomePage} />
-              {/* <Route path="/home/:id" children={MainHome} /> */}
-              {/* <Route path="/home/scanner_cat" component={Login} /> */}
-              <Route path="/category/:id" component={MainHome} />
-              <Route path="/product/:uid" component={ProductDisplay} />
-              <Route path="/profile" component={ProfileDisplay} />
-            </Box>
-          </Switch>
-        </Router>
+        {user?.role === "admin" && <RoutesAdmin />}
+        {user?.role === "client" || !user || user.role === undefined ? (
+          <RoutesClient />
+        ) : null}
       </UserContextProvider>
     </React.Fragment>
   );

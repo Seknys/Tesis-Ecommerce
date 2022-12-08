@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { theme } from "./theme";
 import reportWebVitals from "./reportWebVitals";
- import "./i18n";
+import "./i18n";
 import { Box, NativeBaseProvider, Text } from "native-base";
-// import "./index.css"
+import "./index.css";
 
 // extend the theme
 const root = ReactDOM.createRoot(
@@ -15,7 +15,9 @@ root.render(
   <React.StrictMode>
     <NativeBaseProvider theme={theme}>
       <Suspense fallback={<Text bg="black">Loading??????</Text>}>
-        <App />
+        <div className="main-container">
+          <App />
+        </div>
       </Suspense>
     </NativeBaseProvider>
   </React.StrictMode>

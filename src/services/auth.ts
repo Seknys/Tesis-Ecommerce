@@ -59,7 +59,7 @@ export const RegisterWithEmail = async (
       const user = userCredential.user;
       console.log("User logged in", user.uid);
       //Save user in database
-      SaveUserToFireBase(user.uid, name, lastName, email);
+      SaveUserToFireBase(user.uid, name, lastName, email, "client");
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -73,7 +73,8 @@ const SaveUserToFireBase = async (
   uid: string,
   name: string,
   lastName: string,
-  email: string
+  email: string,
+  role: string
 ) => {
   // const userRef = ref(db, "users/" + uid);
   // set(userRef, {
@@ -88,6 +89,8 @@ const SaveUserToFireBase = async (
     name: name,
     lastName: lastName,
     email: email,
+    uid: uid,
+    role: role,
   });
 };
 

@@ -16,6 +16,7 @@ export interface Iproducts {
   uid: string;
   feat: string[];
   stock: number;
+  quantity?: number;
 }
 
 export interface Iuser {
@@ -24,7 +25,7 @@ export interface Iuser {
   email: string;
   lastName: string;
   phone: string;
-  role: string;
+  role?: string;
   img: string;
   orders: string[];
   cart: string[];

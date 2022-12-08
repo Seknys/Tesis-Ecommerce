@@ -120,7 +120,7 @@ export default function MainHeader({ history }: any) {
               <MdShoppingCart />
             </IconContext.Provider> */}
             <div style={{ zIndex: 30,width:"100%" }}>
-              <MenuSideIcon />
+              {/* <MenuSideIcon /> */}
             </div>
           </Box>
 

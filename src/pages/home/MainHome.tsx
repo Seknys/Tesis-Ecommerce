@@ -19,7 +19,7 @@ import SideBarMenu from "../../components/SidebarMenu";
 import { Icategories, Iproducts } from "../../interfaces/interface";
 import { getOneCategory } from "../../services/basicOperations";
 import { getProductsByCategory } from "../../services/products";
-// import "./style.css";
+import "./style.css";
 import { motion } from "framer-motion";
 
 export default function MainHome({ history }: any) {
@@ -59,62 +59,69 @@ export default function MainHome({ history }: any) {
   return (
     <>
       <SideBarMenu>
-        <Box w="100%">
-          <Text textAlign="left" fontSize="2xl">
-            {category?.name}
-          </Text>
-        </Box>
-        <Box
-          flexWrap="wrap"
-          // justifyContent="space-around"
-          flexDirection="row"
-        >
-          {products?.map((product, index) => (
-            <Pressable
-              // mr="5%"
-              key={product.uid}
-              mt="25"
-              onHoverIn={() => {
-                setHover({ value: true, index: index });
-              }}
-              onHoverOut={() => setHover(null)}
-              onPress={() => {
-                setIsOpen(!isOpen);
-                history.push(`/product/${product.uid}`);
-              }}
-            >
-              <div className="example-container">
-                <motion.div
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
-                >
-                  <Box
-                    w="220"
-                    h="290"
-                    // overflow="hidden"
-                    _dark={{
-                      borderColor: "coolGray.600",
-                      backgroundColor: "gray.700",
-                    }}
-                    _light={{
-                      backgroundColor: "gray.50",
-                    }}
+        <>
+          <Box w="100%">
+            <Text textAlign="left" fontSize="2xl">
+              {category?.name}
+            </Text>
+          </Box>
+          <Box
+            flexWrap="wrap"
+            // justifyContent="space-around"
+            flexDirection="row"
+          >
+            {products?.map((product, index) => (
+              <Pressable
+                // mr="5%"
+                key={product.uid}
+                mt="55"
+                // p='0'
+                mr="5%"
+                borderRadius={35}
+                onHoverIn={() => {
+                  setHover({ value: true, index: index });
+                }}
+                onHoverOut={() => setHover(null)}
+                onPress={() => {
+                  setTimeout(() => {
+                    setIsOpen(!isOpen);
+                    history.push(`/product/${product.uid}`);
+                  }, 300);
+                }}
+              >
+                <div className="card-container-menu">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.8 }}
                   >
-                    <Box w="100%" p="2">
-                      <Image
-                        source={{
-                          uri: product.img,
-                        }}
-                        fallbackSource={{
-                          uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token=67f3837f-dfd2-42e8-8490-972b5ccb6f7d",
-                        }}
-                        alt={product.name}
-                        w="220"
-                        h="160"
-                        resizeMode="cover"
-                      />
+                    <Box
+                      w="220"
+                      h="290"
+                      // bg="green.600"
+                      // overflow="hidden"
+                      // _dark={{
+                      //   borderColor: "coolGray.600",
+                      //   backgroundColor: "gray.700",
+                      // }}
+                      // _light={{
+                      //   backgroundColor: "gray.50",
+                      // }}
+                    >
+                      <Box w="100%" p="2">
+                        <Image
+                          source={{
+                            uri: product.img,
+                          }}
+                          fallbackSource={{
+                            uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token=67f3837f-dfd2-42e8-8490-972b5ccb6f7d",
+                          }}
+                          alt={product.name}
+                          w="220"
+                          h="160"
+                          resizeMode="cover"
+                        />
 
-                      {/* <Box>
+                        {/* <Box>
                        <Box
                          bg="violet.500"
                          _dark={{
@@ -155,26 +162,27 @@ export default function MainHome({ history }: any) {
                          </Box>
                        )}
                      </Box> */}
+                      </Box>
+                      <Box pl="3">
+                        <Text fontSize="2xl">
+                          {product.name.length > 16
+                            ? `${product.name.substring(0, 15)}...`
+                            : product.name}
+                        </Text>
+                        <Text fontSize="xl">{product.price}</Text>
+                        <Text>
+                          {product.desc.length > 30
+                            ? `${product.desc.substring(0, 30)}...`
+                            : product.desc}
+                        </Text>
+                      </Box>
                     </Box>
-                    <Box pl='3'> 
-                      <Text fontSize="2xl">
-                        {product.name.length > 16
-                          ? `${product.name.substring(0, 15)}...`
-                          : product.name}
-                      </Text>
-                      <Text fontSize="xl">{product.price}</Text>
-                      <Text>
-                        {product.desc.length > 30
-                          ? `${product.desc.substring(0, 30)}...`
-                          : product.desc}
-                      </Text>
-                    </Box>
-                  </Box>
-                </motion.div>
-              </div>
-            </Pressable>
-          ))}
-        </Box>
+                  </motion.div>
+                </div>
+              </Pressable>
+            ))}
+          </Box>
+        </>
       </SideBarMenu>
     </>
   );

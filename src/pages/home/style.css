@@ -10,9 +10,13 @@
     align-items: center;
   } */
   
-  .example-container div {
+  .card-container-menu div {
 
     border-radius: 20px;
+    background-color: white;
+    width: 220;
+    height: 290;
+   
 
   
   }
