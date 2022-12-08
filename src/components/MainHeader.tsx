@@ -48,18 +48,29 @@ export default function MainHeader({ history }: any) {
           </Menu>
         </Box>
         <HStack flex={7} alignItems={"center"}>
-          <Text fontSize="2xl" color="white">
-            Up World
-          </Text>
-          <Image
-            source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
+          <Link
+            style={{
+              flexDirection: "row",
+              display: "flex",
+              textDecoration: "none",
+              alignItems: "center",
             }}
-            alt="Alternate Text"
-            width={50}
-            height={50}
-            ml="25"
-          />
+            to="/"
+          >
+            <Text fontSize="2xl" color="white">
+              Up World
+            </Text>
+            <Image
+              source={{
+                uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
+              }}
+              alt="MainLogo"
+              width={50}
+              height={50}
+              ml="25"
+            />
+          </Link>
+
           <Box ml="10%">
             <IconContext.Provider
               value={{
@@ -78,10 +89,10 @@ export default function MainHeader({ history }: any) {
           justifyContent="space-between"
           // pr="5%"
           w="100%"
-  
+
           // bg='yellow.600'
         >
-          <Box >
+          <Box>
             {user !== null ? (
               <Link to="/profile" style={{ textDecoration: "none" }}>
                 <IconContext.Provider
@@ -110,41 +121,13 @@ export default function MainHeader({ history }: any) {
           </Box>
 
           <Box>
-            {/* <IconContext.Provider
-              value={{
-                color: "white",
-                size: "2em",
-                style: { alignSelf: "center" },
-              }}
-            >
-              <MdShoppingCart />
-            </IconContext.Provider> */}
-            <div style={{ zIndex: 30,width:"100%" }}>
-              {/* <MenuSideIcon /> */}
+     
+            <div style={{ zIndex: 30, width: "100%" }}>
+              <MenuSideIcon />
             </div>
           </Box>
 
-          {/* <Pressable
-          // onPress={() => {
-          //   if (user) {
-          //     console.log("YES");
-          //     history.push("/profile");
-          //   } else {
-          //     console.log("NO");
-          //     history.push("/login");
-          //   }
-          // }}
-          >
-            <IconContext.Provider
-              value={{
-                color: "white",
-                size: "2em",
-                style: { alignSelf: "center" },
-              }}
-            >
-              <FaRegUser />
-            </IconContext.Provider>
-          </Pressable> */}
+
         </HStack>
       </HStack>
     </div>

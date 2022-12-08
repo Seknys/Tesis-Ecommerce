@@ -5,6 +5,7 @@ import { getCartProductsByUser } from "../../services/products";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
 import { Box, Text } from "native-base";
+import { useTranslation } from "react-i18next";
 
 const variants = {
   open: {
@@ -16,6 +17,7 @@ const variants = {
 };
 
 export const Navigation = () => {
+  const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const [cartProducts, setCartProducts] = useState<Iproducts[] | null>(null);
 
@@ -29,16 +31,20 @@ export const Navigation = () => {
     }
   }, []);
 
+  console.log("CartProducts: ", cartProducts);
+
   return (
     <motion.ul variants={variants}>
-      {cartProducts ? (
+      {cartProducts &&
         // itemIds.map((i) => <MenuItem i={i} key={i} />)
         cartProducts.map((product, index) => (
           <MenuItem key={product.uid} i={index} product={product} />
-        ))
-      ) : (
+        ))}
+      {cartProducts === null && (
         <Box>
-          <Text>No hay products aun </Text>
+          <Text fontSize={"2xl"} color="white">
+            {t("cart_empty")}
+          </Text>
         </Box>
       )}
     </motion.ul>

@@ -12,8 +12,11 @@ import {
   FcViewDetails,
 } from "react-icons/fc";
 import { LinearGradient } from "react-native-svg";
+import { useTranslation } from "react-i18next";
 
 export default function HomeAdmin() {
+
+  const {t} = useTranslation();
   const [hover, setHover] = useState<{
     value: boolean;
     index: number;
@@ -48,8 +51,8 @@ export default function HomeAdmin() {
             </div>
             {hover?.value && hover?.index === 1 && (
               <Box mt="25">
-                <Text textAlign="center" w="100%" fontSize="3xl" bold>
-                  Texto 1
+                <Text textAlign="center" w="175px" fontSize="2xl" bold>
+                 {t('admin_user')}
                 </Text>
               </Box>
             )}
@@ -76,8 +79,8 @@ export default function HomeAdmin() {
             </div>
             {hover?.value && hover?.index === 2 && (
               <Box mt="25">
-                <Text textAlign="center" w="100%" fontSize="3xl" bold>
-                  Texto 1
+                <Text textAlign="center" w="175px"  fontSize="2xl" bold>
+                {t('admin_create_product')}
                 </Text>
               </Box>
             )}
@@ -105,8 +108,8 @@ export default function HomeAdmin() {
             </div>
             {hover?.value && hover?.index === 3 && (
               <Box mt="25">
-                <Text textAlign="center" w="100%" fontSize="3xl" bold>
-                  Texto 1
+                <Text textAlign="center" w="175px"  fontSize="2xl" bold>
+                {t('admin_edit_product')}
                 </Text>
               </Box>
             )}

@@ -29,6 +29,12 @@ interface IPropsMenuItem {
 
 export const MenuItem = ({ i, product }: IPropsMenuItem) => {
   const style = { border: `2px solid ${colors[i]}` };
+
+  if (product) {
+    if (product.name.length > 15) {
+      product.name = `${product.name.substring(0, 10)}... `;
+    }
+  }
   return (
     <motion.li
       variants={variants}
@@ -37,12 +43,7 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
     >
       {/* <div className="icon-placeholder" style={style} />
       <div className="text-placeholder" style={style} /> */}
-      <HStack
-        w="100%"
-        alignItems="center"
-
-        // justifyContent="space-between"
-      >
+      <HStack w="100%" alignItems="center">
         <Avatar
           borderColor={colors[i]}
           borderWidth="3"
@@ -67,9 +68,9 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
             {/* <Text color="white">{product?.quantity}</Text> */}
           </Box>
 
-          
-             <Text color="white" bold>${product?.price}</Text>
-          
+          <Text color="white" bold>
+            ${product?.price}
+          </Text>
         </HStack>
       </HStack>
     </motion.li>

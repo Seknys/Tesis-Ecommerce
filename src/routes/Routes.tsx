@@ -15,7 +15,7 @@ import ProductDisplay from "../pages/home/ProductDisplay";
 import ProfileDisplay from "../pages/profile/ProfileDisplay";
 
 export const RoutesClient = () => (
-  <Box  h="full">
+  <Box h="full">
     <Router>
       <MainHeader />
       <Switch>
@@ -39,12 +39,11 @@ export const RoutesClient = () => (
 );
 
 export const RoutesAdmin = () => (
-  <Box  h="full" >
+  <Box h="full">
     <Router>
       <MainHeader />
-
       <Switch>
-        <Box zIndex={-1} >
+        <Box zIndex={-1}>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>

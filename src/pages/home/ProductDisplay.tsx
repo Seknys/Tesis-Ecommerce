@@ -60,9 +60,10 @@ export default function ProductDisplay() {
           <Box flex={3}>
             <Image
               source={{
-                uri: product?.name,
+                uri: product?.img,
               }}
-              alt={productName.current}
+              // alt={productName.current}
+              alt="thisiS a test"
               w="380"
               h="320"
               resizeMode="contain"
@@ -161,7 +162,6 @@ export default function ProductDisplay() {
                   </Text>
                 </Button>
               )}
-        
             </HStack>
           </Box>
         </HStack>

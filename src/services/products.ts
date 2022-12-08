@@ -48,18 +48,13 @@ export const getCartProductsByUser = (
   });
 };
 
-export const addProductToCart = (
-  uid: string,
-  product: any,
-  
-) => {
+export const addProductToCart = (uid: string, product: any) => {
   //  doc(db, "users", uid, "cart", product.uid)
 
   // setDoc(addDoc(db, "users", uid, "cart", product.uid), product);
 
   //Set new doc in collection with a auto generate ID
-   setDoc(doc(db, "users", uid, "cart"), product);
-  
-  console.log("DONE")
+  addDoc(collection(db, "users", uid, "cart"), product);
 
+  console.log("DONE");
 };
