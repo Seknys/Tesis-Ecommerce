@@ -13,10 +13,10 @@ import {
 } from "react-icons/fc";
 import { LinearGradient } from "react-native-svg";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function HomeAdmin() {
-
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [hover, setHover] = useState<{
     value: boolean;
     index: number;
@@ -27,65 +27,67 @@ export default function HomeAdmin() {
       flexDirection="row"
       alignItems={"center"}
       justifyContent="space-evenly"
-      h='55vh'
-
+      h="55vh"
     >
       <Pressable
-        onPress={() => console.log("Pressed")}
+        onPress={() => console.log("")}
         onHoverIn={() => setHover({ value: true, index: 1 })}
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <div>
-          <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-            <div className="admin-container">
-              <IconContext.Provider
-                value={{
-                  color: "white",
-                  size: "9em",
-                  style: { padding: 14 },
-                }}
-              >
-                <FcBusinessman />
-              </IconContext.Provider>
-            </div>
-            {hover?.value && hover?.index === 1 && (
-              <Box mt="25">
-                <Text textAlign="center" w="175px" fontSize="2xl" bold>
-                 {t('admin_user')}
-                </Text>
-              </Box>
-            )}
-          </motion.div>
-        </div>
+        <Link to="admin/add-account" style={{ textDecoration: "none" }}>
+          <div>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <div className="admin-container">
+                <IconContext.Provider
+                  value={{
+                    color: "white",
+                    size: "9em",
+                    style: { padding: 14 },
+                  }}
+                >
+                  <FcBusinessman />
+                </IconContext.Provider>
+              </div>
+              {hover?.value && hover?.index === 1 && (
+                <Box mt="25">
+                  <Text textAlign="center" w="175px" fontSize="2xl" bold>
+                    {t("admin_user")}
+                  </Text>
+                </Box>
+              )}
+            </motion.div>
+          </div>
+        </Link>
       </Pressable>
       <Pressable
-        onPress={() => console.log("Pressed")}
         onHoverIn={() => setHover({ value: true, index: 2 })}
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <div>
-          <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-            <div className="admin-container">
-              <IconContext.Provider
-                value={{
-                  color: "black",
-                  size: "10em",
-                }}
-              >
-                <FcPaid />
-              </IconContext.Provider>
-            </div>
-            {hover?.value && hover?.index === 2 && (
-              <Box mt="25">
-                <Text textAlign="center" w="175px"  fontSize="2xl" bold>
-                {t('admin_create_product')}
-                </Text>
-              </Box>
-            )}
-          </motion.div>
-        </div>
+        <Link to="admin/add-product" style={{ textDecoration: "none" }}>
+          <div>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <div className="admin-container">
+                <IconContext.Provider
+                  value={{
+                    color: "black",
+                    size: "10em",
+                  }}
+                >
+                  <FcPaid />
+                </IconContext.Provider>
+              </div>
+              {hover?.value && hover?.index === 2 && (
+                <Box mt="25">
+                  <Text textAlign="center" w="175px" fontSize="2xl" bold>
+                    {t("admin_create_product")}
+                  </Text>
+                </Box>
+              )}
+            </motion.div>
+          </div>
+        </Link>
       </Pressable>
       <Pressable
         onPress={() => console.log("Pressed")}
@@ -93,28 +95,31 @@ export default function HomeAdmin() {
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <div>
-          <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-            <div className="admin-container">
-              <IconContext.Provider
-                value={{
-                  color: "black",
-                  size: "9em",
-                  style: { padding: 10 },
-                }}
-              >
-                <FcViewDetails />
-              </IconContext.Provider>
-            </div>
-            {hover?.value && hover?.index === 3 && (
-              <Box mt="25">
-                <Text textAlign="center" w="175px"  fontSize="2xl" bold>
-                {t('admin_edit_product')}
-                </Text>
-              </Box>
-            )}
-          </motion.div>
-        </div>
+        <Link to="admin/products" style={{ textDecoration: "none" }}>
+          {" "}
+          <div>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <div className="admin-container">
+                <IconContext.Provider
+                  value={{
+                    color: "black",
+                    size: "9em",
+                    style: { padding: 10 },
+                  }}
+                >
+                  <FcViewDetails />
+                </IconContext.Provider>
+              </div>
+              {hover?.value && hover?.index === 3 && (
+                <Box mt="25">
+                  <Text textAlign="center" w="175px" fontSize="2xl" bold>
+                    {t("admin_edit_product")}
+                  </Text>
+                </Box>
+              )}
+            </motion.div>
+          </div>
+        </Link>
       </Pressable>
     </Box>
   );

@@ -120,14 +120,13 @@ export default function MainHeader({ history }: any) {
             )}
           </Box>
 
-          <Box>
-     
-            <div style={{ zIndex: 30, width: "100%" }}>
-              <MenuSideIcon />
-            </div>
-          </Box>
-
-
+          {user?.role === "admin" || user?.role == "analyst" ? null : (
+            <Box>
+              <div style={{ zIndex: 30, width: "100%" }}>
+                <MenuSideIcon />
+              </div>
+            </Box>
+          )}
         </HStack>
       </HStack>
     </div>

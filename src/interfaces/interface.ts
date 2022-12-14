@@ -3,16 +3,20 @@ export interface Icategories {
   name: string;
   uid: string;
 }
+export interface ITags {
+  label: string;
+  value: string;
+}
 
 export interface Iproducts {
   catUid: string;
   category: string;
   desc: string;
-  img: string;
+  img: string[];
   name: string;
-  sold: number;
+  sold?: number;
   price: number;
-  tags: string[];
+  tags?: string[];
   uid: string;
   feat: string[];
   stock: number;

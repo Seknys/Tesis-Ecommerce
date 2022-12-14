@@ -20,15 +20,21 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
 
-export default function Register({ history }: any) {
+interface IRegisterProps {
+  history: any;
+  isAdmin?: boolean;
+}
+export default function Register({ history, isAdmin }: IRegisterProps) {
   //Const
 
+  console.log("IS ADMIN: ", isAdmin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [bttnSubmit, setBttnSubmit] = useState(true);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const role = isAdmin ? "analyst" : "client";
   const [errors, setErrors] = useState<{
     email?: string;
     pass?: string;
@@ -47,13 +53,30 @@ export default function Register({ history }: any) {
   const onSubmit = () => {
     setBttnSubmit(false);
     if (isValid.current) {
-      RegisterWithEmail(email, password, name, lastName)
+      RegisterWithEmail(email, password, name, lastName, role)
         .then((res) => {
-          console.log("Test Front", res);
-          SuccesToast(t("auth_register_success"));
-          setTimeout(() => {
-            history.push("/login");
-          }, 2000);
+          // console.log("Test Front", res);
+          if (isAdmin) {
+            
+            SuccesToast(t("admin_register_success"));
+            setTimeout(() => {
+              history.push("/home");
+            }, 2000);
+
+          } else {
+            SuccesToast(t("auth_register_success"));
+            setTimeout(() => {
+              history.push("/login");
+            }, 2000);
+          }
+          // SuccesToast(t("auth_register_success"));
+          // setTimeout(() => {
+          //   if (isAdmin) {
+          //     history.goBack();
+          //   } else {
+          //     history.push("/login");
+          //   }
+          // }, 2000);
         })
         .catch((errCode) => {
           console.log("Test Front", errCode.message);
@@ -85,9 +108,15 @@ export default function Register({ history }: any) {
       <Container>
         <ToastC />
         <Box>
-          <Text fontSize="5xl" mt="45%" mb="25%" color="primary">
-            {t("register")}
-          </Text>
+          {isAdmin ? (
+            <Text w="300px" fontSize="3xl" mb="25%" color="primary" bold>
+              {t("admin_create_user_Title")}
+            </Text>
+          ) : (
+            <Text fontSize="5xl" mt="45%" mb="25%" color="primary" bold>
+              {t("register")}
+            </Text>
+          )}
         </Box>
         <Box>
           <FormControl isRequired isInvalid={errors.email != undefined}>
@@ -248,7 +277,11 @@ export default function Register({ history }: any) {
               <Text fontSize="xl">{t("auth_create")}</Text>
             </Button>
           ) : (
-            <Button bg="primary" isLoading isLoadingText={`${t("auth_create")}`} />
+            <Button
+              bg="primary"
+              isLoading
+              isLoadingText={`${t("auth_create")}`}
+            />
           )}
         </Box>
       </Container>

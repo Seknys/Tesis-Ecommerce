@@ -16,57 +16,45 @@ import { getCategories } from "../services/basicOperations";
 import { Icategories } from "../interfaces/interface";
 import { AnimatePresence, motion } from "framer-motion";
 import { ContentPlaceholder } from "./ContentPlaceholder";
+import { Pressable } from "react-native";
+import { SideBarContextProvider } from "../contexts/sideBarContext";
 
 interface IProps {
   children?: ReactNode;
+  isAdmin?: boolean;
+  dataAdmin?: any;
+  callBackParent?: any;
+  returnCategory?: any;
 }
 
-// const Accordion = styled((props: AccordionProps) => (
-//   <MuiAccordion disableGutters elevation={0} square {...props} />
-// ))(({ theme }) => ({
-//   border: `1px solid ${theme.palette.divider}`,
-//   "&:not(:last-child)": {
-//     borderBottom: 0,
-//   },
-//   "&:before": {
-//     display: "none",
-//   },
-// }));
+//const [sideValue, setSideValue] = useState<string | null>(null);
 
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary expandIcon={<MdOutlineExpandMore />} {...props} />
-))(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? "rgba(232, 78, 170, .05)"
-      : "rgba(232, 78, 170 .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-}));
+// let sideBarValue: string | null = null;
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: "1px solid rgba(232, 78, 170, .125)",
-}));
+export default function SideBarMenu({
+  children,
+  isAdmin,
+  dataAdmin,
+  callBackParent,
 
-export default function SideBarMenu({ children }: IProps) {
+}: IProps) {
   // const [expanded, setExpanded] = useState<string | false>(false);
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [expanded, setExpanded] = useState<false | number>(0);
-
+  // const [valueSide, setValueSide] = useState<string | null>(null);
   useEffect(() => {
-    const getCategoriesSnapshot = (snapshot: DocumentData) => {
-      const categoriesData = snapshot.docs.map((doc: DocumentData) =>
-        doc.data()
-      );
-      setCategories(categoriesData);
-    };
-    getCategories(getCategoriesSnapshot);
+    if (!isAdmin) {
+      const getCategoriesSnapshot = (snapshot: DocumentData) => {
+        const categoriesData = snapshot.docs.map((doc: DocumentData) =>
+          doc.data()
+        );
+        setCategories(categoriesData);
+      
+      };
+      getCategories(getCategoriesSnapshot);
+    } else {
+      setCategories(dataAdmin);
+    }
   }, []);
 
   // const handleChange =
@@ -75,41 +63,20 @@ export default function SideBarMenu({ children }: IProps) {
   //   };
 
   return (
-    <Box
-      flexDirection="row"
-      w="100%"
-      mt="75"
-      //   justifyContent="space-around"
-
-      px="2%"
-    >
+    <Box flexDirection="row" w="100%" mt="75" px="2%">
       <Box flex={1} mx="2%">
-        {/* <Example/> */}
         {categories?.map((category: Icategories, index) => (
-          // <Accordion
-          //   key={category.uid}
-          //   expanded={expanded === `panel${index}`}
-          //   onChange={handleChange(`panel${index}`)}
-          // >
-          //   <AccordionSummary
-          //     aria-controls={`panel${index}d-content`}
-          //     id={`panel${index}d-header`}
-          //   >
-          //     <Typography>{category.name}</Typography>
-          //   </AccordionSummary>
-          //   <AccordionDetails>
-          //     <Typography>Link To</Typography>
-          //   </AccordionDetails>
-          // </Accordion>
           <Accordion
             key={category.uid}
             i={index}
             expanded={expanded}
             setExpanded={setExpanded}
             category={category}
+            callBackParent={callBackParent}
           />
         ))}
       </Box>
+
       <Box flex={6}>{children}</Box>
     </Box>
   );
@@ -119,12 +86,20 @@ interface IPropsA {
   i: any;
   expanded: any;
   setExpanded: any;
-  category: Icategories;
+  category?: Icategories;
+  callBackParent?: any;
 }
 
-const Accordion = ({ i, expanded, setExpanded, category }: IPropsA) => {
+const Accordion = ({
+  i,
+  expanded,
+  setExpanded,
+  category,
+  callBackParent,
+}: IPropsA) => {
   const isOpen = i === expanded;
 
+  // const [value, setValue] = useState<string | null>(null);
   // By using `AnimatePresence` to mount and unmount the contents, we can animate
   // them in and out while also only rendering the contents of open accordions
   return (
@@ -135,7 +110,7 @@ const Accordion = ({ i, expanded, setExpanded, category }: IPropsA) => {
         onClick={() => setExpanded(isOpen ? false : i)}
       >
         <Text fontSize="2xl" ml="25" bold color="white">
-          {category.name}
+          {category?.name}
         </Text>
       </motion.header>
       <AnimatePresence initial={false}>
@@ -152,11 +127,18 @@ const Accordion = ({ i, expanded, setExpanded, category }: IPropsA) => {
             transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
             {/* <ContentPlaceholder /> */}
-            <Box>
+            <Pressable
+              onPress={() => {
+                if (category) {
+                  console.log("CALLBACK", category.uid)
+                  callBackParent(category.uid);
+                }
+              }}
+            >
               <Text fontSize="xl" ml="25" mb="19" pt="0" color="black">
-                {category.name}
+                {category?.name}
               </Text>
-            </Box>
+            </Pressable>
           </motion.section>
         )}
       </AnimatePresence>

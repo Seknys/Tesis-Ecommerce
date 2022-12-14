@@ -5,6 +5,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
+import { AddAccountAnalist } from "../admin/pages/AddAccountAnalist/AddAccountAnalist";
+import AddProduct from "../admin/pages/AddProduct/AddProduct";
 import HomeAdmin from "../admin/pages/Home/HomeAdmin";
 import MainHeader from "../components/MainHeader";
 import Login from "../pages/auth/Login";
@@ -55,6 +57,38 @@ export const RoutesAdmin = () => (
           <Route path="/category/:id" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
+          <Route path="/admin/add-product" component={AddProduct} />
+          <Route path="/admin/add-account" component={AddAccountAnalist} />
+          <Route path="/admin/products" component={MainHome} />
+        </Box>
+        {/* <Box bg="red.500">
+        <Text fontSize="2xl">This is an admin text pls word</Text>
+       <HomeAdmin/>
+      </Box> */}
+      </Switch>
+    </Router>
+  </Box>
+);
+
+export const RoutesAnalyst = () => (
+  <Box h="full">
+    <Router>
+      <MainHeader />
+      <Switch>
+        <Box zIndex={-1}>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/home" component={HomeAdmin} />
+
+          <Route path="/category/:id" component={MainHome} />
+          <Route path="/product/:uid" component={ProductDisplay} />
+          <Route path="/profile" component={ProfileDisplay} />
+          <Route path="/admin/add-product" component={AddProduct} />
+          <Route path="/admin/add-account" component={AddAccountAnalist} />
         </Box>
         {/* <Box bg="red.500">
         <Text fontSize="2xl">This is an admin text pls word</Text>

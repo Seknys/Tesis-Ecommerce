@@ -111,7 +111,7 @@ import ProfileDisplay from "./pages/profile/ProfileDisplay";
 import { MenuSideIcon } from "./components/hamburgerMenu/Menu";
 import "./components/hamburgerMenu/styleHamburger.css";
 import { Iuser } from "./interfaces/interface";
-import { RoutesAdmin, RoutesClient } from "./routes/Routes";
+import { RoutesAdmin, RoutesAnalyst, RoutesClient } from "./routes/Routes";
 import { use } from "i18next";
 
 // function Home() {
@@ -165,6 +165,7 @@ export default function App() {
         {user?.role === "client" || !user || user.role === undefined ? (
           <RoutesClient />
         ) : null}
+        {user?.role === "analyst" && <RoutesAnalyst />}
       </UserContextProvider>
     </React.Fragment>
   );

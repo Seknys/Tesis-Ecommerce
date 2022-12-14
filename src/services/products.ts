@@ -18,6 +18,7 @@ export const getProductsByCategory = (
   category: string,
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
+  console.log("CategoryBackEnd: ", category);
   const q = query(productRef, where("catUid", "==", category));
   return onSnapshot(q, fSnapshot);
 };
@@ -54,7 +55,11 @@ export const addProductToCart = (uid: string, product: any) => {
   // setDoc(addDoc(db, "users", uid, "cart", product.uid), product);
 
   //Set new doc in collection with a auto generate ID
-  addDoc(collection(db, "users", uid, "cart"), product);
-
-  console.log("DONE");
+  return addDoc(collection(db, "users", uid, "cart"), product);
 };
+
+//Add product to firestore
+export const addProduct = (product: Iproducts) => {
+  return addDoc(productRef, product);
+};
+

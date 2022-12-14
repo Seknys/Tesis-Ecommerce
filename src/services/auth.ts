@@ -47,11 +47,19 @@ export const userLogin = async (email: string, password: string) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
+interface IRegisterWithEmail {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+  role: string;
+}
 export const RegisterWithEmail = async (
   email: string,
   password: string,
   name: string,
-  lastName: string
+  lastName: string,
+  role: string
 ) => {
   await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -59,12 +67,12 @@ export const RegisterWithEmail = async (
       const user = userCredential.user;
       console.log("User logged in", user.uid);
       //Save user in database
-      SaveUserToFireBase(user.uid, name, lastName, email, "client");
+      SaveUserToFireBase(user.uid, name, lastName, email, role);
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log("Bak", errorCode, errorMessage);
+      // console.log("Bak", errorCode, errorMessage);
       throw new Error(errorCode);
     });
 };

@@ -60,7 +60,7 @@ export default function ProductDisplay() {
           <Box flex={3}>
             <Image
               source={{
-                uri: product?.img,
+                uri: product?.img[0],
               }}
               // alt={productName.current}
               alt="thisiS a test"

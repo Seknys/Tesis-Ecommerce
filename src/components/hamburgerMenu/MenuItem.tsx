@@ -48,7 +48,7 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
           borderColor={colors[i]}
           borderWidth="3"
           source={{
-            uri: product?.img,
+            uri: product?.img[0],
           }}
           size="lg"
         />
