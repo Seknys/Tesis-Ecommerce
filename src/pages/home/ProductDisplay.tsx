@@ -14,8 +14,13 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import SideBarMenu from "../../components/SidebarMenu";
 import UserContext from "../../contexts/userContext";
-import { Iproducts } from "../../interfaces/interface";
-import { addProductToCart, getProductByUid } from "../../services/products";
+import { IComments, Iproducts } from "../../interfaces/interface";
+import {
+  addProductToCart,
+  getCommetsbyProduct,
+  getProductByUid,
+} from "../../services/products";
+import { ComentsView } from "./componets/ComentsView";
 
 export default function ProductDisplay() {
   const { t } = useTranslation();
@@ -24,6 +29,7 @@ export default function ProductDisplay() {
   const productName = useRef("");
   const { user } = useContext(UserContext);
   const [count, setCount] = useState(1);
+  const [comments, setComments] = useState<IComments[]>();
 
   useEffect(() => {
     const getProductSnapshot = (snapshot: DocumentData) => {
@@ -37,6 +43,12 @@ export default function ProductDisplay() {
       console.log("product");
       productName.current = product.name;
     }
+
+    const commetsByProductFunction = (comments: IComments[]) => {
+      console.log("comments: ", comments[0].date);
+      setComments(comments);
+    };
+    getCommetsbyProduct(uid, commetsByProductFunction);
   }, []);
 
   const addToCart = () => {
@@ -166,6 +178,48 @@ export default function ProductDisplay() {
           </Box>
         </HStack>
       </SideBarMenu>
+
+      <Center w="100%">
+        <Box>
+          <Text fontSize={"2xl"} bold>
+            Comentarios
+          </Text>
+        </Box>
+        <Box w="80%" display={"flex"} flexWrap="wrap">
+          {comments && comments.length > 0 ? (
+            comments.map((comment, index) => (
+              // <HStack
+              //   key={index}
+              //   w="60%"
+
+              //   borderWidth={4}
+              //   borderColor="black"
+              //   borderRadius={20}
+              //   p={4}
+              // >
+              //   <Box flex={2}>
+              //     <Text fontSize={"2xl"} bold>
+              //       name here
+              //     </Text>
+              //   </Box>
+              //   <Box flex={7}>
+              //     <Text textAlign="end" fontSize={"xl"} bold>
+              //       {comment.date}
+              //     </Text>
+              //     <Text fontSize={"2xl"} bold>
+              //       {comment.message}
+              //     </Text>
+              //   </Box>
+              // </HStack>
+              <ComentsView key={index} comment={comment} index={index} />
+            ))
+          ) : (
+            <Text fontSize={"2xl"} bold>
+              No hay comentarios
+            </Text>
+          )}
+        </Box>
+      </Center>
     </Box>
   );
 }

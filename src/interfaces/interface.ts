@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Icategories {
   img: string;
   name: string;
@@ -35,4 +37,14 @@ export interface Iuser {
   cart: string[];
   wish: string[];
   date: Date;
+}
+
+export interface IComments {
+  uid: string;
+  message: string;
+  date: Timestamp;
+  userUid: string;
+  userName: string;
+  userImg: string;
+  rating: number;
 }
