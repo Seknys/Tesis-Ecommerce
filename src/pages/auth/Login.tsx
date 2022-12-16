@@ -22,11 +22,13 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
+import { ResetPasswordByEmail } from "./ResetPassword";
 
 export default function Login({ history }: any) {
   //Const
 
   const [email, setEmail] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [bttnSubmit, setBttnSubmit] = useState(true);
@@ -183,7 +185,14 @@ export default function Login({ history }: any) {
           </FormControl>
 
           <Box w="100%">
-            <Pressable w="100%" my="3" onPress={() => {}}>
+            <Pressable
+              w="100%"
+              my="3"
+              onPress={() => {
+                console.log("SHow modal");
+                setShowModal(true);
+              }}
+            >
               <Text bold textAlign="end">
                 {t("auth_forgot")}
               </Text>
@@ -253,6 +262,12 @@ export default function Login({ history }: any) {
             </Box>
           </HStack>
         </Box>
+        {showModal && (
+          <ResetPasswordByEmail
+            setModalVisible={setShowModal}
+            modalVisible={showModal}
+          />
+        )}
       </Container>
     </Center>
   );

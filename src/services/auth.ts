@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase/configFirebase";
 import { ref, onValue, set, push, remove } from "firebase/database";
@@ -111,4 +112,8 @@ export const getUserByUid = (
   fSnapshot: (snapshot: any) => void
 ) => {
   return onSnapshot(doc(db, "users", uid), fSnapshot);
+};
+
+export const sendEmailToResetPassword = (email: any) => {
+  return sendPasswordResetEmail(auth, email);
 };
