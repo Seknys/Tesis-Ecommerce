@@ -23,6 +23,8 @@ export interface Iproducts {
   feat: string[];
   stock: number;
   quantity?: number;
+  views: number;
+  addedToCart: number;
 }
 
 export interface Iuser {

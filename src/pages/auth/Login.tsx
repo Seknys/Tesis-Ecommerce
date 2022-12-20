@@ -47,17 +47,17 @@ export default function Login({ history }: any) {
     signInWithGoogle();
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setBttnSubmit(false);
 
     if (isValid.current) {
-      userLogin(email, password)
+      await userLogin(email, password)
         .then((res) => {
           if (res) {
             SuccesToast(t("auth_login_success"));
-            setTimeout(() => {
-              history.push("/home");
-            }, 2000);
+            // setTimeout(() => {
+            history.push("/home");
+            // }, 2000);
           }
         })
         .catch((err) => {

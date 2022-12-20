@@ -24,7 +24,7 @@ interface IProps {
   isAdmin?: boolean;
   dataAdmin?: any;
   callBackParent?: any;
-  returnCategory?: any;
+  returnCategories?: any;
 }
 
 //const [sideValue, setSideValue] = useState<string | null>(null);
@@ -36,7 +36,7 @@ export default function SideBarMenu({
   isAdmin,
   dataAdmin,
   callBackParent,
-
+  returnCategories,
 }: IProps) {
   // const [expanded, setExpanded] = useState<string | false>(false);
   const [categories, setCategories] = useState<Icategories[]>([]);
@@ -49,7 +49,6 @@ export default function SideBarMenu({
           doc.data()
         );
         setCategories(categoriesData);
-      
       };
       getCategories(getCategoriesSnapshot);
     } else {
@@ -130,7 +129,7 @@ const Accordion = ({
             <Pressable
               onPress={() => {
                 if (category) {
-                  console.log("CALLBACK", category.uid)
+                  console.log("CALLBACK", category.uid);
                   callBackParent(category.uid);
                 }
               }}

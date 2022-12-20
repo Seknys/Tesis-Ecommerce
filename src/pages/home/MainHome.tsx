@@ -18,13 +18,19 @@ import { Link, useParams } from "react-router-dom";
 import SideBarMenu from "../../components/SidebarMenu";
 import { Icategories, Iproducts } from "../../interfaces/interface";
 import { getCategories, getOneCategory } from "../../services/basicOperations";
-import { getProductsByCategory } from "../../services/products";
+import {
+  getProductsByCategory,
+  updateProduct,
+  updateViews,
+} from "../../services/products";
 import "./style.css";
 import { motion } from "framer-motion";
 import UserContext from "../../contexts/userContext";
+import { CardProduct } from "./componets/CardProduct";
 
 export default function MainHome({ history }: any) {
   const { id } = useParams<{ id: string }>();
+  const { admin } = useParams<{ admin: string }>();
   const [auxCategory, setAuxCategory] = useState<string>();
   const [adminCategory, setAdminCategory] = useState<Icategories>();
 
@@ -32,10 +38,10 @@ export default function MainHome({ history }: any) {
   const [category, setCategory] = useState<Icategories>();
 
   const [products, setProducts] = useState<Iproducts[]>([]);
-  const [hover, setHover] = useState<{
-    value: boolean;
-    index: number;
-  } | null>();
+  // const [hover, setHover] = useState<{
+  //   value: boolean;
+  //   index: number;
+  // } | null>();
 
   const [isOpen, setIsOpen] = useState(false);
   const getProductSnapshot = (snapshot: DocumentData) => {
@@ -78,6 +84,21 @@ export default function MainHome({ history }: any) {
       getProductsByCategory(auxCategory, getProductSnapshot);
     }
   }, [auxCategory]);
+
+  const handleOnPressProduct = (product: Iproducts) => {
+    if (admin) {
+      history.push(`/admin/add-product`);
+      return;
+    } else {
+      setTimeout(() => {
+        setIsOpen(!isOpen);
+        history.push(`/product/${product.uid}`);
+      }, 300);
+
+      updateViews(product.uid, product.views);
+    }
+  };
+
   return (
     <>
       <SideBarMenu callBackParent={setAuxCategory}>
@@ -92,117 +113,28 @@ export default function MainHome({ history }: any) {
             // justifyContent="space-around"
             flexDirection="row"
           >
-            {products?.map((product, index) => (
-              <Pressable
-                // mr="5%"
-                key={product.uid}
-                mt="55"
-                // p='0'
-                mr="5%"
-                borderRadius={35}
-                onHoverIn={() => {
-                  setHover({ value: true, index: index });
-                }}
-                onHoverOut={() => setHover(null)}
-                onPress={() => {
-                  setTimeout(() => {
-                    setIsOpen(!isOpen);
-                    history.push(`/product/${product.uid}`);
-                  }, 300);
-                }}
-              >
-                <div className="card-container-menu">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.8 }}
+            {products?.map((product) => {
+              if (!admin) {
+                return (
+                  <CardProduct
+                    key={product.uid}
+                    product={product}
+                    handleOnPress={handleOnPressProduct}
+                  />
+                );
+              } else {
+                console.log("Admin Exist: ", admin);
+                return (
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/admin/edit-product/${product.uid}`}
+                    key={product.uid}
                   >
-                    <Box
-                      w="220"
-                      h="290"
-                      // bg="green.600"
-                      // overflow="hidden"
-                      // _dark={{
-                      //   borderColor: "coolGray.600",
-                      //   backgroundColor: "gray.700",
-                      // }}
-                      // _light={{
-                      //   backgroundColor: "gray.50",
-                      // }}
-                    >
-                      <Box w="100%" p="2">
-                        <Image
-                          source={{
-                            uri: product.img[0],
-                          }}
-                          fallbackSource={{
-                            uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token=67f3837f-dfd2-42e8-8490-972b5ccb6f7d",
-                          }}
-                          alt={product.name}
-                          w="220"
-                          h="160"
-                          resizeMode="cover"
-                        />
-
-                        {/* <Box>
-                       <Box
-                         bg="violet.500"
-                         _dark={{
-                           bg: "violet.400",
-                         }}
-                         _text={{
-                           color: "warmGray.50",
-                           fontWeight: "700",
-                           fontSize: "xs",
-                         }}
-                         position="absolute"
-                         bottom="0"
-                         px="3"
-                         py="1.5"
-                         borderRadius={35}
-                       >
-                         <Text> {category?.name}</Text>
-                       </Box>
-                       {product.sold > 15 && (
-                         <Box
-                           bg="red.500"
-                           _dark={{
-                             bg: "red.400",
-                           }}
-                           _text={{
-                             color: "warmGray.50",
-                             fontWeight: "700",
-                             fontSize: "xs",
-                           }}
-                           position="absolute"
-                           top="0"
-                           right="0"
-                           px="3"
-                           py="1.5"
-                           borderRadius={5}
-                         >
-                           <Text> Best Seller </Text>
-                         </Box>
-                       )}
-                     </Box> */}
-                      </Box>
-                      <Box pl="3">
-                        <Text fontSize="2xl">
-                          {product.name.length > 16
-                            ? `${product.name.substring(0, 15)}...`
-                            : product.name}
-                        </Text>
-                        <Text fontSize="xl">{product.price}</Text>
-                        <Text>
-                          {product.desc.length > 30
-                            ? `${product.desc.substring(0, 30)}...`
-                            : product.desc}
-                        </Text>
-                      </Box>
-                    </Box>
-                  </motion.div>
-                </div>
-              </Pressable>
-            ))}
+                    <CardProduct product={product} />
+                  </Link>
+                );
+              }
+            })}
           </Box>
         </>
       </SideBarMenu>

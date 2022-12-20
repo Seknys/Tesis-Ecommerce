@@ -29,6 +29,8 @@ import {
 import { addProduct, getUrlImage, uploadImage } from "../../../services/admin";
 
 import { v4 as uuidv4 } from "uuid";
+import { useParams } from "react-router-dom";
+import { deleteProduct, getProductByUid } from "../../../services/products";
 
 const colourOptions: ITags[] = [
   { value: "chaning", label: "Ocean" },
@@ -44,6 +46,7 @@ const colourOptions: ITags[] = [
 ];
 
 export default function AddProduct() {
+  const { uid } = useParams<{ uid: string }>();
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [name, setName] = useState<string>("");
   const [img, setImg] = useState<string>("");
@@ -85,6 +88,23 @@ export default function AddProduct() {
     };
     getCategories(getCategoriesSnapshot);
     setTags(colourOptions);
+
+    const getProductByUidSnapshot = (snapshot: DocumentData) => {
+      const productData = snapshot.data();
+      console.log("DAta", productData);
+      setName(productData.name);
+      setImg(productData.img);
+      setPrice(productData.price);
+      setStock(productData.stock);
+      setDesc(productData.desc);
+      setCategory(productData.category);
+      setSelectedTags(productData.tags);
+      setFeat(productData.feat);
+      setArrayImages(productData.images);
+    };
+    if (uid) {
+      getProductByUid(uid, getProductByUidSnapshot);
+    }
   }, []);
   // setTags([
   //   { label: "One", value: "one" },
@@ -173,11 +193,13 @@ export default function AddProduct() {
         desc: desc,
         img: arrayImages,
         name: name,
-         price: parseInt(price),
-         stock: parseInt(stock),
+        price: parseInt(price),
+        stock: parseInt(stock),
         tags: selectedTags,
         feat: feat,
-         uid: uid,
+        uid: uid,
+        views: 0,
+        addedToCart: 0,
         // tags: selectedTags,
       };
       console.log("New Product: ", newProductData);
@@ -198,8 +220,38 @@ export default function AddProduct() {
     }
     setIsLoading(false);
   };
+
+  const handleUpdateProduct = (cat: Icategories) => {
+    setIsLoading(true);
+  };
+  const handleDeleteProduct = () => {
+    setIsLoading(true);
+
+    deleteProduct(uid).then((res) => {
+      console.log("PRODUCT SUCCESFULLY DELETED: ", res);
+      setName("");
+      setCategory("");
+      setImg("");
+      setPrice("");
+      setStock("");
+      setDesc("");
+      setTags([]);
+      setFeat([]);
+      setArrayImages([]);
+      setIsLoading(false);
+    });
+  };
+
   return (
     <>
+      {uid && (
+        <Box alignSelf={"flex-end"}>
+          <Button bg="danger.400" onPress={handleDeleteProduct}>
+            <Text>Eliminar producto</Text>
+          </Button>
+        </Box>
+      )}
+
       <Center w="100%">
         <Box w="45%" my="10%">
           <Dropzone
@@ -256,6 +308,7 @@ export default function AddProduct() {
             <Input
               size="xl"
               // mb="19"
+              value={name}
               borderBottomWidth="3"
               placeholder={"NAME"}
               placeholderTextColor="black"
@@ -299,6 +352,7 @@ export default function AddProduct() {
 
           <FormControl isRequired isInvalid={errors.desc != undefined}>
             <TextArea
+              value={desc}
               size="xl"
               mb="19"
               borderBottomWidth="3"
@@ -333,6 +387,7 @@ export default function AddProduct() {
               type="number"
               min="1"
               max="10"
+              value={price}
               placeholder="Price"
               onChange={(priceTxt) => {
                 setPrice(priceTxt.target.value);
@@ -363,6 +418,7 @@ export default function AddProduct() {
               type="number"
               min="1"
               max="10"
+              value={stock}
               placeholder="Stock"
               onChange={(stockTxt) => {
                 setStock(stockTxt.target.value);

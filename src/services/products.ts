@@ -8,6 +8,8 @@ import {
   where,
   setDoc,
   addDoc,
+  updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -18,7 +20,7 @@ export const getProductsByCategory = (
   category: string,
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
-  console.log("CategoryBackEnd: ", category);
+
   const q = query(productRef, where("catUid", "==", category));
   return onSnapshot(q, fSnapshot);
 };
@@ -69,7 +71,7 @@ export const updateProduct = (uid: string, product: Iproducts) => {
 };
 //Unused
 export const deleteProduct = (uid: string) => {
-  return setDoc(doc(db, "products", uid), { stock: 0 });
+  return deleteDoc(doc(db, "products", uid));
 };
 //Unused
 export const getProductsBySearch = (
@@ -102,4 +104,24 @@ export const getCommetsbyProduct = (
       fSnapshot(comments);
     }
   );
+};
+
+export const addCommentToProduct = (uid: string, comment: IComments) => {
+  return setDoc(doc(db, "products", uid, "comments", comment.uid), comment);
+};
+
+export const updateViews = (uid: string, views: number) => {
+  updateDoc(doc(db, "products", uid), {
+    views: views + 1,
+  }).then(() => {
+    console.log("Views updated");
+  });
+};
+
+export const updateAddedToCart = (uid: string, addedToCart: number) => {
+  updateDoc(doc(db, "products", uid), {
+    addedToCart: addedToCart + 1,
+  }).then(() => {
+    console.log("addedToCart updated");
+  });
 };

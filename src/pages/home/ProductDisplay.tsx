@@ -19,8 +19,10 @@ import {
   addProductToCart,
   getCommetsbyProduct,
   getProductByUid,
+  updateAddedToCart,
 } from "../../services/products";
 import { ComentsView } from "./componets/ComentsView";
+import { InputComent } from "./componets/InputComent";
 
 export default function ProductDisplay() {
   const { t } = useTranslation();
@@ -57,15 +59,18 @@ export default function ProductDisplay() {
       // console.log("add to cart", user.uid);
       // console.log("Count", count);
       addProductToCart(user.uid, product);
+      updateAddedToCart(product.uid, product?.addedToCart);
     }
   };
 
   return (
-    <Box>
+    <Box bg="yellow.400">
       <SideBarMenu>
         <Center>
           <Container>
-            <Text fontSize="3xl">PRODUCTOOO {product?.name}</Text>
+            <Text fontSize="3xl" bold>
+              {product?.name}
+            </Text>
           </Container>
         </Center>
         <HStack flexDirection="row" w="100%">
@@ -75,7 +80,7 @@ export default function ProductDisplay() {
                 uri: product?.img[0],
               }}
               // alt={productName.current}
-              alt="thisiS a test"
+              alt={product?.name}
               w="380"
               h="320"
               resizeMode="contain"
@@ -83,18 +88,26 @@ export default function ProductDisplay() {
             />
           </Box>
           <Box w="100%" flex={4} pl="3%">
-            <Text fontSize="2xl" color="white">
+            {/* <Text fontSize="2xl" color="white">
               {product?.name.toUpperCase()}
+            </Text> */}
+            <Text fontSize="sm" color="white">
+              Description
             </Text>
             <Text fontSize="2xl" color="white">
-              $ {product?.price}
+              {product?.desc}
+            </Text>
+            <Text fontSize="sm" color="white">
+              Price
+            </Text>
+            <Text fontSize="2xl" color="white">
+              ${product?.price}
+            </Text>
+            <Text fontSize="sm" color="white">
+              Stock
             </Text>
             <Text fontSize="2xl" color="white">
               {product?.stock}
-            </Text>
-
-            <Text fontSize="2xl" color="white">
-              {product?.desc}
             </Text>
 
             {product && product.stock > 0 && (
@@ -108,20 +121,19 @@ export default function ProductDisplay() {
                 <Text>{t("add_cart")}</Text>
               </Button>
             )}
-
             {product && product.feat && (
               <Box>
-                <Text fontSize="2xl" color="white">
+                <Text fontSize="sm" color="white">
                   {t("menu_about")}
                 </Text>
+
                 {product.feat.map((feat, index) => (
                   <Text fontSize="2xl" color="white" key={index}>
-                    * {feat}
+                    *{feat}
                   </Text>
                 ))}
               </Box>
             )}
-
             <HStack>
               <Input
                 type="number"
@@ -185,7 +197,13 @@ export default function ProductDisplay() {
             Comentarios
           </Text>
         </Box>
-        <Box w="80%" display={"flex"} flexWrap="wrap">
+        {user ? (
+          <InputComent productUid={product?.uid} />
+        ) : (
+          <Text>Para comentar debes iniciar sesion</Text>
+        )}
+
+        <Box w="90%" display={"flex"} flexDirection="row" flexWrap="wrap">
           {comments && comments.length > 0 ? (
             comments.map((comment, index) => (
               // <HStack

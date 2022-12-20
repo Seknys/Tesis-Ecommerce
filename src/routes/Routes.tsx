@@ -8,6 +8,8 @@ import {
 import { AddAccountAnalist } from "../admin/pages/AddAccountAnalist/AddAccountAnalist";
 import AddProduct from "../admin/pages/AddProduct/AddProduct";
 import HomeAdmin from "../admin/pages/Home/HomeAdmin";
+import { AnalysisxCat } from "../analyst/pages/home/AnalysisxCategory/AnalysisxCat";
+import { HomeAnalyst } from "../analyst/pages/home/HomeAnalyst";
 import MainHeader from "../components/MainHeader";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -49,17 +51,18 @@ export const RoutesAdmin = () => (
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
-
+          {/* 
           <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <Route path="/register" component={Register} /> */}
           <Route path="/home" component={HomeAdmin} />
 
           <Route path="/category/:id" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/admin/add-product" component={AddProduct} />
+          <Route path="/admin/edit-product/:uid" component={AddProduct} />
           <Route path="/admin/add-account" component={AddAccountAnalist} />
-          <Route path="/admin/products" component={MainHome} />
+          <Route path="/admin/products/:admin" component={MainHome} />
         </Box>
         {/* <Box bg="red.500">
         <Text fontSize="2xl">This is an admin text pls word</Text>
@@ -80,15 +83,15 @@ export const RoutesAnalyst = () => (
             <Redirect to="/home" />
           </Route>
 
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/home" component={HomeAdmin} />
+          {/* <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} /> */}
+          <Route path="/home" component={HomeAnalyst} />
 
           <Route path="/category/:id" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
-          <Route path="/admin/add-product" component={AddProduct} />
-          <Route path="/admin/add-account" component={AddAccountAnalist} />
+          <Route path="/analyst/categories" component={AnalysisxCat} />
+
         </Box>
         {/* <Box bg="red.500">
         <Text fontSize="2xl">This is an admin text pls word</Text>

@@ -1,21 +1,17 @@
-import { Box, Center, Container, HStack, Text, Pressable } from "native-base";
-import React, { useState } from "react";
 import { motion } from "framer-motion";
-import "./style.css";
+import { Box, Pressable, Text } from "native-base";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IconContext } from "react-icons";
-import { FaUserCircle } from "react-icons/fa";
-
 import {
   FcBusinessman,
-  FcDoughnutChart,
-  FcPaid,
+  FcInfo,
+  FcInspection,
   FcViewDetails,
 } from "react-icons/fc";
-import { LinearGradient } from "react-native-svg";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-export default function HomeAdmin() {
+export const HomeAnalyst = () => {
   const { t } = useTranslation();
   const [hover, setHover] = useState<{
     value: boolean;
@@ -35,7 +31,7 @@ export default function HomeAdmin() {
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <Link to="admin/add-account" style={{ textDecoration: "none" }}>
+        <Link to="/analyst/categories" style={{ textDecoration: "none" }}>
           <div>
             <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
               <div className="admin-container">
@@ -46,13 +42,14 @@ export default function HomeAdmin() {
                     style: { padding: 14 },
                   }}
                 >
-                  <FcBusinessman />
+                  <FcInspection />
                 </IconContext.Provider>
               </div>
               {hover?.value && hover?.index === 1 && (
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
-                    {t("admin_user")}
+                    {/* {t("admin_user")} */}
+                    Analisis x categoria
                   </Text>
                 </Box>
               )}
@@ -75,13 +72,14 @@ export default function HomeAdmin() {
                     size: "10em",
                   }}
                 >
-                  <FcPaid />
+                  <FcBusinessman />
                 </IconContext.Provider>
               </div>
               {hover?.value && hover?.index === 2 && (
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
-                    {t("admin_create_product")}
+                    {/* {t("admin_create_product")} */}
+                    Analisis x producto
                   </Text>
                 </Box>
               )}
@@ -109,7 +107,7 @@ export default function HomeAdmin() {
                     style: { padding: 10 },
                   }}
                 >
-                  <FcViewDetails />
+                  <FcBusinessman />
                 </IconContext.Provider>
               </div>
               {hover?.value && hover?.index === 3 && (
@@ -125,4 +123,4 @@ export default function HomeAdmin() {
       </Pressable>
     </Box>
   );
-}
+};
