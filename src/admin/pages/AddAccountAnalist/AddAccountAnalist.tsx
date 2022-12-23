@@ -7,15 +7,18 @@ import SideBarContext from "../../../contexts/sideBarContext";
 import Register from "../../../pages/auth/Register";
 import { ManageAnalystUsers } from "./ManageAnalist";
 
+interface IProps {
+  name: string;
+  uid: string;
+}
+
 export const AddAccountAnalist = ({ history }: any) => {
   const { t } = useTranslation();
   // const { valueSide } = useContext(SideBarContext);
-  const [valueSide, setValueSide] = useState<string | null>(null);
+  const [valueSide, setValueSide] = useState<IProps | null>(null);
 
-  useEffect(() => {
-    console.log("valueSide", valueSide);
-  }, [valueSide]);
-  const options: any = [
+  useEffect(() => {}, [valueSide]);
+  const options = [
     {
       name: t("admin_create_user"),
       uid: "1",
@@ -33,10 +36,10 @@ export const AddAccountAnalist = ({ history }: any) => {
         dataAdmin={options}
         callBackParent={setValueSide}
       >
-        {(valueSide === "1" || !valueSide) && (
+        {(valueSide?.uid === "1" || !valueSide) && (
           <Register history={history} isAdmin={true} />
         )}
-        {valueSide === "2" && <ManageAnalystUsers />}
+        {valueSide?.uid === "2" && <ManageAnalystUsers />}
       </SideBarMenu>
     </>
   );

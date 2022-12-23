@@ -14,13 +14,15 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
       key={product.uid}
       mt="55"
       // p='0'
-      mr="5%"
+      mr="25"
+      borderWidth={3}
+      borderColor="gray.200"
       borderRadius={35}
       //   onHoverIn={() => {
       //     setHover({ value: true, index: index });
       //   }}
       //   onHoverOut={() => setHover(null)}
-      onPress={() => handleOnPress(product)}
+      onPress={handleOnPress}
     >
       <div className="card-container-menu">
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }}>

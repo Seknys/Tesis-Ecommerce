@@ -34,6 +34,7 @@ export default function ProductDisplay() {
   const [comments, setComments] = useState<IComments[]>();
 
   useEffect(() => {
+    console.log("mount");
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
@@ -47,10 +48,12 @@ export default function ProductDisplay() {
     }
 
     const commetsByProductFunction = (comments: IComments[]) => {
-      console.log("comments: ", comments[0].date);
       setComments(comments);
     };
     getCommetsbyProduct(uid, commetsByProductFunction);
+    return () => {
+      console.log("unmount");
+    };
   }, []);
 
   const addToCart = () => {
@@ -64,7 +67,7 @@ export default function ProductDisplay() {
   };
 
   return (
-    <Box bg="yellow.400">
+    <Box>
       <SideBarMenu>
         <Center>
           <Container>
@@ -91,26 +94,14 @@ export default function ProductDisplay() {
             {/* <Text fontSize="2xl" color="white">
               {product?.name.toUpperCase()}
             </Text> */}
-            <Text fontSize="sm" color="white">
-              Description
-            </Text>
-            <Text fontSize="2xl" color="white">
-              {product?.desc}
-            </Text>
-            <Text fontSize="sm" color="white">
-              Price
-            </Text>
-            <Text fontSize="2xl" color="white">
-              ${product?.price}
-            </Text>
-            <Text fontSize="sm" color="white">
-              Stock
-            </Text>
-            <Text fontSize="2xl" color="white">
-              {product?.stock}
-            </Text>
+            <Text fontSize="sm">Description</Text>
+            <Text fontSize="2xl">{product?.desc}</Text>
+            <Text fontSize="sm">Price</Text>
+            <Text fontSize="2xl">${product?.price}</Text>
+            <Text fontSize="sm">Stock</Text>
+            <Text fontSize="2xl">{product?.stock}</Text>
 
-            {product && product.stock > 0 && (
+            {product && product.stock > 0 && user ? (
               <Button
                 bg="primary"
                 w="25%"
@@ -120,15 +111,17 @@ export default function ProductDisplay() {
               >
                 <Text>{t("add_cart")}</Text>
               </Button>
+            ) : (
+              <Text>{t("no_stock")}</Text>
             )}
             {product && product.feat && (
               <Box>
-                <Text fontSize="sm" color="white">
+                <Text fontSize="sm" color="black">
                   {t("menu_about")}
                 </Text>
 
                 {product.feat.map((feat, index) => (
-                  <Text fontSize="2xl" color="white" key={index}>
+                  <Text fontSize="2xl" color="black" key={index}>
                     *{feat}
                   </Text>
                 ))}
@@ -136,6 +129,13 @@ export default function ProductDisplay() {
             )}
             <HStack>
               <Input
+                isDisabled
+                _disabled={{
+                  bg: "white",
+                  color: "Black",
+                  fontSize: "2xl",
+                  fontWeight: "bold",
+                }}
                 type="number"
                 value={count.toString()}
                 onChangeText={(text) => setCount(parseInt(text))}
@@ -148,17 +148,20 @@ export default function ProductDisplay() {
                 // }}
                 w="25%"
               />
-              <Button
-                bg="primary"
-                w="25%"
-                onPress={() => {
-                  setCount(count + 1);
-                }}
-              >
-                <Text bold fontSize={"2xl"}>
-                  +
-                </Text>
-              </Button>
+              {product && count < product?.stock && (
+                <Button
+                  bg="primary"
+                  w="25%"
+                  onPress={() => {
+                    setCount(count + 1);
+                  }}
+                >
+                  <Text bold fontSize={"2xl"}>
+                    +
+                  </Text>
+                </Button>
+              )}
+
               {count <= 1 ? (
                 <Button
                   bg="primary"
@@ -194,13 +197,15 @@ export default function ProductDisplay() {
       <Center w="100%">
         <Box>
           <Text fontSize={"2xl"} bold>
-            Comentarios
+            {t("comments")}
           </Text>
         </Box>
         {user ? (
           <InputComent productUid={product?.uid} />
         ) : (
-          <Text>Para comentar debes iniciar sesion</Text>
+          <Text fontSize={"xl"} my="15px">
+            Para comentar debes iniciar sesion
+          </Text>
         )}
 
         <Box w="90%" display={"flex"} flexDirection="row" flexWrap="wrap">
@@ -232,9 +237,11 @@ export default function ProductDisplay() {
               <ComentsView key={index} comment={comment} index={index} />
             ))
           ) : (
-            <Text fontSize={"2xl"} bold>
-              No hay comentarios
-            </Text>
+            <Center w="100%" mt="150px">
+              <Text fontSize={"2xl"} bold>
+                {t("no_comments")}
+              </Text>
+            </Center>
           )}
         </Box>
       </Center>

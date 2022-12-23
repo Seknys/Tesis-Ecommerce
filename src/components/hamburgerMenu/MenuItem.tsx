@@ -1,7 +1,12 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { Iproducts } from "../../interfaces/interface";
-import { Avatar, Box, HStack, Text } from "native-base";
+import { Avatar, Box, HStack, Pressable, Text } from "native-base";
+import { IconContext } from "react-icons";
+import { MdDeleteForever } from "react-icons/md";
+import { useState } from "react";
+import { IconButton, Tooltip } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const variants = {
   open: {
@@ -35,6 +40,7 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
       product.name = `${product.name.substring(0, 10)}... `;
     }
   }
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <motion.li
       variants={variants}
@@ -43,36 +49,61 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
     >
       {/* <div className="icon-placeholder" style={style} />
       <div className="text-placeholder" style={style} /> */}
-      <HStack w="100%" alignItems="center">
-        <Avatar
-          borderColor={colors[i]}
-          borderWidth="3"
-          source={{
-            uri: product?.img[0],
-          }}
-          size="lg"
-        />
-        <HStack
-          ml="3"
-          px="3"
-          py="1"
-          borderColor={colors[i]}
-          borderWidth="3"
-          borderRadius={35}
-        >
-          <Box>
-            <Text color="white" bold>
-              {product?.name}
-            </Text>
-            <Text color="white">{product?.category}</Text>
-            {/* <Text color="white">{product?.quantity}</Text> */}
-          </Box>
+      <Pressable
+        onHoverIn={() => {
+          setIsHovered(true);
+        }}
+        onHoverOut={() => {
+          setIsHovered(false);
+        }}
+      >
+        <HStack w="100%" alignItems="center">
+          <Pressable
+            onPress={() => {
+              console.log("delete");
+            }}
+          >
+            <IconContext.Provider
+              value={{
+                color: "red",
+                size: "1.5em",
+                style: { marginRight: "5px" },
+              }}
+            >
+              <MdDeleteForever />
+            </IconContext.Provider>
+          </Pressable>
+          <Avatar
+            borderColor={colors[i]}
+            borderWidth="3"
+            source={{
+              uri: product?.img[0],
+            }}
+            size="lg"
+          />
 
-          <Text color="white" bold>
-            ${product?.price}
-          </Text>
+          <HStack
+            ml="3"
+            px="3"
+            py="1"
+            borderColor={colors[i]}
+            borderWidth="3"
+            borderRadius={35}
+          >
+            <Box>
+              <Text color="white" bold>
+                {product?.name}
+              </Text>
+              <Text color="white">{product?.category}</Text>
+              {/* <Text color="white">{product?.quantity}</Text> */}
+            </Box>
+
+            <Text color="white" bold>
+              ${product?.price}
+            </Text>
+          </HStack>
         </HStack>
-      </HStack>
+      </Pressable>
     </motion.li>
   );
 };

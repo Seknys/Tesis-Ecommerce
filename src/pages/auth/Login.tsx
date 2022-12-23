@@ -134,6 +134,7 @@ export default function Login({ history }: any) {
           <FormControl isRequired isInvalid={errors.pass != undefined}>
             <Input
               size="2xl"
+              value={password}
               borderBottomWidth="3"
               placeholder={auth_pass}
               placeholderTextColor="black"

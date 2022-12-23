@@ -129,8 +129,7 @@ const Accordion = ({
             <Pressable
               onPress={() => {
                 if (category) {
-                  console.log("CALLBACK", category.uid);
-                  callBackParent(category.uid);
+                  callBackParent(category);
                 }
               }}
             >

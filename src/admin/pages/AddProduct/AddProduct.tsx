@@ -30,7 +30,19 @@ import { addProduct, getUrlImage, uploadImage } from "../../../services/admin";
 
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
-import { deleteProduct, getProductByUid } from "../../../services/products";
+import {
+  deleteProduct,
+  getProductByUid,
+  updateProduct,
+} from "../../../services/products";
+import {
+  ErrorToastAdmin,
+  SuccesToastAdmin,
+  ToastC,
+  WariningToastAdmin,
+} from "../../../components/Toast";
+import ModalConfirm from "../../components/ModalConfirm";
+import SelectCategory from "../../components/SelectComponent";
 
 const colourOptions: ITags[] = [
   { value: "chaning", label: "Ocean" },
@@ -45,7 +57,7 @@ const colourOptions: ITags[] = [
   { value: "silver", label: "Silver" },
 ];
 
-export default function AddProduct() {
+export default function AddProduct({ history }: any) {
   const { uid } = useParams<{ uid: string }>();
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [name, setName] = useState<string>("");
@@ -53,7 +65,7 @@ export default function AddProduct() {
   const [price, setPrice] = useState<string>("");
   const [stock, setStock] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
-  const [categorySelected, setCategory] = useState<string>("");
+  const [categorySelected, setCategory] = useState<string>();
   const isValid = useRef(true);
   const { t } = useTranslation();
   const [errors, setErrors] = useState<{
@@ -72,11 +84,15 @@ export default function AddProduct() {
   const [inputFeat, setInputFeat] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [tags, setTags] = useState<ITags[]>();
-  const [selectedTags, setSelectedTags] = useState<string[]>();
+  const [tags, setTags] = useState<any>();
+  const [selectedTags, setSelectedTags] = useState<any>();
 
   const [arrayImages, setArrayImages] = useState<string[]>([]);
   const [status, setStatus] = useState<string>("");
+  const [isEnable, setIsEnable] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [product, setProduct] = useState<Iproducts>();
 
   useEffect(() => {
     // console.log("UID:", uuidv4());
@@ -97,10 +113,11 @@ export default function AddProduct() {
       setPrice(productData.price);
       setStock(productData.stock);
       setDesc(productData.desc);
-      setCategory(productData.category);
+      setCategory(productData.catUid);
       setSelectedTags(productData.tags);
       setFeat(productData.feat);
       setArrayImages(productData.images);
+      setProduct(productData);
     };
     if (uid) {
       getProductByUid(uid, getProductByUidSnapshot);
@@ -119,13 +136,11 @@ export default function AddProduct() {
     }
 
     if (options) {
-      let newtags: string[] = [];
+      console.log("OPtion: ", options);
+      let newtags: any = [];
       options.map((option: any) => {
-        newtags?.push(option.value);
+        newtags?.push({ label: option.label, value: option.value });
       });
-
-      // setSelectedTags(newtags);
-      // console.log("SELECTED TAGS", selectedTags);
 
       setSelectedTags(newtags);
     } else {
@@ -157,6 +172,7 @@ export default function AddProduct() {
     });
     allFiles.forEach((f: any) => f.remove());
     setArrayImages(array);
+    setIsEnable(false);
   };
 
   const addItem = (title: string) => {
@@ -200,35 +216,79 @@ export default function AddProduct() {
         uid: uid,
         views: 0,
         addedToCart: 0,
+        removeToCart: 0,
+        buy: 0,
         // tags: selectedTags,
       };
       console.log("New Product: ", newProductData);
 
-      addProduct(newProductData).then((res) => {
-        console.log("PRODUCT SUCCESFULLY ADDED: ", res);
-        setName("");
-        setCategory("");
-        setImg("");
-        setPrice("");
-        setStock("");
-        setDesc("");
-        setTags([]);
-        setFeat([]);
-        setArrayImages([]);
-        setIsLoading(false);
-      });
+      addProduct(newProductData)
+        .then((res) => {
+          SuccesToastAdmin("Product Added");
+          console.log("PRODUCT SUCCESFULLY ADDED: ", res);
+          setName("");
+          setCategory("");
+          setImg("");
+          setPrice("");
+          setStock("");
+          setDesc("");
+          setTags([]);
+          setFeat([]);
+          setArrayImages([]);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          ErrorToastAdmin(`Error ${err.message}`);
+          console.log("ERROR ADDING PRODUCT: ", err);
+          setIsLoading(false);
+        });
     }
     setIsLoading(false);
   };
 
   const handleUpdateProduct = (cat: Icategories) => {
     setIsLoading(true);
+    if (product) {
+      const updateProductData: Iproducts = {
+        catUid: cat.uid,
+        category: cat.name,
+        desc: desc,
+        img: product.img,
+        name: name,
+        price: parseInt(price),
+        stock: parseInt(stock),
+        tags: selectedTags,
+        feat: feat,
+        uid: uid,
+        views: product.views,
+        addedToCart: product.addedToCart,
+        removeToCart: product.removeToCart,
+        buy: product.buy,
+        // tags: selectedTags,
+      };
+      console.log("Update Product: ", updateProductData);
+      updateProduct(uid, updateProductData)
+        .then((res) => {
+          SuccesToastAdmin("Product Updated");
+
+          setTimeout(() => {
+            history.goBack();
+          }, 2000);
+        })
+        .catch((err) => {
+          ErrorToastAdmin(`Error ${err.message}`);
+          console.log("ERROR UPDATING PRODUCT: ", err);
+          setIsLoading(false);
+        });
+    }
   };
   const handleDeleteProduct = () => {
     setIsLoading(true);
 
     deleteProduct(uid).then((res) => {
+      WariningToastAdmin("Product Deleted");
       console.log("PRODUCT SUCCESFULLY DELETED: ", res);
+
       setName("");
       setCategory("");
       setImg("");
@@ -239,78 +299,69 @@ export default function AddProduct() {
       setFeat([]);
       setArrayImages([]);
       setIsLoading(false);
+      setTimeout(() => {
+        history.goBack();
+      }, 2000);
     });
   };
 
   return (
     <>
+      <ToastC />
       {uid && (
-        <Box alignSelf={"flex-end"}>
-          <Button bg="danger.400" onPress={handleDeleteProduct}>
-            <Text>Eliminar producto</Text>
+        <Box
+          m="5"
+          alignSelf={"flex-end"}
+          position="sticky"
+          top="100px"
+          right="45px"
+        >
+          <Button
+            bg="danger.600"
+            onPress={() => {
+              setShowModal(true);
+            }}
+            _hover={{
+              bg: "danger.500",
+            }}
+          >
+            <Text color="white" fontSize={"lg"} bold>
+              Eliminar producto
+            </Text>
           </Button>
         </Box>
       )}
 
       <Center w="100%">
-        <Box w="45%" my="10%">
-          <Dropzone
-            getUploadParams={getUploadParams}
-            onChangeStatus={handleChangeStatus}
-            onSubmit={handleSubmitImage}
-            accept="image/*"
-            inputContent={(files, extra) =>
-              extra.reject ? (
-                <Box>
-                  <Text fontSize={"2xl"} color="blue.600">
-                    Images Only
-                  </Text>
-                </Box>
-              ) : (
-                <Box>
-                  <Text fontSize={"2xl"} color="blue.600">
-                    Drag and drop images
-                  </Text>
-                </Box>
-              )
-            }
-            styles={{
-              dropzone: { minHeight: 200, maxHeight: 250 },
-            }}
-          />
-          {/* <Dropzone
-            getUploadParams={getUploadParams}
-            //   onChangeStatus={handleChangeStatus}
-            onSubmit={handleSubmitImage}
-            accept="image/*"
-            inputContent={(files, extra) =>
-              extra.reject ? (
-                <Box>
-                  <Text fontSize={"2xl"} color="red.600">
-                    Images Only
-                  </Text>
-                </Box>
-              ) : (
-                <Box>
-                  <Text fontSize={"2xl"} color="red.600">
-                    Drag and drop images
-                  </Text>
-                </Box>
-              )
-            }
-            styles={{
-              dropzoneReject: { borderColor: "red", backgroundColor: "#DAA" },
-              inputLabel: (files, extra) =>
-                extra.reject ? { color: "red" } : {},
-            }}
-          /> */}
+        <Box w="45%" my="4%">
+          <Text
+            mb="10px"
+            textAlign={"center"}
+            bold
+            fontSize={"2xl"}
+            color="red.500"
+          >
+            Añadir un nuevo producto
+          </Text>
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Nombre
+            </Text>
+          </HStack>
           <FormControl isRequired isInvalid={errors.name != undefined}>
             <Input
               size="xl"
               // mb="19"
               value={name}
               borderBottomWidth="3"
-              placeholder={"NAME"}
+              placeholder={"Nombre"}
               placeholderTextColor="black"
               onChangeText={(nameTxt: string) => {
                 setName(nameTxt);
@@ -335,9 +386,71 @@ export default function AddProduct() {
               <FormControl.ErrorMessage>{errors.name}</FormControl.ErrorMessage>
             ) : null}
           </FormControl>
-          <Select
-            selectedValue={categorySelected}
-            onValueChange={(itemValue) => setCategory(itemValue)}
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Imagenes
+            </Text>
+            <Text ml="4">(*Subir imagenes antes de subir el producto)</Text>
+          </HStack>
+
+          <Dropzone
+            getUploadParams={getUploadParams}
+            onChangeStatus={handleChangeStatus}
+            onSubmit={handleSubmitImage}
+            accept="image/*"
+            inputContent={(files, extra) =>
+              extra.reject ? (
+                <Box>
+                  <Text fontSize={"2xl"} color="blue.600">
+                    Images Only
+                  </Text>
+                </Box>
+              ) : (
+                <Box>
+                  <Text fontSize={"2xl"} color="blue.600">
+                    Drag and drop images
+                  </Text>
+                </Box>
+              )
+            }
+            styles={{
+              dropzone: { minHeight: 200, maxHeight: 250 },
+            }}
+          />
+
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Seleccionar Categoria
+            </Text>
+          </HStack>
+
+          <SelectCategory
+            setCategory={setCategory}
+            category={categorySelected}
+            categoryArray={categories}
+          />
+
+          {/* <Select
+          
+            selectedValue={"categorySelected"}
+            onValueChange={(itemValue) => {
+              console.log("ITemValueCat: ", itemValue);
+              setCategory(itemValue);
+            }}
             placeholder="Select Category"
             accessibilityLabel="Select Category"
           >
@@ -345,10 +458,23 @@ export default function AddProduct() {
               <Select.Item
                 label={category.name}
                 value={category.uid}
-                key={category.uid}
+                key={category.uid + category.name}
               />
             ))}
-          </Select>
+          </Select> */}
+
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Descripción del produto
+            </Text>
+          </HStack>
 
           <FormControl isRequired isInvalid={errors.desc != undefined}>
             <TextArea
@@ -382,6 +508,20 @@ export default function AddProduct() {
               <FormControl.ErrorMessage>{errors.desc}</FormControl.ErrorMessage>
             ) : null}
           </FormControl>
+
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Precio $$$
+            </Text>
+          </HStack>
+
           <FormControl isRequired isInvalid={errors.price != undefined}>
             <input
               type="number"
@@ -412,6 +552,19 @@ export default function AddProduct() {
               <FormControl.ErrorMessage>{errors.name}</FormControl.ErrorMessage>
             ) : null}
           </FormControl>
+
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Stock del producto
+            </Text>
+          </HStack>
 
           <FormControl isRequired isInvalid={errors.stock != undefined}>
             <input
@@ -444,7 +597,39 @@ export default function AddProduct() {
             ) : null}
           </FormControl>
 
-          <CreatableSelect isMulti options={tags} onChange={handleTagsChange} />
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Tags del producto
+            </Text>
+          </HStack>
+
+          <CreatableSelect
+            value={selectedTags}
+            isMulti
+            options={tags}
+            onChange={handleTagsChange}
+          />
+
+          <HStack
+            py="3"
+            px="5"
+            my="5"
+            bg="gray.100"
+            shadow={5}
+            alignItems="center"
+          >
+            <Text bold fontSize={"xl"}>
+              Caracteristicas
+            </Text>
+            <Text ml="4">(Opcional)</Text>
+          </HStack>
 
           <VStack space={4}>
             <HStack space={2}>
@@ -452,7 +637,7 @@ export default function AddProduct() {
                 flex={1}
                 onChangeText={setInputFeat}
                 value={inputFeat}
-                placeholder="Add Task"
+                placeholder="Añadir caracteristica"
               />
               <IconButton
                 borderRadius="sm"
@@ -518,19 +703,63 @@ export default function AddProduct() {
             </VStack>
           </VStack>
 
-          <Button
-            onPress={() => {
-              categories.map((category: Icategories) => {
-                if (category.uid === categorySelected) {
-                  handleAddProduct(category);
-                }
-              });
-            }}
-          >
-            <Text fontSize="2xl">UPLOAD</Text>
-          </Button>
+          {/* <Box> */}
+
+          {uid ? (
+            <Button
+              alignSelf={"center"}
+              bg="blue.500"
+              _hover={{
+                bg: "blue.600",
+              }}
+              onPress={() => {
+                categories.map((category: Icategories) => {
+                  if (category.uid === categorySelected) {
+                    console.log("CategoryUId: ?", category.uid);
+                    handleUpdateProduct(category);
+                  }
+                });
+
+                console.log("UPDATE PRODUCT: ", uid);
+              }}
+            >
+              <Text fontSize="2xl" color="white">
+                Actualizar Producto
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              isDisabled={isEnable}
+              alignSelf={"center"}
+              bg="gray.700"
+              _hover={{
+                bg: "gray.600",
+              }}
+              onPress={() => {
+                categories.map((category: Icategories) => {
+                  if (category.uid === categorySelected) {
+                    handleAddProduct(category);
+                  }
+                });
+              }}
+            >
+              <Text fontSize="2xl" color="white">
+                Subir Producto
+              </Text>
+            </Button>
+          )}
+
+          {/* </Box> */}
         </Box>
       </Center>
+
+      {showModal && (
+        <ModalConfirm
+          showModal={showModal}
+          setShowModal={setShowModal}
+          handleDeteleProduct={handleDeleteProduct}
+        />
+      )}
     </>
   );
 }

@@ -25,6 +25,8 @@ export interface Iproducts {
   quantity?: number;
   views: number;
   addedToCart: number;
+  removeToCart: number;
+  buy: number;
 }
 
 export interface Iuser {

@@ -20,7 +20,6 @@ export const getProductsByCategory = (
   category: string,
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
-
   const q = query(productRef, where("catUid", "==", category));
   return onSnapshot(q, fSnapshot);
 };
@@ -67,7 +66,9 @@ export const addProduct = (product: Iproducts) => {
 
 //Unused
 export const updateProduct = (uid: string, product: Iproducts) => {
-  return setDoc(doc(db, "products", uid), product);
+  return updateDoc(doc(db, "products", uid), {
+    ...product,
+  });
 };
 //Unused
 export const deleteProduct = (uid: string) => {
@@ -110,16 +111,20 @@ export const addCommentToProduct = (uid: string, comment: IComments) => {
   return setDoc(doc(db, "products", uid, "comments", comment.uid), comment);
 };
 
-export const updateViews = (uid: string, views: number) => {
-  updateDoc(doc(db, "products", uid), {
+export const updateViews = async (uid: string, views: number) => {
+  return await updateDoc(doc(db, "products", uid), {
     views: views + 1,
-  }).then(() => {
-    console.log("Views updated");
   });
+  // .then(() => {
+  //   console.log("Views updated");
+  // })
+  // .catch((error) => {
+  //   console.log("ViewsError", error);
+  // });
 };
 
-export const updateAddedToCart = (uid: string, addedToCart: number) => {
-  updateDoc(doc(db, "products", uid), {
+export const updateAddedToCart = async (uid: string, addedToCart: number) => {
+  await updateDoc(doc(db, "products", uid), {
     addedToCart: addedToCart + 1,
   }).then(() => {
     console.log("addedToCart updated");

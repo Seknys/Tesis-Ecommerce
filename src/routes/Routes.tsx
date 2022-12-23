@@ -8,7 +8,8 @@ import {
 import { AddAccountAnalist } from "../admin/pages/AddAccountAnalist/AddAccountAnalist";
 import AddProduct from "../admin/pages/AddProduct/AddProduct";
 import HomeAdmin from "../admin/pages/Home/HomeAdmin";
-import { AnalysisxCat } from "../analyst/pages/home/AnalysisxCategory/AnalysisxCat";
+import { AnalysisxCat } from "../analyst/pages/AnalysisxCategory/AnalysisxCat";
+import { AnalysisxProduct } from "../analyst/pages/AnalysisxProduct/AnalysisProduct";
 import { HomeAnalyst } from "../analyst/pages/home/HomeAnalyst";
 import MainHeader from "../components/MainHeader";
 import Login from "../pages/auth/Login";
@@ -23,7 +24,7 @@ export const RoutesClient = () => (
     <Router>
       <MainHeader />
       <Switch>
-        <Box zIndex={-1} bg="#8a2be2">
+        <Box zIndex={-1}>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
@@ -56,7 +57,6 @@ export const RoutesAdmin = () => (
           <Route path="/register" component={Register} /> */}
           <Route path="/home" component={HomeAdmin} />
 
-          <Route path="/category/:id" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/admin/add-product" component={AddProduct} />
@@ -88,10 +88,11 @@ export const RoutesAnalyst = () => (
           <Route path="/home" component={HomeAnalyst} />
 
           <Route path="/category/:id" component={MainHome} />
-          <Route path="/product/:uid" component={ProductDisplay} />
+
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/analyst/categories" component={AnalysisxCat} />
-
+          <Route path="/analyst/products/:analyst" component={MainHome} />
+          <Route path="/analyst/product/:uid" component={AnalysisxProduct} />
         </Box>
         {/* <Box bg="red.500">
         <Text fontSize="2xl">This is an admin text pls word</Text>

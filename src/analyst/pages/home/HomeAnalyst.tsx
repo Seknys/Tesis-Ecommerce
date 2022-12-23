@@ -62,7 +62,10 @@ export const HomeAnalyst = () => {
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <Link to="admin/add-product" style={{ textDecoration: "none" }}>
+        <Link
+          to="/analyst/products/isAnalyst=true"
+          style={{ textDecoration: "none" }}
+        >
           <div>
             <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
               <div className="admin-container">
@@ -93,7 +96,7 @@ export const HomeAnalyst = () => {
         onHoverOut={() => setHover(null)}
         my="150"
       >
-        <Link
+        {/* <Link
           to="admin/products/isAdmin=true"
           style={{ textDecoration: "none" }}
         >
@@ -119,7 +122,7 @@ export const HomeAnalyst = () => {
               )}
             </motion.div>
           </div>
-        </Link>
+        </Link> */}
       </Pressable>
     </Box>
   );

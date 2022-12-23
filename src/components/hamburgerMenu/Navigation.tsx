@@ -4,8 +4,10 @@ import { MenuItem } from "./MenuItem";
 import { getCartProductsByUser } from "../../services/products";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
-import { Box, Text } from "native-base";
+import { Box, HStack, Text } from "native-base";
 import { useTranslation } from "react-i18next";
+import { IconContext } from "react-icons";
+import { MdDeleteForever } from "react-icons/md";
 
 const variants = {
   open: {
@@ -38,7 +40,10 @@ export const Navigation = () => {
       {cartProducts &&
         // itemIds.map((i) => <MenuItem i={i} key={i} />)
         cartProducts.map((product, index) => (
-          <MenuItem key={product.uid} i={index} product={product} />
+          < >
+            <MenuItem key={product.uid} i={index} product={product} />
+
+          </>
         ))}
       {cartProducts === null && (
         <Box>

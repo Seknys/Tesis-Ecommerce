@@ -31,7 +31,8 @@ import { CardProduct } from "./componets/CardProduct";
 export default function MainHome({ history }: any) {
   const { id } = useParams<{ id: string }>();
   const { admin } = useParams<{ admin: string }>();
-  const [auxCategory, setAuxCategory] = useState<string>();
+  const { analyst } = useParams<{ analyst: string }>();
+  const [auxCategory, setAuxCategory] = useState<Icategories>();
   const [adminCategory, setAdminCategory] = useState<Icategories>();
 
   const { user } = useContext(UserContext);
@@ -55,7 +56,7 @@ export default function MainHome({ history }: any) {
   };
 
   useEffect(() => {
-    if (user?.role !== "admin") {
+    if (user?.role !== "admin" && user?.role !== "analyst") {
       getProductsByCategory(id, getProductSnapshot);
 
       getOneCategory(id, getCategorySnapshot);
@@ -67,7 +68,6 @@ export default function MainHome({ history }: any) {
 
         // setAuxCategory(categoriesData[0].uid);
         if (categoriesData[0].uid) {
-          console.log("CATEGORIES DATA: ", categoriesData[0].uid);
           getProductsByCategory(categoriesData[0].uid, getProductSnapshot);
 
           setCategory(categoriesData[0]);
@@ -79,52 +79,51 @@ export default function MainHome({ history }: any) {
   }, []);
 
   useEffect(() => {
-    console.log("AUX CATEGORY: ", auxCategory);
     if (auxCategory) {
-      getProductsByCategory(auxCategory, getProductSnapshot);
+      getProductsByCategory(auxCategory.uid, getProductSnapshot);
     }
   }, [auxCategory]);
 
-  const handleOnPressProduct = (product: Iproducts) => {
-    if (admin) {
-      history.push(`/admin/add-product`);
-      return;
-    } else {
-      setTimeout(() => {
-        setIsOpen(!isOpen);
-        history.push(`/product/${product.uid}`);
-      }, 300);
+  // const handleOnPressProduct = (product: Iproducts) => {
+  //   if (admin) {
+  //     history.push(`/admin/add-product`);
+  //     return;
+  //   } else {
+  //     setTimeout(() => {
+  //       setIsOpen(!isOpen);
+  //       history.push(`/product/${product.uid}`);
+  //     }, 300);
 
-      updateViews(product.uid, product.views);
-    }
-  };
+  //     updateViews(product.uid, product.views);
+  //   }
+  // };
 
   return (
     <>
       <SideBarMenu callBackParent={setAuxCategory}>
         <>
           <Box w="100%">
-            <Text textAlign="left" fontSize="2xl">
+            {auxCategory ? (
+              <Text bold textAlign="left" fontSize="2xl">
+                {auxCategory.name}
+              </Text>
+            ) : (
+              <Text bold textAlign="left" fontSize="2xl">
+                {category?.name}
+              </Text>
+            )}
+            {/* <Text bold textAlign="left" fontSize="2xl">
               {category?.name}
-            </Text>
+            </Text> */}
           </Box>
           <Box
             flexWrap="wrap"
             // justifyContent="space-around"
             flexDirection="row"
           >
-            {products?.map((product) => {
-              if (!admin) {
-                return (
-                  <CardProduct
-                    key={product.uid}
-                    product={product}
-                    handleOnPress={handleOnPressProduct}
-                  />
-                );
-              } else {
-                console.log("Admin Exist: ", admin);
-                return (
+            {admin &&
+              products?.map(
+                (product) => (
                   <Link
                     style={{ textDecoration: "none" }}
                     to={`/admin/edit-product/${product.uid}`}
@@ -132,9 +131,93 @@ export default function MainHome({ history }: any) {
                   >
                     <CardProduct product={product} />
                   </Link>
-                );
-              }
-            })}
+                )
+
+                // return (
+                //   <Link
+                //     style={{
+                //       textDecoration: "none",
+                //       marginLeft: 10,
+                //       marginRight: 10,
+                //     }}
+                //     to={`/product/${product.uid}`}
+                //     key={product.uid}
+                //   >
+                //     <CardProduct
+                //       product={product}
+                //       handleOnPress={() => {
+                //         updateViews(product.uid, product.views);
+                //       }}
+                //     />
+                //   </Link>
+                // );
+
+                // return (
+                //   <Link
+                //     style={{ textDecoration: "none" }}
+                //     to={`/admin/edit-product/${product.uid}`}
+                //     key={product.uid}
+                //   >
+                //     <CardProduct product={product} />
+                //   </Link>
+                // );
+              )}
+            {analyst &&
+              products?.map((product) => (
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={`/analyst/product/${product.uid}`}
+                  key={product.uid}
+                >
+                  <CardProduct product={product} />
+                </Link>
+              ))}
+            {id &&
+              products?.map((product) => (
+                // <Pressable
+                //   onPress={() => {
+                //     console.log("VIew");
+                //     updateViews(product.uid, product.views);
+                //   }}
+                // >
+                // <Link
+                //   onFocus={async () => {
+                //     console.log("VIew");
+                //     await updateViews(product.uid, product.views)
+                //       .then(() => {
+                //         console.log("Views updated");
+                //       })
+                //       .catch((error) => {
+                //         console.log("ViewsError", error);
+                //       });
+                //   }}
+                //   style={{
+                //     textDecoration: "none",
+                //     marginLeft: 10,
+                //     marginRight: 10,
+                //   }}
+                //   to={`/product/${product.uid}`}
+                //   key={product.uid}
+                // >
+                <CardProduct
+                  key={product.uid}
+                  product={product}
+                  handleOnPress={async () => {
+                    console.log("VIew");
+
+                    await updateViews(product.uid, product.views)
+                      .then(() => {
+                        console.log("Views updated");
+                        history.push(`/product/${product.uid}`);
+                      })
+                      .catch((error) => {
+                        console.log("ViewsError", error);
+                      });
+                  }}
+                />
+                // {/* </Link> */}
+                // {/* </Pressable> */}
+              ))}
           </Box>
         </>
       </SideBarMenu>
