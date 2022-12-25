@@ -34,3 +34,10 @@ export const getUsersByRole = (
   const q = query(userRef, where("role", "==", role));
   return onSnapshot(q, fSnapshot);
 };
+
+export const getProductsByViews = (
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  const q = query(productRef, where("views", ">", 25));
+  return onSnapshot(q, fSnapshot);
+};

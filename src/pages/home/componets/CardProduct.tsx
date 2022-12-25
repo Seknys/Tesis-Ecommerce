@@ -8,6 +8,7 @@ interface ICardProps {
   handleOnPress?: any;
 }
 export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
+  const [hover, setHover] = React.useState<any>(null);
   return (
     <Pressable
       // mr="5%"
@@ -15,17 +16,18 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
       mt="55"
       // p='0'
       mr="25"
-      borderWidth={3}
-      borderColor="gray.200"
-      borderRadius={35}
-      //   onHoverIn={() => {
-      //     setHover({ value: true, index: index });
-      //   }}
-      //   onHoverOut={() => setHover(null)}
+      shadow={7}
+      // borderWidth={3}
+      // borderColor="gray.200"
+      borderRadius={15}
+      onHoverIn={() => {
+        // setHover({ value: true, index: index });
+      }}
+      onHoverOut={() => {}}
       onPress={handleOnPress}
     >
       <div className="card-container-menu">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }}>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }}>
           <Box
             w="220"
             h="290"

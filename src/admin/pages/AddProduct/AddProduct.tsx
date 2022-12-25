@@ -43,6 +43,7 @@ import {
 } from "../../../components/Toast";
 import ModalConfirm from "../../components/ModalConfirm";
 import SelectCategory from "../../components/SelectComponent";
+import Tooltip from "@mui/material/Tooltip";
 
 const colourOptions: ITags[] = [
   { value: "chaning", label: "Ocean" },
@@ -728,25 +729,30 @@ export default function AddProduct({ history }: any) {
               </Text>
             </Button>
           ) : (
-            <Button
-              isDisabled={isEnable}
-              alignSelf={"center"}
-              bg="gray.700"
-              _hover={{
-                bg: "gray.600",
-              }}
-              onPress={() => {
-                categories.map((category: Icategories) => {
-                  if (category.uid === categorySelected) {
-                    handleAddProduct(category);
-                  }
-                });
-              }}
+            <Tooltip
+              placement="right"
+              title="Recuerda subir las imagenes primero"
             >
-              <Text fontSize="2xl" color="white">
-                Subir Producto
-              </Text>
-            </Button>
+              <Button
+                isDisabled={isEnable}
+                alignSelf={"center"}
+                bg="gray.700"
+                _hover={{
+                  bg: "gray.600",
+                }}
+                onPress={() => {
+                  categories.map((category: Icategories) => {
+                    if (category.uid === categorySelected) {
+                      handleAddProduct(category);
+                    }
+                  });
+                }}
+              >
+                <Text fontSize="2xl" color="white">
+                  Subir Producto
+                </Text>
+              </Button>
+            </Tooltip>
           )}
 
           {/* </Box> */}
