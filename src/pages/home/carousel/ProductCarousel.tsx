@@ -14,6 +14,42 @@ interface ICarouselProps {
   history: any;
 }
 
+function SampleNextArrow(props: any) {
+  const { className, style, onClick } = props;
+  return (
+    <motion.div
+      className={className}
+      onClick={onClick}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.8 }}
+      style={{
+        ...style,
+        display: "block",
+        background: "black",
+        borderRadius: 20,
+      }}
+    />
+  );
+}
+
+function SamplePrevArrow(props: any) {
+  const { className, style, onClick } = props;
+  return (
+    <motion.div
+      className={className}
+      onClick={onClick}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.8 }}
+      style={{
+        ...style,
+        display: "block",
+        background: "black",
+        borderRadius: 20,
+      }}
+    />
+  );
+}
+
 export const ProductCarousel = ({ products, history }: ICarouselProps) => {
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
@@ -35,23 +71,26 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     maxWidth: 1280,
   });
 
-  // console.log("isSmallScreen", isSmallScreen);
-  // console.log("isMediumScreen", isMediumScreen);
-  // console.log("isLargeScreen", isLargeScreen);
-  // console.log("isExtraLargeScreen", isExtraLargeScreen);
-
   var settings = {
     accessibility: true,
-    arrows: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     autoplay: true,
     autoplaySpeed: 2500,
-    // dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     adaptativeHeight: true,
     responsive: [
+      {
+        breakpoint: 1700,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
       {
         breakpoint: 1395,
         settings: {
@@ -83,14 +122,12 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     <Box w="90%">
       <Slider {...settings}>
         {products.map((product, index) => (
-          <Box key={product.uid} py="25">
+          <Box key={product.uid} py="25" ml="5">
             <Pressable
               w="220"
               shadow={8}
               borderRadius={15}
               onPress={async () => {
-                console.log("VIew");
-
                 await updateViews(product.uid, product.views)
                   .then(() => {
                     console.log("Views updated");
@@ -173,85 +210,21 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
     centerMode: true,
     focusOnSelect: true,
   };
-  // return (
-  //   <Box w="90%">
-  //     <Slider {...settings1}>
-  //       <Box>
-  //         <Image
-
-  //           source={{
-  //             uri: Images[0],
-  //           }}
-  //           fallbackSource={{
-  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
-  //           }}
-  //           alt="Image"
-  //           w="100%"
-  //           h="100%"
-  //           resizeMode="cover"
-  //         />
-  //       </Box>
-  //       <Box>
-  //         <Image
-
-  //           source={{
-  //             uri: Images[1],
-  //           }}
-  //           fallbackSource={{
-  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
-  //           }}
-  //           alt="Image"
-  //           w="100%"
-  //           h="100%"
-  //           resizeMode="cover"
-  //         />
-  //       </Box>
-  //       </Slider>
-  //       <Slider {...settings2}>
-  //       <Box>
-  //         <Image
-
-  //           source={{
-  //             uri: Images[0],
-  //           }}
-  //           fallbackSource={{
-  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
-  //           }}
-  //           alt="Image"
-  //           w="100%"
-  //           h="100%"
-  //           resizeMode="cover"
-  //         />
-  //       </Box>
-  //       </Slider>
-  //   </Box>
-  // );
 
   return (
-    <Box
-      py="15" //bg="amber.500"
-    >
-      {/* <h2>Slider Syncing (AsNavFor)</h2>
-      <h4>First Slider</h4> */}
-      <Slider
-        // asNavFor={nav2} ref={(slider: any) => setNav1(slider)}
-        {...settings1}
-      >
+    <Box py="15">
+      <Slider {...settings1}>
         {product?.img.map((img, index) => (
           <Image
-            shadow={8}
+            shadow={3}
             rounded={"lg"}
-            // bg="red.300"
             mb="25"
             source={{
               uri: img,
             }}
-            // alt={productName.current}
-            alt={product?.name}
+            alt={`${product?.name}_${index}`}
             w="380"
             h="320"
-            // w="180"
-            // h="120"
             resizeMode="contain"
             alignSelf="center"
           />

@@ -22,13 +22,14 @@ export const ComentsView = ({ comment, index }: ComentsProps) => {
       key={index}
       //  w="275px"
       w="22%"
-      borderWidth={4}
-      borderColor="black"
-      borderRadius={20}
+      shadow={9}
+      borderTopWidth={1}
+      borderColor="gray.200"
+      borderRadius={15}
       bg="white"
       px={4}
       mr="35"
-      mb="25"
+      mb="35"
       minW={"250px"}
     >
       <Box>

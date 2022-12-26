@@ -200,7 +200,13 @@ export default function ProductDisplay({ history }: { history: any }) {
           </Text>
         )}
 
-        <Box w="90%" display={"flex"} flexDirection="row" flexWrap="wrap">
+        <Box
+          mt="25"
+          w="90%"
+          display={"flex"}
+          flexDirection="row"
+          flexWrap="wrap"
+        >
           {comments && comments.length > 0 ? (
             comments.map((comment, index) => (
               // <HStack

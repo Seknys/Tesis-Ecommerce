@@ -17,6 +17,7 @@ import { getProductsByViews } from "../../services/admin";
 import { getCategories } from "../../services/basicOperations";
 import { ProductCarousel } from "./carousel/ProductCarousel";
 import MainHome from "./MainHome";
+import "./style.css";
 
 export default function HomePage({ history }: any) {
   // const categories = useRef<Icategories[]>();
@@ -69,54 +70,68 @@ export default function HomePage({ history }: any) {
         >
           {categories?.map((category: Icategories, index) => (
             // <Link to={`${url}/${category.uid}`} key={category.uid}>
+            <div key={`${category.uid}_${index}`} className="menu-container">
+              <Pressable
+                shadow={8}
+                borderRadius="30"
+                onHoverIn={() => setHover({ value: true, index: index })}
+                onHoverOut={() => setHover(null)}
+                key={category.uid}
+              >
+                <Link
+                  to={`category/${category.uid}`}
+                  className="link-container"
+                >
+                  <Image
+                    source={{ uri: category.img }}
+                    alt="Alternate Text"
+                    width="18vw"
+                    height="300"
+                    mx="10"
+                    resizeMode="contain"
+                    //   size='2xl'
 
-            <Pressable
-              onHoverIn={() => setHover({ value: true, index: index })}
-              onHoverOut={() => setHover(null)}
-              key={category.uid}
-              borderRadius="30"
-              borderColor="primary"
-              borderWidth="3"
-              my="25"
+                    borderRadius="30"
+                  />
 
-              // w='120'
-              // h='120'
-            >
-              <Link to={`category/${category.uid}`}>
-                <Image
-                  source={{ uri: category.img }}
-                  alt="Alternate Text"
-                  width="18vw"
-                  height="300"
-                  mx="10"
-                  resizeMode="contain"
-                  //   size='2xl'
-
-                  borderRadius="30"
-                />
-
-                {hover?.value && hover?.index === index && (
-                  <Box position="absolute" top="38%" px="35" w="100%">
-                    <Text
-                      fontSize="2xl"
-                      textAlign="center"
-                      color="white"
-                      bg="primary"
-                      py="3"
-                      borderRadius="35"
-                    >
-                      {category.name}
-                    </Text>
-                  </Box>
-                )}
-              </Link>
-            </Pressable>
+                  {hover?.value && hover?.index === index && (
+                    // <div className={`text-contain text-${index} `}>
+                    //   <Text
+                    //     fontSize="2xl"
+                    //     textAlign="center"
+                    //     color="white"
+                    //     bg="primary"
+                    //     py="3"
+                    //     borderRadius="35"
+                    //   >
+                    //     {category.name}
+                    //   </Text>
+                    // </div>
+                    <Box position="absolute" top="38%" px="35" w="100%">
+                      <Text
+                        isTruncated
+                        fontSize="2xl"
+                        textAlign="center"
+                        bg={"rgba(0,0,0, 0.7)"}
+                        color="white"
+                        py="3"
+                        borderRadius="35"
+                      >
+                        {category.name}
+                      </Text>
+                    </Box>
+                  )}
+                </Link>
+              </Pressable>
+            </div>
           ))}
         </Container>
-        <Text>CAROUSEL</Text>
+
         {productsByView.length > 4 && (
-          <Container alignItems="center">
-            <Text>Productos más vistos</Text>
+          <Container alignItems="center" my="25" shadow={6} borderRadius={10}>
+            <Text fontSize={"3xl"} bold pl="25" my="15" w="100%">
+              Productos más vistos
+            </Text>
             <ProductCarousel history={history} products={productsByView} />
           </Container>
         )}
