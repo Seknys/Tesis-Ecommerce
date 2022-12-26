@@ -9,8 +9,10 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Center, Container, Text } from "native-base";
 import { columns } from "./componets/tableData";
 import filterFactory from "react-bootstrap-table2-filter";
+import { useTranslation } from "react-i18next";
 export const ManageAnalystUsers = () => {
   const [users, setUsers] = useState<Iuser[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getUserByRoleSnapshot = (snapshot: DocumentData) => {
@@ -24,9 +26,9 @@ export const ManageAnalystUsers = () => {
   }, []);
 
   return (
-    <Center>
+    <Center >
       <Text fontSize="3xl" color="black">
-        MANAGE USERS
+        {t("admin_manage_user")} 
       </Text>
       <Container width={1000} height={"400"} paddingTop={50}>
         <BootsrapTable

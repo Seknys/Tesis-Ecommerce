@@ -94,9 +94,9 @@ export default function ProductDisplay() {
             {/* <Text fontSize="2xl" color="white">
               {product?.name.toUpperCase()}
             </Text> */}
-            <Text fontSize="sm">Description</Text>
+            <Text fontSize="sm">{t("product_desc")}</Text>
             <Text fontSize="2xl">{product?.desc}</Text>
-            <Text fontSize="sm">Price</Text>
+            <Text fontSize="sm">{t("product_price")}</Text>
             <Text fontSize="2xl">${product?.price}</Text>
             <Text fontSize="sm">Stock</Text>
             <Text fontSize="2xl">{product?.stock}</Text>
@@ -112,12 +112,12 @@ export default function ProductDisplay() {
                 <Text>{t("add_cart")}</Text>
               </Button>
             ) : (
-              <Text>{t("no_stock")}</Text>
+              <Text>{t("no_stock")} stock</Text>
             )}
             {product && product.feat && (
               <Box>
                 <Text fontSize="sm" color="black">
-                  {t("menu_about")}
+                  {t("product_about")}
                 </Text>
 
                 {product.feat.map((feat, index) => (
@@ -204,7 +204,7 @@ export default function ProductDisplay() {
           <InputComent productUid={product?.uid} />
         ) : (
           <Text fontSize={"xl"} my="15px">
-            Para comentar debes iniciar sesion
+            {t("coments_noUser")}
           </Text>
         )}
 

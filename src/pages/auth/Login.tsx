@@ -65,7 +65,7 @@ export default function Login({ history }: any) {
           let errorMessage = "";
           switch (errorCode) {
             case "auth/invalid-email":
-              errorMessage = t("auth_invalid_email");
+              errorMessage = t("auth_login_error");
               break;
             case "auth/user-disabled":
               errorMessage = t("auth_user_disabled");
@@ -74,7 +74,7 @@ export default function Login({ history }: any) {
               errorMessage = t("auth_user_not_found");
               break;
             case "auth/wrong-password":
-              errorMessage = t("auth_wrong_password");
+              errorMessage = t("auth_login_error");
               break;
             default:
               errorMessage = t("auth_unknown_error");

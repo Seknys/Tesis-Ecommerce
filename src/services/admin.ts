@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   onSnapshot,
@@ -8,8 +9,9 @@ import {
   where,
 } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../firebase/configFirebase";
+import { auth, db, storage } from "../firebase/configFirebase";
 import { Iproducts } from "../interfaces/interface";
+
 
 const productRef = collection(db, "products");
 const userRef = collection(db, "users");
@@ -41,3 +43,9 @@ export const getProductsByViews = (
   const q = query(productRef, where("views", ">", 25));
   return onSnapshot(q, fSnapshot);
 };
+
+export const deleteUserByUid = (uid: string) => {
+  return deleteDoc(doc(userRef, uid));
+};
+
+

@@ -4,10 +4,11 @@ import { MenuItem } from "./MenuItem";
 import { getCartProductsByUser } from "../../services/products";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
-import { Box, HStack, Text } from "native-base";
+import { Box, Button, HStack, Text } from "native-base";
 import { useTranslation } from "react-i18next";
 import { IconContext } from "react-icons";
 import { MdDeleteForever } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const variants = {
   open: {
@@ -25,7 +26,12 @@ export const Navigation = () => {
 
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
-      setCartProducts(products);
+      if (products.length > 10) {
+        products = products.slice(0, 10);
+        setCartProducts(products);
+      } else {
+        setCartProducts(products);
+      }
     };
 
     if (user) {
@@ -37,14 +43,22 @@ export const Navigation = () => {
 
   return (
     <motion.ul variants={variants}>
-      {cartProducts &&
+      {cartProducts && (
         // itemIds.map((i) => <MenuItem i={i} key={i} />)
-        cartProducts.map((product, index) => (
-          < >
-            <MenuItem key={product.uid} i={index} product={product} />
+        <>
+          {cartProducts.map((product, index) => (
+            <>
+              <MenuItem key={product.uid} i={index} product={product} />
+            </>
+          ))}
 
-          </>
-        ))}
+          <Link to="/cart/details" style={{ textDecoration: "none" }}>
+            <Button bg="amber.400">
+              <Text color="white">{t("cart_details")}</Text>
+            </Button>
+          </Link>
+        </>
+      )}
       {cartProducts === null && (
         <Box>
           <Text fontSize={"2xl"} color="white">

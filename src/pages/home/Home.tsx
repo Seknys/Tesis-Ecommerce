@@ -33,6 +33,11 @@ export default function HomePage({ history }: any) {
   useEffect(() => {
     const getProductsByViewsSnapshot = (snapshot: DocumentData) => {
       const productsData = snapshot.docs.map((doc: DocumentData) => doc.data());
+      //set just 10 products
+      if (productsData.length > 10) {
+        productsData.length = 10;
+      }
+
       setProductsByView(productsData);
       console.log("productsData: ", productsData);
     };
@@ -110,7 +115,7 @@ export default function HomePage({ history }: any) {
         </Container>
         <Text>CAROUSEL</Text>
         {productsByView.length > 4 && (
-          <Container bg="gray.200" alignItems="center">
+          <Container alignItems="center">
             <Text>Productos más vistos</Text>
             <ProductCarousel history={history} products={productsByView} />
           </Container>

@@ -58,7 +58,7 @@ export const ResetPasswordByEmail = ({
       })
       .catch((err) => {
         console.log("reset error", err);
-        ErrorToast(t("reset_error"));
+        ErrorToast(t("auth_unknown_error"));
       });
   };
 

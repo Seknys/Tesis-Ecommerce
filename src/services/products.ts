@@ -130,3 +130,7 @@ export const updateAddedToCart = async (uid: string, addedToCart: number) => {
     console.log("addedToCart updated");
   });
 };
+
+export const deleteProductFromCart = (uid: string, productUid: string) => {
+  return deleteDoc(doc(db, "users", uid, "cart", productUid));
+};

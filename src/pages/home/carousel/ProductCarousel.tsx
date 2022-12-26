@@ -3,7 +3,7 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Box, Pressable, Text, Image } from "native-base";
+import { Box, Pressable, Text, Image, useMediaQuery } from "native-base";
 import { Iproducts } from "../../../interfaces/interface";
 import { CardProduct } from "../componets/CardProduct";
 import { updateViews } from "../../../services/products";
@@ -15,6 +15,31 @@ interface ICarouselProps {
 }
 
 export const ProductCarousel = ({ products, history }: ICarouselProps) => {
+  const [isSmallScreen] = useMediaQuery({
+    minWidth: 10,
+    maxWidth: 480,
+  });
+
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 481,
+    maxWidth: 768,
+  });
+
+  const [isLargeScreen] = useMediaQuery({
+    minWidth: 769,
+    maxWidth: 1024,
+  });
+
+  const [isExtraLargeScreen] = useMediaQuery({
+    minWidth: 1025,
+    maxWidth: 1280,
+  });
+
+  console.log("isSmallScreen", isSmallScreen);
+  console.log("isMediumScreen", isMediumScreen);
+  console.log("isLargeScreen", isLargeScreen);
+  console.log("isExtraLargeScreen", isExtraLargeScreen);
+
   var settings = {
     accessibility: true,
     arrows: true,
@@ -28,23 +53,22 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     adaptativeHeight: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1395,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1000,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 660,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -59,26 +83,10 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     <Box w="90%">
       <Slider {...settings}>
         {products.map((product, index) => (
-          <Box key={product.uid}>
-            {/* <CardProduct
-              key={product.uid}
-              product={product}
-              handleOnPress={async () => {
-                console.log("VIew");
-
-                await updateViews(product.uid, product.views)
-                  .then(() => {
-                    console.log("Views updated");
-                    history.push(`/product/${product.uid}`);
-                  })
-                  .catch((error) => {
-                    console.log("ViewsError", error);
-                  });
-              }}
-            /> */}
+          <Box key={product.uid} py='25'>
             <Pressable
               w="220"
-              shadow={7}
+              shadow={8}
               borderRadius={15}
               onPress={async () => {
                 console.log("VIew");

@@ -14,6 +14,8 @@ import { HomeAnalyst } from "../analyst/pages/home/HomeAnalyst";
 import MainHeader from "../components/MainHeader";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import { CartDisplay } from "../pages/cart/CartDisplay";
+
 import HomePage from "../pages/home/Home";
 import MainHome from "../pages/home/MainHome";
 import ProductDisplay from "../pages/home/ProductDisplay";
@@ -37,6 +39,7 @@ export const RoutesClient = () => (
           <Route path="/category/:id" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
+          <Route path="/cart/details" component={CartDisplay} />
         </Box>
       </Switch>
     </Router>

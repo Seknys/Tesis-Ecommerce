@@ -1,14 +1,16 @@
 import { Box, Button, Text } from "native-base";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+import { useTranslation } from "react-i18next";
 
 const headerText = (column: any) => {
   return (
-    <Text bold color="#DCD2BE" fontSize="18px">
+    <Text bold color="white" fontSize="18px">
       {column.text}
     </Text>
   );
 };
-const buttonsTable = (cell: any, row: any, rowIndex: any) => {
+const ButtonsTable = (cell: any, row: any, rowIndex: any) => {
+  //const { t } = useTranslation();
   return (
     <Box>
       <Button
@@ -16,15 +18,15 @@ const buttonsTable = (cell: any, row: any, rowIndex: any) => {
         alignSelf={"center"}
         w="70%"
         _hover={{ bg: "danger.700" }}
-        bg={"danger.800"}
+        bg={"danger.600"}
         // leftIcon={<FontAwesomeIcon icon={faXmark} color="black" />}
-        // onPress={() => onDelete(row)}
+        onPress={() => console.log("Row", row)}
       >
-        <Text color="#DCD2BE" bold fontSize="15px">
-          Eliminar
+        <Text color="white" bold fontSize="15px">
+          Delete
         </Text>
       </Button>
-      <Button
+      {/* <Button
         w="70%"
         alignSelf={"center"}
         bg="#272126"
@@ -34,20 +36,26 @@ const buttonsTable = (cell: any, row: any, rowIndex: any) => {
         <Text color="#DCD2BE" bold fontSize="15px">
           Editar
         </Text>
-      </Button>
+      </Button> */}
     </Box>
   );
 };
+
 export const columns = [
   {
     //name
     dataField: "name",
-    text: "Nombre",
+    text: "Name",
     sort: true,
     headerAlign: "center",
+    align: "center",
     headerStyle: {
       backgroundColor: "#806b53",
     },
+    // style: {
+    //   backgroundColor: "#81c7",
+    // },
+
     filter: textFilter({
       placeholder: "Buscar",
     }),
@@ -56,7 +64,8 @@ export const columns = [
   {
     //lastname
     dataField: "lastName",
-    text: "Apellido",
+    text: "Last Name",
+    align: "center",
     sort: true,
     headerAlign: "center",
     headerStyle: {
@@ -73,6 +82,7 @@ export const columns = [
     text: "Email",
     sort: true,
     headerAlign: "center",
+    align: "center",
     headerStyle: {
       backgroundColor: "#806b53",
     },
@@ -87,6 +97,7 @@ export const columns = [
     text: "Rol",
     sort: true,
     headerAlign: "center",
+    align: "center",
     headerStyle: {
       backgroundColor: "#806b53",
     },
@@ -98,8 +109,9 @@ export const columns = [
   {
     dataField: "actions",
     text: "Acciones",
-    formatter: buttonsTable,
+    formatter: ButtonsTable,
     headerAlign: "center",
+    align: "center",
     headerStyle: {
       backgroundColor: "#806b53",
     },

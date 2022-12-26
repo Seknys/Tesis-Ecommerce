@@ -1,4 +1,12 @@
-import { Box, Button, HStack, Pressable, Text, Image } from "native-base";
+import {
+  Box,
+  Button,
+  HStack,
+  Pressable,
+  Text,
+  Image,
+  useMediaQuery,
+} from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import radioButton from "react-useanimations/lib/radioButton";
@@ -25,7 +33,10 @@ export default function MainHeader({ history }: any) {
   const [checked, setChecked] = useState(false);
 
   const { user } = useContext(UserContext);
-
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 10,
+    maxWidth: 768,
+  });
   useEffect(() => {
     // console.log("User", user);
   }, []);
@@ -120,13 +131,15 @@ export default function MainHeader({ history }: any) {
             )}
           </Box>
 
-          {user?.role === "admin" || user?.role == "analyst" ? null : (
-            <Box>
-              <div style={{ zIndex: 30, width: "100%" }}>
-                <MenuSideIcon />
-              </div>
-            </Box>
-          )}
+          {user?.role === "admin" || user?.role == "analyst"
+            ? null
+            : !isMediumScreen && (
+                <Box>
+                  <div style={{ zIndex: 30, width: "100%" }}>
+                    <MenuSideIcon />
+                  </div>
+                </Box>
+              )}
         </HStack>
       </HStack>
     </div>
