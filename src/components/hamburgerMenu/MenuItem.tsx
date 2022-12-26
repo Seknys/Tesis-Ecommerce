@@ -7,6 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 
 const variants = {
   open: {
@@ -34,9 +35,9 @@ interface IPropsMenuItem {
 
 export const MenuItem = ({ i, product }: IPropsMenuItem) => {
   const style = { border: `2px solid ${colors[i]}` };
-
+  console.log("name: ", product?.name, "length: ", product?.name.length);
   if (product) {
-    if (product.name.length > 15) {
+    if (product.name.length > 13) {
       product.name = `${product.name.substring(0, 10)}... `;
     }
   }
@@ -44,7 +45,7 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
   return (
     <motion.li
       variants={variants}
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.95 }}
     >
       {/* <div className="icon-placeholder" style={style} />
@@ -73,35 +74,44 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
               <MdDeleteForever />
             </IconContext.Provider>
           </Pressable>
-          <Avatar
-            borderColor={colors[i]}
-            borderWidth="3"
-            source={{
-              uri: product?.img[0],
+          <Link
+            to={`/product/${product?.productUid}`}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "row",
             }}
-            size="lg"
-          />
-
-          <HStack
-            ml="3"
-            px="3"
-            py="1"
-            borderColor={colors[i]}
-            borderWidth="3"
-            borderRadius={35}
           >
-            <Box>
-              <Text color="white" bold>
-                {product?.name}
-              </Text>
-              <Text color="white">{product?.category}</Text>
-              {/* <Text color="white">{product?.quantity}</Text> */}
-            </Box>
+            <Avatar
+              borderColor={colors[i]}
+              borderWidth="3"
+              source={{
+                uri: product?.img[0],
+              }}
+              size="lg"
+            />
 
-            <Text color="white" bold>
-              ${product?.price}
-            </Text>
-          </HStack>
+            <HStack
+              ml="3"
+              px="3"
+              py="1"
+              borderColor={colors[i]}
+              borderWidth="3"
+              borderRadius={35}
+            >
+              <Box>
+                <Text color="white" bold>
+                  {product?.name}
+                </Text>
+                <Text color="white">{product?.category}</Text>
+                {/* <Text color="white">{product?.quantity}</Text> */}
+              </Box>
+
+              <Text color="white" bold>
+                ${product?.price}
+              </Text>
+            </HStack>
+          </Link>
         </HStack>
       </Pressable>
     </motion.li>

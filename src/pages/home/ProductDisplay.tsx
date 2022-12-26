@@ -59,6 +59,7 @@ export default function ProductDisplay() {
   const addToCart = () => {
     if (user && product) {
       product["quantity"] = count;
+      product["productUid"] = product.uid;
       // console.log("add to cart", user.uid);
       // console.log("Count", count);
       addProductToCart(user.uid, product);

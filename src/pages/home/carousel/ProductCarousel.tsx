@@ -35,10 +35,10 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     maxWidth: 1280,
   });
 
-  console.log("isSmallScreen", isSmallScreen);
-  console.log("isMediumScreen", isMediumScreen);
-  console.log("isLargeScreen", isLargeScreen);
-  console.log("isExtraLargeScreen", isExtraLargeScreen);
+  // console.log("isSmallScreen", isSmallScreen);
+  // console.log("isMediumScreen", isMediumScreen);
+  // console.log("isLargeScreen", isLargeScreen);
+  // console.log("isExtraLargeScreen", isExtraLargeScreen);
 
   var settings = {
     accessibility: true,
@@ -144,3 +144,8 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     </Box>
   );
 };
+
+
+export const ImageSyncCarousel = () => {
+  
+}
