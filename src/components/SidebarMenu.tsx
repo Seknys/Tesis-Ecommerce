@@ -25,6 +25,8 @@ interface IProps {
   dataAdmin?: any;
   callBackParent?: any;
   returnCategories?: any;
+  isProduct?: boolean;
+  historyProduct?: any;
 }
 
 //const [sideValue, setSideValue] = useState<string | null>(null);
@@ -37,6 +39,8 @@ export default function SideBarMenu({
   dataAdmin,
   callBackParent,
   returnCategories,
+  isProduct,
+  historyProduct,
 }: IProps) {
   // const [expanded, setExpanded] = useState<string | false>(false);
   const [categories, setCategories] = useState<Icategories[]>([]);
@@ -70,6 +74,8 @@ export default function SideBarMenu({
             i={index}
             expanded={expanded}
             setExpanded={setExpanded}
+            isProduct={isProduct}
+            historyProduct={historyProduct}
             category={category}
             callBackParent={callBackParent}
           />
@@ -87,14 +93,18 @@ interface IPropsA {
   setExpanded: any;
   category?: Icategories;
   callBackParent?: any;
+  isProduct?: boolean;
+  historyProduct?: any;
 }
 
 const Accordion = ({
   i,
+  isProduct,
   expanded,
   setExpanded,
   category,
   callBackParent,
+  historyProduct,
 }: IPropsA) => {
   const isOpen = i === expanded;
 
@@ -128,6 +138,11 @@ const Accordion = ({
             {/* <ContentPlaceholder /> */}
             <Pressable
               onPress={() => {
+                if (isProduct) {
+                  console.log("isProduct", isProduct);
+                  historyProduct.push(`/category/${category?.uid}`);
+                  return;
+                }
                 if (category) {
                   callBackParent(category);
                 }

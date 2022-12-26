@@ -21,10 +21,11 @@ import {
   getProductByUid,
   updateAddedToCart,
 } from "../../services/products";
+import { ImageSyncCarousel } from "./carousel/ProductCarousel";
 import { ComentsView } from "./componets/ComentsView";
 import { InputComent } from "./componets/InputComent";
 
-export default function ProductDisplay() {
+export default function ProductDisplay({ history }: { history: any }) {
   const { t } = useTranslation();
   const { uid } = useParams<{ uid: string }>();
   const [product, setProduct] = useState<Iproducts>();
@@ -69,7 +70,7 @@ export default function ProductDisplay() {
 
   return (
     <Box>
-      <SideBarMenu>
+      <SideBarMenu isProduct historyProduct={history}>
         <Center>
           <Container>
             <Text fontSize="3xl" bold>
@@ -79,17 +80,7 @@ export default function ProductDisplay() {
         </Center>
         <HStack flexDirection="row" w="100%">
           <Box flex={3}>
-            <Image
-              source={{
-                uri: product?.img[0],
-              }}
-              // alt={productName.current}
-              alt={product?.name}
-              w="380"
-              h="320"
-              resizeMode="contain"
-              alignSelf="center"
-            />
+            <ImageSyncCarousel product={product} />
           </Box>
           <Box w="100%" flex={4} pl="3%">
             {/* <Text fontSize="2xl" color="white">
@@ -195,7 +186,7 @@ export default function ProductDisplay() {
         </HStack>
       </SideBarMenu>
 
-      <Center w="100%">
+      <Center w="100%" mt="100">
         <Box>
           <Text fontSize={"2xl"} bold>
             {t("comments")}

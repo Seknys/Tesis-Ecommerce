@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -83,7 +83,7 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
     <Box w="90%">
       <Slider {...settings}>
         {products.map((product, index) => (
-          <Box key={product.uid} py='25'>
+          <Box key={product.uid} py="25">
             <Pressable
               w="220"
               shadow={8}
@@ -145,7 +145,136 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
   );
 };
 
-
-export const ImageSyncCarousel = () => {
-  
+interface IImageSyncCarouselProps {
+  product: Iproducts | undefined;
 }
+
+export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
+  const [nav1, setNav1] = useState();
+  const [nav2, setNav2] = useState();
+  var settings1 = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    infinite: true,
+    arrows: false,
+    speed: 500,
+    fade: true,
+    asNavFor: nav2,
+    ref: (slider: any) => setNav1(slider),
+  };
+  var settings2 = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    speed: 500,
+    infinite: true,
+    asNavFor: nav1,
+    ref: (slider: any) => setNav2(slider),
+    dots: true,
+    centerMode: true,
+    focusOnSelect: true,
+  };
+  // return (
+  //   <Box w="90%">
+  //     <Slider {...settings1}>
+  //       <Box>
+  //         <Image
+
+  //           source={{
+  //             uri: Images[0],
+  //           }}
+  //           fallbackSource={{
+  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
+  //           }}
+  //           alt="Image"
+  //           w="100%"
+  //           h="100%"
+  //           resizeMode="cover"
+  //         />
+  //       </Box>
+  //       <Box>
+  //         <Image
+
+  //           source={{
+  //             uri: Images[1],
+  //           }}
+  //           fallbackSource={{
+  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
+  //           }}
+  //           alt="Image"
+  //           w="100%"
+  //           h="100%"
+  //           resizeMode="cover"
+  //         />
+  //       </Box>
+  //       </Slider>
+  //       <Slider {...settings2}>
+  //       <Box>
+  //         <Image
+
+  //           source={{
+  //             uri: Images[0],
+  //           }}
+  //           fallbackSource={{
+  //             uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FFallbackImg.jpg?alt=media&token
+  //           }}
+  //           alt="Image"
+  //           w="100%"
+  //           h="100%"
+  //           resizeMode="cover"
+  //         />
+  //       </Box>
+  //       </Slider>
+  //   </Box>
+  // );
+
+  return (
+    <Box
+      py="15" //bg="amber.500"
+    >
+      {/* <h2>Slider Syncing (AsNavFor)</h2>
+      <h4>First Slider</h4> */}
+      <Slider
+        // asNavFor={nav2} ref={(slider: any) => setNav1(slider)}
+        {...settings1}
+      >
+        {product?.img.map((img, index) => (
+          <Image
+            shadow={8}
+            rounded={"lg"}
+            // bg="red.300"
+            mb="25"
+            source={{
+              uri: img,
+            }}
+            // alt={productName.current}
+            alt={product?.name}
+            w="380"
+            h="320"
+            // w="180"
+            // h="120"
+            resizeMode="contain"
+            alignSelf="center"
+          />
+        ))}
+      </Slider>
+
+      <Slider {...settings2}>
+        {product?.img.map((img, index) => (
+          <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
+            <Image
+              source={{
+                uri: img,
+              }}
+              // alt={productName.current}
+              alt={product?.name}
+              w="80"
+              h="60"
+              resizeMode="contain"
+              alignSelf="center"
+            />
+          </motion.div>
+        ))}
+      </Slider>
+    </Box>
+  );
+};
