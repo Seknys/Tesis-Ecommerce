@@ -10,6 +10,8 @@ import { Box, HStack, Text, Image, Center } from "native-base";
 import ReactApexChart from "react-apexcharts";
 import { Rating } from "@mui/material";
 import "./style.css";
+import { useTranslation } from "react-i18next";
+import { MB } from "../../../components/MyComponents";
 
 export const AnalysisxProduct = () => {
   const { uid } = useParams<{ uid: string }>();
@@ -17,7 +19,7 @@ export const AnalysisxProduct = () => {
   const [pieValues, setPieValues] = useState<any>([]);
   const [comments, setComments] = useState<IComments[]>([]);
   const [average, setAverage] = useState(0);
-
+  const { t } = useTranslation();
   const roundHalf = (num: number) => {
     return Math.round(num * 2) / 2;
   };
@@ -25,7 +27,20 @@ export const AnalysisxProduct = () => {
   useEffect(() => {
     const getProductSnapshot = (snapshot: DocumentData) => {
       let pieValuesAux = [];
-      setProduct(snapshot.data());
+      let productsAux = { ...snapshot.data() };
+
+      const createdAtS = snapshot.data().createdAt;
+      const updatedAtS = snapshot.data().updatedAt;
+
+      productsAux.createdAt = new Date(
+        createdAtS.seconds * 1000
+      ).toLocaleString();
+
+      productsAux.updatedAt = new Date(
+        updatedAtS.seconds * 1000
+      ).toLocaleString();
+
+      setProduct(productsAux);
       pieValuesAux.push(snapshot.data().views);
       pieValuesAux.push(snapshot.data().addedToCart);
       pieValuesAux.push(snapshot.data().removeToCart);
@@ -99,10 +114,17 @@ export const AnalysisxProduct = () => {
           {product?.name}
         </Text>
       </Center>
+      <Text fontSize={"xl"} ml="5%">
+        {t("analyst_createdAt")} <MB>{product?.createdAt}</MB>
+      </Text>
+      <Text fontSize={"xl"} ml="5%">
+        {t("analyst_updatedAt")} <MB>{product?.updatedAt}</MB>
+      </Text>
 
       <HStack mt="25px">
         <Box flex={4}>
           <Image
+            shadow={9}
             source={{
               uri: product?.img[0],
             }}
@@ -113,12 +135,13 @@ export const AnalysisxProduct = () => {
             alignSelf="center"
           />
         </Box>
-        <Box w="100%" flex={4} pl="3%">
+        <Box flex={4} pl="3%">
           <ReactApexChart
             options={pie.options}
             series={pie.series}
             type="donut"
             width={480}
+            className="pie-Charts"
           />
         </Box>
       </HStack>
@@ -128,12 +151,12 @@ export const AnalysisxProduct = () => {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        <div className="spakBox1">
+        <div className="spakBox1 desc-container">
           <Text color="white" bold fontSize={"2xl"}>
             Numero de visitas: {product?.views}
           </Text>
         </div>
-        <div className="spakBox2">
+        <div className="spakBox2 desc-container">
           <HStack alignItems={"center"}>
             <Text color="white" bold fontSize={"2xl"}>
               Rating Promedio: {average}
@@ -146,7 +169,7 @@ export const AnalysisxProduct = () => {
             />
           </HStack>
         </div>
-        <div className="spakBox3">
+        <div className="spakBox3 desc-container">
           <Text color="white" bold fontSize={"2xl"}>
             Interacciones Totales:{" "}
             {product &&
@@ -156,7 +179,7 @@ export const AnalysisxProduct = () => {
                 product.buy}
           </Text>
         </div>
-        <div className="spakBox4">
+        <div className="spakBox4 desc-container">
           <Text color="white" bold fontSize={"2xl"}>
             Interacciones con el carrito:{" "}
             {product && product.addedToCart + product.removeToCart}

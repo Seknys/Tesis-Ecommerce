@@ -10,6 +10,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -68,6 +69,7 @@ export const addProduct = (product: Iproducts) => {
 export const updateProduct = (uid: string, product: Iproducts) => {
   return updateDoc(doc(db, "products", uid), {
     ...product,
+    updatedAt: Timestamp.fromDate(new Date()),
   });
 };
 //Unused

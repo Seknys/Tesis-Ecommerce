@@ -1,4 +1,4 @@
-import { HStack, Box, Text, Avatar } from "native-base";
+import { HStack, Box, Text, Avatar, Divider } from "native-base";
 import React, { useContext } from "react";
 import { IComments } from "../../../interfaces/interface";
 import { styled } from "@mui/material/styles";
@@ -47,6 +47,7 @@ export const ComentsView = ({ comment, index }: ComentsProps) => {
         </HStack>
       </Box>
       <RatingCustomView rating={comment.rating} isReadOnly={true} />
+      <Divider mt="15" thickness={3} rounded="full" />
       <Box>
         <Text my="15" fontSize={"xl"}>
           {comment.message}

@@ -8,9 +8,11 @@ import {
   HStack,
   Button,
   Input,
+  Pressable,
 } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IconContext } from "react-icons";
 import { useLocation, useParams } from "react-router-dom";
 import SideBarMenu from "../../components/SidebarMenu";
 import UserContext from "../../contexts/userContext";
@@ -24,6 +26,22 @@ import {
 import { ImageSyncCarousel } from "./carousel/ProductCarousel";
 import { ComentsView } from "./componets/ComentsView";
 import { InputComent } from "./componets/InputComent";
+import { TbFileDescription } from "react-icons/tb";
+import { FaRegHeart } from "react-icons/fa";
+import {
+  AiFillMinusCircle,
+  AiFillPlusCircle,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+import { BsFillHeartFill } from "react-icons/bs";
+import { ImPriceTags } from "react-icons/im";
+import { FaBoxes } from "react-icons/fa";
+import {
+  VscDebugBreakpointData,
+  VscDebugBreakpointDataUnverified,
+} from "react-icons/vsc";
+import "./style.css";
+import { SuccesToast, ToastC } from "../../components/Toast";
 
 export default function ProductDisplay({ history }: { history: any }) {
   const { t } = useTranslation();
@@ -39,6 +57,7 @@ export default function ProductDisplay({ history }: { history: any }) {
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
+      console.log("snapshot", snapshot.data());
       setProduct(snapshot.data());
     };
     getProductByUid(uid, getProductSnapshot);
@@ -62,16 +81,21 @@ export default function ProductDisplay({ history }: { history: any }) {
       product["quantity"] = count;
       product["productUid"] = product.uid;
       // console.log("add to cart", user.uid);
-      // console.log("Count", count);
-      addProductToCart(user.uid, product);
+      console.log("ADD TO CART: ", product);
+      addProductToCart(user.uid, product).then(() => {
+        console.log("added to cart");
+        SuccesToast(t("cart_added"));
+      });
+
       updateAddedToCart(product.uid, product?.addedToCart);
     }
   };
 
   return (
     <Box>
+      <ToastC />
       <SideBarMenu isProduct historyProduct={history}>
-        <Center>
+        <Center my="15">
           <Container>
             <Text fontSize="3xl" bold>
               {product?.name}
@@ -79,47 +103,97 @@ export default function ProductDisplay({ history }: { history: any }) {
           </Container>
         </Center>
         <HStack flexDirection="row" w="100%">
-          <Box flex={3}>
+          <Box flex={3} shadow={9} borderRadius={5}>
             <ImageSyncCarousel product={product} />
           </Box>
           <Box w="100%" flex={4} pl="3%">
             {/* <Text fontSize="2xl" color="white">
               {product?.name.toUpperCase()}
             </Text> */}
-            <Text fontSize="sm">{t("product_desc")}</Text>
-            <Text fontSize="2xl">{product?.desc}</Text>
-            <Text fontSize="sm">{t("product_price")}</Text>
-            <Text fontSize="2xl">${product?.price}</Text>
-            <Text fontSize="sm">Stock</Text>
-            <Text fontSize="2xl">{product?.stock}</Text>
-
-            {product && product.stock > 0 && user ? (
-              <Button
-                bg="primary"
-                w="25%"
-                onPress={() => {
-                  addToCart();
+            <HStack alignItems={"center"}>
+              <IconContext.Provider
+                value={{
+                  color: "black",
+                  size: "20px",
+                  style: { marginRight: "5px" },
                 }}
               >
-                <Text>{t("add_cart")}</Text>
-              </Button>
+                <TbFileDescription />
+              </IconContext.Provider>
+
+              <Text fontSize="sm">{t("product_desc")}</Text>
+            </HStack>
+            <Text fontSize="2xl">{product?.desc}</Text>
+            <HStack alignItems={"center"}>
+              <IconContext.Provider
+                value={{
+                  color: "black",
+                  size: "20px",
+                  style: { marginRight: "5px" },
+                }}
+              >
+                <ImPriceTags />
+              </IconContext.Provider>
+
+              <Text fontSize="sm">{t("product_price")}: </Text>
+              <Text fontSize="2xl">${product?.price}</Text>
+            </HStack>
+            <HStack alignItems={"center"} mb="15">
+              <IconContext.Provider
+                value={{
+                  color: "black",
+                  size: "20px",
+                  style: { marginRight: "5px" },
+                }}
+              >
+                <FaBoxes />
+              </IconContext.Provider>
+
+              <Text fontSize="sm">Stock: </Text>
+              <Text fontSize="2xl">{product?.stock}</Text>
+            </HStack>
+
+            {user ? (
+              product && product.stock > 0 ? (
+                <button
+                  // bg="primary"
+                  // w="25%"
+                  className="btn-addCart"
+                  onClick={() => {
+                    addToCart();
+                  }}
+                >
+                  <Text fontSize={"18px"} color="black">
+                    {t("add_cart")}
+                  </Text>
+                  <AiOutlineShoppingCart className="icon-cart" />
+                </button>
+              ) : (
+                <Text>{t("no_stock")} stock</Text>
+              )
             ) : (
-              <Text>{t("no_stock")} stock</Text>
+              <Text fontSize={"18px"} color="black">
+                {t("cart_noUser")}
+              </Text>
             )}
+
             {product && product.feat && (
               <Box>
-                <Text fontSize="sm" color="black">
+                <Text mt="15" mb="2" fontSize="sm" color="black">
                   {t("product_about")}
                 </Text>
 
                 {product.feat.map((feat, index) => (
-                  <Text fontSize="2xl" color="black" key={index}>
-                    *{feat}
-                  </Text>
+                  <HStack alignItems={"center"} mb="15" pl="3">
+                    <VscDebugBreakpointData />
+                    <Text fontSize="xl" color="black" key={index}>
+                      {feat}
+                    </Text>
+                  </HStack>
                 ))}
               </Box>
             )}
-            <HStack>
+            <HStack alignItems={"center"}>
               <Input
                 isDisabled
                 _disabled={{
@@ -127,59 +201,40 @@ export default function ProductDisplay({ history }: { history: any }) {
                   color: "Black",
                   fontSize: "2xl",
                   fontWeight: "bold",
+                  textAlign: "center",
                 }}
                 type="number"
                 value={count.toString()}
                 onChangeText={(text) => setCount(parseInt(text))}
                 color="white"
                 fontSize="2xl"
-                // _text={{
-                //   color: "white",
-                //   fontSize: "2xl",
-                //   fontWeight: "bold",
-                // }}
-                w="25%"
+                w="75px"
               />
               {product && count < product?.stock && (
-                <Button
-                  bg="primary"
-                  w="25%"
+                <Pressable
+                  // bg="primary"
+                  // w="25%"
+                  ml="15px"
                   onPress={() => {
                     setCount(count + 1);
                   }}
                 >
-                  <Text bold fontSize={"2xl"}>
-                    +
-                  </Text>
-                </Button>
+                  <AiFillPlusCircle className="icon-minusCircle" />
+                </Pressable>
               )}
 
-              {count <= 1 ? (
-                <Button
-                  bg="primary"
-                  w="25%"
+              {count <= 1 ? null : (
+                <Pressable
+                  ml="15px"
+                  // bg="primary"
+                  // w="25%"
                   // disabled={count <= 1}
                   onPress={() => {
                     setCount(count - 1);
                   }}
                 >
-                  <Text bold fontSize={"2xl"}>
-                    Delete
-                  </Text>
-                </Button>
-              ) : (
-                <Button
-                  bg="primary"
-                  w="25%"
-                  // disabled={count <= 1}
-                  onPress={() => {
-                    setCount(count - 1);
-                  }}
-                >
-                  <Text bold fontSize={"2xl"}>
-                    -
-                  </Text>
-                </Button>
+                  <AiFillMinusCircle className="icon-minusCircle" />
+                </Pressable>
               )}
             </HStack>
           </Box>

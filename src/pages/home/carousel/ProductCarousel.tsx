@@ -8,6 +8,8 @@ import { Iproducts } from "../../../interfaces/interface";
 import { CardProduct } from "../componets/CardProduct";
 import { updateViews } from "../../../services/products";
 import { motion } from "framer-motion";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 interface ICarouselProps {
   products: Iproducts[];
@@ -53,13 +55,13 @@ function SamplePrevArrow(props: any) {
 export const ProductCarousel = ({ products, history }: ICarouselProps) => {
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
-    maxWidth: 480,
-  });
-
-  const [isMediumScreen] = useMediaQuery({
-    minWidth: 481,
     maxWidth: 768,
   });
+
+  // const [isMediumScreen] = useMediaQuery({
+  //   minWidth: 481,
+  //   maxWidth: 768,
+  // });
 
   const [isLargeScreen] = useMediaQuery({
     minWidth: 769,
@@ -73,10 +75,12 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
 
   var settings = {
     accessibility: true,
+    arrows: !isSmallScreen,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     autoplay: true,
     autoplaySpeed: 2500,
+    pauseOnHover: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
@@ -214,38 +218,57 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
   return (
     <Box py="15">
       <Slider {...settings1}>
-        {product?.img.map((img, index) => (
-          <Image
-            shadow={3}
-            rounded={"lg"}
-            mb="25"
-            source={{
-              uri: img,
-            }}
-            alt={`${product?.name}_${index}`}
-            w="380"
-            h="320"
-            resizeMode="contain"
-            alignSelf="center"
-          />
-        ))}
+        {product?.img.map((img, index) => {
+          return (
+            <Image
+              shadow={3}
+              rounded={"lg"}
+              mb="25"
+              source={{
+                uri: img,
+              }}
+              alt={`${product?.name}_${index}`}
+              w="380"
+              h="320"
+              resizeMode="contain"
+              alignSelf="center"
+            />
+            // <Zoom>
+
+            //   <img
+            //     alt={`${product?.name}_${index}`}
+            //     width="380"
+            //     height="320"
+            //     src={img}
+            //     style={{ objectFit: "contain" }}
+            //   />
+            // </Zoom>
+          );
+        })}
       </Slider>
 
       <Slider {...settings2}>
         {product?.img.map((img, index) => (
-          <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
-            <Image
-              source={{
-                uri: img,
-              }}
-              // alt={productName.current}
-              alt={product?.name}
-              w="80"
-              h="60"
-              resizeMode="contain"
-              alignSelf="center"
-            />
-          </motion.div>
+          <Box paddingLeft={10}>
+            <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
+              <Image
+                // borderColor={index === 0 ? "red.500" : "gray.200"}
+                // borderWidth={index === 0 ? 2 : 1}
+                borderColor={"gray.300"}
+                borderWidth={1}
+                rounded={"lg"}
+                source={{
+                  uri: img,
+                }}
+                // alt={productName.current}
+                alt={product?.name}
+                w="80"
+                h="60"
+                resizeMode="contain"
+                alignSelf="center"
+              />
+            </motion.div>
+          </Box>
         ))}
       </Slider>
     </Box>

@@ -6,12 +6,12 @@ import {
   onSnapshot,
   query,
   setDoc,
+  Timestamp,
   where,
 } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { auth, db, storage } from "../firebase/configFirebase";
 import { Iproducts } from "../interfaces/interface";
-
 
 const productRef = collection(db, "products");
 const userRef = collection(db, "users");
@@ -26,6 +26,8 @@ export const getUrlImage = async (pathImage: string) => {
 export const addProduct = (product: Iproducts) => {
   return setDoc(doc(productRef, product.uid), {
     ...product,
+    createdAt: Timestamp.fromDate(new Date()),
+    updatedAt: Timestamp.fromDate(new Date()),
   });
 };
 
@@ -47,5 +49,3 @@ export const getProductsByViews = (
 export const deleteUserByUid = (uid: string) => {
   return deleteDoc(doc(userRef, uid));
 };
-
-

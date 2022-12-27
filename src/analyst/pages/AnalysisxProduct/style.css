@@ -29,3 +29,10 @@
   margin: 10px;
   width: 300px;
 }
+
+.desc-container,
+.pie-Charts {
+  box-shadow: 9px 15px 26px -7px rgba(104, 41, 105, 0.85);
+  -webkit-box-shadow: 9px 15px 26px -7px rgba(104, 41, 105, 0.85);
+  -moz-box-shadow: 9px 15px 26px -7px rgba(104, 41, 105, 0.85);
+}

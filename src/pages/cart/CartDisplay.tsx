@@ -56,7 +56,6 @@ export const CartDisplay = ({ history }: any) => {
   return (
     <Center w="100%" mt="50px">
       <Text italic bold fontSize={"3xl"}>
-        {" "}
         {t("cart")}
       </Text>
       <HStack w="80%" my="50px">

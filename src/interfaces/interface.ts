@@ -28,6 +28,8 @@ export interface Iproducts {
   removeToCart: number;
   buy: number;
   productUid?: string;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface Iuser {

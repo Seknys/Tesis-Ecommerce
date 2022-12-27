@@ -82,6 +82,9 @@ export default function MainHome({ history }: any) {
     if (auxCategory) {
       getProductsByCategory(auxCategory.uid, getProductSnapshot);
     }
+    return () => {
+      setProducts([]);
+    };
   }, [auxCategory]);
 
   // const handleOnPressProduct = (product: Iproducts) => {
