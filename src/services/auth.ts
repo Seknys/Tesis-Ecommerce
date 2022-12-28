@@ -23,8 +23,18 @@ export const signInWithGoogle = () => {
       // The signed-in user info.
       const user = result.user;
 
-      // console.log("Token: ", token);
-      // console.log("User", user);
+      console.log("User Google", user);
+      SaveUserToFireBase(
+        user.uid,
+        user.displayName,
+        "",
+        user.email,
+        "client",
+        user.photoURL
+      ).then(() => {
+        console.log("User saved");
+      });
+
       // ...
     })
     .catch((error) => {
@@ -68,7 +78,9 @@ export const RegisterWithEmail = async (
       const user = userCredential.user;
       console.log("User logged in", user.uid);
       //Save user in database
-      SaveUserToFireBase(user.uid, name, lastName, email, role);
+      SaveUserToFireBase(user.uid, name, lastName, email, role).then(() => {
+        console.log("User saved");
+      });
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -78,12 +90,13 @@ export const RegisterWithEmail = async (
     });
 };
 
-const SaveUserToFireBase = async (
+export const SaveUserToFireBase = async (
   uid: string,
-  name: string,
-  lastName: string,
-  email: string,
-  role: string
+  name: string | null,
+  lastName: string | null,
+  email: string | null,
+  role: string,
+  image?: string | null
 ) => {
   // const userRef = ref(db, "users/" + uid);
   // set(userRef, {
@@ -94,12 +107,13 @@ const SaveUserToFireBase = async (
   //   console.log("User saved");
   // });
 
-  await setDoc(doc(db, "users", uid), {
-    name: name,
-    lastName: lastName,
-    email: email,
+  return await setDoc(doc(db, "users", uid), {
+    name: name ? name : "",
+    lastName: lastName ? lastName : "",
+    email: email ? email : "",
     uid: uid,
     role: role,
+    img: image ? image : "",
   });
 };
 

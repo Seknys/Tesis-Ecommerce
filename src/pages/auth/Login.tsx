@@ -13,7 +13,7 @@ import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { BsFillTelephoneFill } from "react-icons/bs";
+import { BsFillTelephoneFill, BsTwitter } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { BsGithub } from "react-icons/bs";
 import { signInWithGoogle, userLogin } from "../../services/auth";
@@ -23,6 +23,8 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
 import { ResetPasswordByEmail } from "./ResetPassword";
+import { singInWithGitHub } from "../../services/GitHub";
+import { singInWithTwitter } from "../../services/Twitter";
 
 export default function Login({ history }: any) {
   //Const
@@ -241,17 +243,17 @@ export default function Login({ history }: any) {
                 <FcGoogle />
               </IconContext.Provider>
             </Pressable>
-            <Box>
+            <Pressable onPress={singInWithTwitter}>
               <IconContext.Provider
                 value={{
                   size: "3em",
                   style: { alignSelf: "center" },
                 }}
               >
-                <BsFillTelephoneFill />
+                <BsTwitter />
               </IconContext.Provider>
-            </Box>
-            <Box>
+            </Pressable>
+            <Pressable onPress={singInWithGitHub}>
               <IconContext.Provider
                 value={{
                   size: "3em",
@@ -260,7 +262,7 @@ export default function Login({ history }: any) {
               >
                 <BsGithub />
               </IconContext.Provider>
-            </Box>
+            </Pressable>
           </HStack>
         </Box>
         {showModal && (

@@ -115,7 +115,10 @@ export const CartDisplay = ({ history }: any) => {
                           </IconContext.Provider>
                         </HStack>
                       </Box>
-                      <Box justifyContent={"space-between"}>
+                      <Box
+                        justifyContent={"space-between"}
+                        alignItems="flex-end"
+                      >
                         <Pressable
                           onPress={() => {
                             deletePCart(product.uid);
