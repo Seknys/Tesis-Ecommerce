@@ -10,6 +10,7 @@ import { Timestamp } from "firebase/firestore";
 import { RatingCustomView } from "./RatingView";
 import { IconContext } from "react-icons";
 import { BiSend } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 
 interface IInputComent {
   productUid: string | undefined;
@@ -18,6 +19,7 @@ export const InputComent = ({ productUid }: IInputComent) => {
   const [message, setMessage] = useState<string>("");
   const [rating, setRating] = useState<number>(1);
   const { user } = useContext(UserContext);
+  const { t } = useTranslation();
 
   const [focus, setFocus] = useState<boolean>(false);
   const submitComent = () => {
@@ -33,7 +35,7 @@ export const InputComent = ({ productUid }: IInputComent) => {
         message: message,
         rating: rating,
         date: Timestamp.fromDate(new Date()),
-        userImg: user.img ? user.img : "" ,
+        userImg: user.img ? user.img : "",
       };
       console.log("newComment:", newComment);
       addCommentToProduct(productUid, newComment)
@@ -107,7 +109,7 @@ export const InputComent = ({ productUid }: IInputComent) => {
       >
         <HStack alignItems={"center"}>
           <Text bold fontSize="md" color="white">
-            Enviar
+            {t("comment_send")}
           </Text>
           <IconContext.Provider
             value={{

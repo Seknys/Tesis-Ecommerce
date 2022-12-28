@@ -35,15 +35,16 @@ export interface Iproducts {
 export interface Iuser {
   uid: string;
   name: string;
-  email: string;
+  email?: string;
   lastName: string;
-  phone: string;
+  phone?: string;
   role?: string;
   img: string;
-  orders: string[];
-  cart: string[];
-  wish: string[];
-  date: Date;
+  orders?: string[];
+  cart?: string[];
+  wish?: string[];
+  date?: Date;
+  bio: string;
 }
 
 export interface IComments {

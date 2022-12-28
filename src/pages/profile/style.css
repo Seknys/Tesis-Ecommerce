@@ -1,0 +1,59 @@
+.spinner-logout > svg {
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  color: #cc689f;
+  /* background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%); */
+}
+
+.iconImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.iconImg:hover {
+  transform: scale(1.3);
+}
+
+.btn-editProfile {
+  background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
+  width: 100%;
+  color: #fff;
+
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancelProfile {
+  background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
+  width: 100%;
+  color: #fff;
+
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-savedProfile {
+  background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
+  width: 100%;
+  color: #fff;
+
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}

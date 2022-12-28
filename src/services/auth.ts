@@ -8,10 +8,14 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 import { auth } from "../firebase/configFirebase";
 import { ref, onValue, set, push, remove } from "firebase/database";
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 
 export const signInWithGoogle = () => {
   auth.useDeviceLanguage();
@@ -131,4 +135,28 @@ export const getUserByUid = (
 
 export const sendEmailToResetPassword = (email: any) => {
   return sendPasswordResetEmail(auth, email);
+};
+
+export const updateUser = async (uid: string, data: any) => {
+  return await updateDoc(doc(db, "users", uid), data);
+};
+
+export const reauthenticateUserActions = async (password: any) => {
+  //   const user = auth.currentUser;
+  //   const cred = GoogleAuthProvider.credential(user?.email, password);
+  //   return await user?.reauthenticateWithCredential(cred);
+
+  const user: any = auth.currentUser;
+  const credential = EmailAuthProvider.credential(user.email, password);
+  return reauthenticateWithCredential(user, credential);
+};
+
+export const updateEmailAdress = async (email: string) => {
+  const user: any = auth.currentUser;
+  return await updateEmail(user, email);
+};
+
+export const updatePassService = async (password: string) => {
+  const user: any = auth.currentUser;
+  return await updatePassword(user, password);
 };
