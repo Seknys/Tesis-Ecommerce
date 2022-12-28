@@ -46,7 +46,9 @@ export default function ProfileDisplay({ history }: any) {
               mx="50px"
               bg="amber.400"
               size="2xl"
-              source={{ uri: user?.img }}
+              source={{
+                uri: user?.img,
+              }}
             />
             <Box>
               <Text fontSize={"2xl"} mb="10px">

@@ -14,39 +14,40 @@ import { ref, onValue, set, push, remove } from "firebase/database";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 
 export const signInWithGoogle = () => {
+  auth.useDeviceLanguage();
   const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
-      const user = result.user;
+  return signInWithPopup(auth, provider);
+  // .then((result) => {
+  //   // This gives you a Google Access Token. You can use it to access the Google API.
+  //   const credential = GoogleAuthProvider.credentialFromResult(result);
+  //   const token = credential?.accessToken;
+  //   // The signed-in user info.
+  //   const user = result.user;
 
-      console.log("User Google", user);
-      SaveUserToFireBase(
-        user.uid,
-        user.displayName,
-        "",
-        user.email,
-        "client",
-        user.photoURL
-      ).then(() => {
-        console.log("User saved");
-      });
+  //   console.log("User Google", user);
+  //   SaveUserToFireBase(
+  //     user.uid,
+  //     user.displayName,
+  //     "",
+  //     user.email,
+  //     "client",
+  //     user.photoURL
+  //   ).then(() => {
+  //     console.log("User saved");
+  //   });
 
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+  //   // ...
+  // })
+  // .catch((error) => {
+  //   // Handle Errors here.
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   // The email of the user's account used.
+  //   const email = error.customData.email;
+  //   // The AuthCredential type that was used.
+  //   const credential = GoogleAuthProvider.credentialFromError(error);
+  //   // ...
+  // });
 };
 
 export const signOutUser = () => {

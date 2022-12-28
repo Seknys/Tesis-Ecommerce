@@ -16,7 +16,11 @@ import { FcGoogle } from "react-icons/fc";
 import { BsFillTelephoneFill, BsTwitter } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { BsGithub } from "react-icons/bs";
-import { signInWithGoogle, userLogin } from "../../services/auth";
+import {
+  SaveUserToFireBase,
+  signInWithGoogle,
+  userLogin,
+} from "../../services/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -46,7 +50,131 @@ export default function Login({ history }: any) {
   const auth_pass: string = t("auth_pass");
 
   const handleGoogleLogin = () => {
-    signInWithGoogle();
+    signInWithGoogle()
+      .then((result) => {
+        SuccesToast(t("auth_login_success"));
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log("WORK?");
+
+        console.log("User Google", user);
+        SaveUserToFireBase(
+          user.uid,
+          user.displayName,
+          "",
+          user.email,
+          "client",
+          user.photoURL
+        ).then(() => {
+          console.log("User saved");
+        });
+
+        setTimeout(() => {
+          history.push("/home");
+        }, 2000);
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        ErrorToast(t("auth_login_error"));
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
+  const handleGitHubLogin = () => {
+    singInWithGitHub()
+      .then((result) => {
+        SuccesToast(t("auth_login_success"));
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        // const credential = GithubAuthProvider.credentialFromResult(result);
+        // const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+
+        console.log("USerGitHub", user);
+        SaveUserToFireBase(
+          user.uid,
+          user.displayName,
+          "",
+          user.email,
+          "client",
+          user.photoURL
+        ).then(() => {
+          console.log("User saved");
+        });
+        setTimeout(() => {
+          history.push("/home");
+        }, 2000);
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        ErrorToast(t("auth_login_error"));
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+
+        console.log("errorCode", errorCode);
+        console.log("errorMessage", errorMessage);
+        console.log("email", email);
+        // The AuthCredential type that was used.
+        // const credential = GithubAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
+  const handleTwitterLogin = () => {
+    singInWithTwitter()
+      .then((result) => {
+        SuccesToast(t("auth_login_success"));
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        //const credential = TwitterAuthProvider.credentialFromResult(result);
+        // const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+
+        console.log("USerGitHub", user);
+        SaveUserToFireBase(
+          user.uid,
+          user.displayName,
+          "",
+          user.email,
+          "client",
+          user.photoURL
+        ).then(() => {
+          console.log("User saved");
+        });
+        setTimeout(() => {
+          history.push("/home");
+        }, 2000);
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        ErrorToast(t("auth_login_error"));
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+
+        console.log("errorCode", errorCode);
+        console.log("errorMessage", errorMessage);
+        console.log("email", email);
+        // The AuthCredential type that was used.
+        // const credential = TwitterAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   const onSubmit = async () => {
@@ -243,7 +371,7 @@ export default function Login({ history }: any) {
                 <FcGoogle />
               </IconContext.Provider>
             </Pressable>
-            <Pressable onPress={singInWithTwitter}>
+            <Pressable onPress={handleTwitterLogin}>
               <IconContext.Provider
                 value={{
                   size: "3em",
@@ -253,7 +381,7 @@ export default function Login({ history }: any) {
                 <BsTwitter />
               </IconContext.Provider>
             </Pressable>
-            <Pressable onPress={singInWithGitHub}>
+            <Pressable onPress={handleGitHubLogin}>
               <IconContext.Provider
                 value={{
                   size: "3em",
