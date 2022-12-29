@@ -37,6 +37,7 @@ export const RoutesClient = () => (
           {/* <Route path="/home/:id" children={MainHome} /> */}
           {/* <Route path="/home/scanner_cat" component={Login} /> */}
           <Route path="/category/:id" component={MainHome} />
+          <Route path="/more-views/:value" component={MainHome} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/cart/details" component={CartDisplay} />

@@ -54,7 +54,11 @@ export default function MainHeader({ history }: any) {
           >
             <GoThreeBars />
           </IconContext.Provider>
-          <Menu width={300}>
+          <Menu
+           className="menuStyle"
+         
+            width={300}
+          >
             <OverlayMenu />
           </Menu>
         </Box>

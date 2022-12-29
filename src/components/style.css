@@ -1,8 +1,12 @@
-.headerStyle  {
+.menuStyle {
+  padding-top: 15;
+  background-color: rgb(216, 208, 208);
+}
+
+.headerStyle {
   background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
   position: sticky;
   top: 0px;
-
 }
 
 /* body {

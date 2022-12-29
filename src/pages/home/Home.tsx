@@ -10,6 +10,7 @@ import {
   Text,
 } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import { Interface } from "readline";
 import { Icategories, Iproducts } from "../../interfaces/interface";
@@ -22,7 +23,7 @@ import "./style.css";
 export default function HomePage({ history }: any) {
   // const categories = useRef<Icategories[]>();
 
-  let { path, url } = useRouteMatch();
+  const { t } = useTranslation();
   const [productsByView, setProductsByView] = useState<Iproducts[]>([]);
 
   const [categories, setCategories] = useState<Icategories[]>([]);
@@ -40,7 +41,6 @@ export default function HomePage({ history }: any) {
       }
 
       setProductsByView(productsData);
-      console.log("productsData: ", productsData);
     };
     getProductsByViews(getProductsByViewsSnapshot);
 
@@ -129,9 +129,15 @@ export default function HomePage({ history }: any) {
 
         {productsByView.length > 4 && (
           <Container alignItems="center" my="25" shadow={6} borderRadius={10}>
-            <Text fontSize={"3xl"} bold pl="25" my="15" w="100%">
-              Productos más vistos
-            </Text>
+            <Link
+              to="/more-views/views?=true"
+              style={{ textDecoration: "none" }}
+            >
+              <Text fontSize={"3xl"} bold pl="25" my="15" w="100%">
+                {t("products_moreViewed")}
+              </Text>
+            </Link>
+
             <ProductCarousel history={history} products={productsByView} />
           </Container>
         )}

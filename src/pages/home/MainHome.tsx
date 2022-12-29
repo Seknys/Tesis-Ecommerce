@@ -27,8 +27,12 @@ import "./style.css";
 import { motion } from "framer-motion";
 import UserContext from "../../contexts/userContext";
 import { CardProduct } from "./componets/CardProduct";
+import { getProductsByViews } from "../../services/admin";
+import { useTranslation } from "react-i18next";
 
 export default function MainHome({ history }: any) {
+  const { t } = useTranslation();
+  const { value } = useParams<{ value: string }>();
   const { id } = useParams<{ id: string }>();
   const { admin } = useParams<{ admin: string }>();
   const { analyst } = useParams<{ analyst: string }>();
@@ -39,6 +43,7 @@ export default function MainHome({ history }: any) {
   const [category, setCategory] = useState<Icategories>();
 
   const [products, setProducts] = useState<Iproducts[]>([]);
+  const [productsByView, setProductsByView] = useState<Iproducts[]>([]);
   // const [hover, setHover] = useState<{
   //   value: boolean;
   //   index: number;
@@ -56,25 +61,39 @@ export default function MainHome({ history }: any) {
   };
 
   useEffect(() => {
-    if (user?.role !== "admin" && user?.role !== "analyst") {
-      getProductsByCategory(id, getProductSnapshot);
-
-      getOneCategory(id, getCategorySnapshot);
-    } else {
-      const getCategoriesSnapshot = (snapshot: DocumentData) => {
-        const categoriesData = snapshot.docs.map((doc: DocumentData) =>
+    if (value) {
+      console.log("value", value);
+      //Value should be the attribute to fetch the data with a filter
+      const getProductsByViewsSnapshot = (snapshot: DocumentData) => {
+        const productsData = snapshot.docs.map((doc: DocumentData) =>
           doc.data()
         );
+        console.log("productsData", productsData);
 
-        // setAuxCategory(categoriesData[0].uid);
-        if (categoriesData[0].uid) {
-          getProductsByCategory(categoriesData[0].uid, getProductSnapshot);
-
-          setCategory(categoriesData[0]);
-        }
+        setProductsByView(productsData);
       };
+      getProductsByViews(getProductsByViewsSnapshot);
+    } else {
+      if (user?.role !== "admin" && user?.role !== "analyst") {
+        getProductsByCategory(id, getProductSnapshot);
 
-      getCategories(getCategoriesSnapshot);
+        getOneCategory(id, getCategorySnapshot);
+      } else {
+        const getCategoriesSnapshot = (snapshot: DocumentData) => {
+          const categoriesData = snapshot.docs.map((doc: DocumentData) =>
+            doc.data()
+          );
+
+          // setAuxCategory(categoriesData[0].uid);
+          if (categoriesData[0].uid) {
+            getProductsByCategory(categoriesData[0].uid, getProductSnapshot);
+
+            setCategory(categoriesData[0]);
+          }
+        };
+
+        getCategories(getCategoriesSnapshot);
+      }
     }
   }, []);
 
@@ -113,6 +132,11 @@ export default function MainHome({ history }: any) {
             ) : (
               <Text bold textAlign="left" fontSize="2xl">
                 {category?.name}
+              </Text>
+            )}
+            {value && (
+              <Text bold textAlign="left" fontSize="2xl">
+                {t("label_moreView")}
               </Text>
             )}
             {/* <Text bold textAlign="left" fontSize="2xl">
@@ -202,6 +226,27 @@ export default function MainHome({ history }: any) {
                 //   to={`/product/${product.uid}`}
                 //   key={product.uid}
                 // >
+                <CardProduct
+                  key={product.uid}
+                  product={product}
+                  handleOnPress={async () => {
+                    console.log("VIew");
+
+                    await updateViews(product.uid, product.views)
+                      .then(() => {
+                        console.log("Views updated");
+                        history.push(`/product/${product.uid}`);
+                      })
+                      .catch((error) => {
+                        console.log("ViewsError", error);
+                      });
+                  }}
+                />
+                // {/* </Link> */}
+                // {/* </Pressable> */}
+              ))}
+            {value &&
+              productsByView?.map((product) => (
                 <CardProduct
                   key={product.uid}
                   product={product}
