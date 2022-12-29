@@ -53,17 +53,14 @@ export default function ProductDisplay({ history }: { history: any }) {
   const [comments, setComments] = useState<IComments[]>();
 
   useEffect(() => {
-    console.log("mount");
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
-      console.log("snapshot", snapshot.data());
       setProduct(snapshot.data());
     };
     getProductByUid(uid, getProductSnapshot);
 
     if (product) {
-      console.log("product");
       productName.current = product.name;
     }
 
@@ -71,9 +68,7 @@ export default function ProductDisplay({ history }: { history: any }) {
       setComments(comments);
     };
     getCommetsbyProduct(uid, commetsByProductFunction);
-    return () => {
-      console.log("unmount");
-    };
+    return () => {};
   }, []);
 
   const addToCart = () => {
@@ -82,8 +77,9 @@ export default function ProductDisplay({ history }: { history: any }) {
       product["productUid"] = product.uid;
       // console.log("add to cart", user.uid);
       console.log("ADD TO CART: ", product);
-      addProductToCart(user.uid, product).then(() => {
-        console.log("added to cart");
+      addProductToCart(user.uid, product).then((data) => {
+        console.log("data¿", data);
+        console.log("Add Messege");
         SuccesToast(t("cart_added"));
       });
 

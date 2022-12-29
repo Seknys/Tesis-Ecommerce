@@ -14,37 +14,42 @@ import { IconContext } from "react-icons";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
 import { Pressable } from "react-native";
+import { getDateString } from "../../constants/dateFormString";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
 import {
+  addCartToShoppingHistory,
   deleteProductFromCart,
-  getCartProductsByUser,
-} from "../../services/products";
+  updateRemoveFromCart,
+} from "../../services/cartOperations";
+import { getCartProductsByUser } from "../../services/products";
 import "./style.css";
 
 export const CartDisplay = ({ history }: any) => {
   const { user } = useContext(UserContext);
+  // const [count, setCount] = useState(1);
+  const count = useRef(1);
   const [cartProducts, setCartProducts] = useState<Iproducts[] | null>(null);
-  console.log("User: ", user);
   const { t } = useTranslation();
   const [total, setTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const subTotal = useRef(0);
 
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
       setCartProducts(products);
-      console.log("Products: ", products);
     };
     if (user) {
       getCartProductsByUser(user.uid, cartProductsFunction);
     }
   }, [user]);
 
-  const deletePCart = (productUid: string) => {
-    console.log("Delete product from cart");
+  const deletePCart = (productUid: string, removeToCart: number) => {
+    console.log("Delete product from cart", productUid);
     if (user && productUid) {
       deleteProductFromCart(user.uid, productUid)
         .then(() => {
+          updateRemoveFromCart(user.uid, removeToCart);
           console.log("Product deleted from cart");
         })
         .catch((error) => {
@@ -52,6 +57,20 @@ export const CartDisplay = ({ history }: any) => {
         });
     }
   };
+
+  const handleBuyProducts = () => {
+    let uidShop = getDateString();
+    console.log("click");
+
+    if (user) {
+      addCartToShoppingHistory(user?.uid, uidShop, new Date(), cartProducts);
+    }
+    setTimeout(() => {
+      history.push("/checkout");
+    }, 3000);
+  };
+
+  let aux = 0;
 
   return (
     <Center w="100%" mt="50px">
@@ -63,7 +82,11 @@ export const CartDisplay = ({ history }: any) => {
           {cartProducts &&
             cartProducts.map((product, index) => {
               if (product.quantity) {
-                subTotal.current += product.price * product.quantity;
+                console.log("Product: ", product.quantity, "*", product.price);
+                aux += product.quantity * product.price;
+                console.log("Aux: ", aux);
+                subTotal.current = aux;
+                count.current = product.quantity;
               }
 
               return (
@@ -93,26 +116,51 @@ export const CartDisplay = ({ history }: any) => {
                           justifyContent="space-around"
                         >
                           <Text>
-                            {t("cart_quantity")} {product.quantity}
+                            {t("cart_quantity")} {product.quantity}{" "}
+                            {count.current}
                           </Text>
-                          <IconContext.Provider
-                            value={{
-                              color: "black",
-                              size: "1.5em",
-                              style: {},
-                            }}
-                          >
-                            <AiFillMinusCircle />
-                          </IconContext.Provider>
-                          <IconContext.Provider
-                            value={{
-                              color: "black",
-                              size: "1.5em",
-                              style: {},
-                            }}
-                          >
-                            <AiFillPlusCircle />
-                          </IconContext.Provider>
+                          {/* {product.quantity && product.quantity > 1 && (
+                            <Pressable
+                              onPress={() => {
+                                if (product.quantity) {
+                                  product.quantity -= 1;
+                                  count.current -= 1;
+                                }
+                              }}
+                            >
+                              <IconContext.Provider
+                                value={{
+                                  color: "black",
+                                  size: "1.5em",
+                                  style: {},
+                                }}
+                              >
+                                <AiFillMinusCircle />
+                              </IconContext.Provider>
+                            </Pressable>
+                          )}
+                          {product.quantity &&
+                            product.quantity < product.stock && (
+                              <Pressable
+                                onPress={() => {
+                                  if (product.quantity) {
+                                    console.log("Product: ", product.quantity);
+                                    product.quantity += 1;
+                                    count.current += 1;
+                                  }
+                                }}
+                              >
+                                <IconContext.Provider
+                                  value={{
+                                    color: "black",
+                                    size: "1.5em",
+                                    style: {},
+                                  }}
+                                >
+                                  <AiFillPlusCircle />
+                                </IconContext.Provider>
+                              </Pressable>
+                            )} */}
                         </HStack>
                       </Box>
                       <Box
@@ -121,7 +169,8 @@ export const CartDisplay = ({ history }: any) => {
                       >
                         <Pressable
                           onPress={() => {
-                            deletePCart(product.uid);
+                            console.log("Product: ", product);
+                            deletePCart(product.uid, product.removeToCart);
                           }}
                         >
                           <IconContext.Provider
@@ -175,20 +224,24 @@ export const CartDisplay = ({ history }: any) => {
           </HStack>
           <HStack justifyContent={"space-between"}>
             <Text color="black" fontSize={"21"} mb="15">
-              Descuento
+              {t("cart_discount")}
             </Text>
-            <Text color="black" fontSize={"21"} mb="15"></Text>
+            <Text color="black" fontSize={"21"} mb="15">
+              {discount}
+            </Text>
           </HStack>
           <HStack justifyContent={"space-between"}>
             <Text color="black" bold fontSize={"21"} mb="15">
-              Total
+              {t("cart_total")}
             </Text>
-            <Text color="black" fontSize={"21"} mb="15"></Text>
+            <Text color="black" fontSize={"21"} mb="15">
+              {subTotal.current - discount}
+            </Text>
           </HStack>
 
           <button
             onClick={() => {
-              console.log("click");
+              handleBuyProducts();
             }}
             className="button-cart"
           >

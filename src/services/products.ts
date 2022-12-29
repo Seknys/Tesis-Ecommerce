@@ -52,11 +52,9 @@ export const getCartProductsByUser = (
 };
 
 export const addProductToCart = (uid: string, product: any) => {
-  //  doc(db, "users", uid, "cart", product.uid)
+  console.log("ProductIN: ", product);
+  console.log("uidIN: ", uid);
 
-  // setDoc(addDoc(db, "users", uid, "cart", product.uid), product);
-
-  //Set new doc in collection with a auto generate ID
   return addDoc(collection(db, "users", uid, "cart"), product);
 };
 
@@ -131,8 +129,4 @@ export const updateAddedToCart = async (uid: string, addedToCart: number) => {
   }).then(() => {
     console.log("addedToCart updated");
   });
-};
-
-export const deleteProductFromCart = (uid: string, productUid: string) => {
-  return deleteDoc(doc(db, "users", uid, "cart", productUid));
 };

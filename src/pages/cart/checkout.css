@@ -1,0 +1,78 @@
+/* #App {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  display: flex;
+ 
+} */
+
+/* body {
+  background: linear-gradient(to right, #ff47a1 0%, #ff9f4d 100%);
+} */
+
+#sky {
+  background: black;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#shootingstars {
+  margin: 0;
+  padding: 0;
+  width: 150vh;
+  height: 100vw;
+  position: fixed;
+  overflow: hidden;
+  transform: translatex(calc(50vw - 50%)) translatey(calc(50vh - 50%))
+    rotate(120deg);
+}
+
+.wish {
+  height: 2px;
+  top: 300px;
+  width: 100px;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  background-color: white;
+  position: absolute;
+  background: linear-gradient(-45deg, white, rgba(0, 0, 255, 0));
+  filter: drop-shadow(0 0 6px white);
+  overflow: hidden;
+}
+
+/* @bg-color: #1b1941;
+@circle-radius: 50px;
+@circle-one: #ffc300;
+@circle-two: #ff004b; */
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 350px;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0 (50px / 3);
+  box-shadow: 0 -5px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.circle-1 {
+  background-color: #ffc300;
+  background: linear-gradient(tint(#ffc300, -100%), tint(#ffc300, 20%));
+}
+
+.circle-2 {
+  background-color: #ff004b;
+  background: linear-gradient(tint(#ff004b, -10%), tint(#ff004b, 30%));
+}
