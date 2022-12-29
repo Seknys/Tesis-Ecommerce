@@ -184,7 +184,7 @@ export default function ProductDisplay({ history }: { history: any }) {
                 </Text>
 
                 {product.feat.map((feat, index) => (
-                  <HStack alignItems={"center"} mb="15" pl="3">
+                  <HStack alignItems={"center"} mb="15" pl="3" key={index}>
                     <VscDebugBreakpointData />
                     <Text fontSize="xl" color="black" key={index}>
                       {feat}

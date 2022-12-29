@@ -221,6 +221,7 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
         {product?.img.map((img, index) => {
           return (
             <Image
+              key={index}
               shadow={3}
               rounded={"lg"}
               mb="25"
@@ -249,7 +250,7 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
 
       <Slider {...settings2}>
         {product?.img.map((img, index) => (
-          <Box paddingLeft={10}>
+          <Box paddingLeft={10} key={index}>
             <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
               <Image
                 // borderColor={index === 0 ? "red.500" : "gray.200"}

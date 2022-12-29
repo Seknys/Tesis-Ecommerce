@@ -106,20 +106,6 @@ export default function MainHome({ history }: any) {
     };
   }, [auxCategory]);
 
-  // const handleOnPressProduct = (product: Iproducts) => {
-  //   if (admin) {
-  //     history.push(`/admin/add-product`);
-  //     return;
-  //   } else {
-  //     setTimeout(() => {
-  //       setIsOpen(!isOpen);
-  //       history.push(`/product/${product.uid}`);
-  //     }, 300);
-
-  //     updateViews(product.uid, product.views);
-  //   }
-  // };
-
   return (
     <>
       <SideBarMenu callBackParent={setAuxCategory}>
@@ -149,46 +135,15 @@ export default function MainHome({ history }: any) {
             flexDirection="row"
           >
             {admin &&
-              products?.map(
-                (product) => (
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`/admin/edit-product/${product.uid}`}
-                    key={product.uid}
-                  >
-                    <CardProduct product={product} />
-                  </Link>
-                )
-
-                // return (
-                //   <Link
-                //     style={{
-                //       textDecoration: "none",
-                //       marginLeft: 10,
-                //       marginRight: 10,
-                //     }}
-                //     to={`/product/${product.uid}`}
-                //     key={product.uid}
-                //   >
-                //     <CardProduct
-                //       product={product}
-                //       handleOnPress={() => {
-                //         updateViews(product.uid, product.views);
-                //       }}
-                //     />
-                //   </Link>
-                // );
-
-                // return (
-                //   <Link
-                //     style={{ textDecoration: "none" }}
-                //     to={`/admin/edit-product/${product.uid}`}
-                //     key={product.uid}
-                //   >
-                //     <CardProduct product={product} />
-                //   </Link>
-                // );
-              )}
+              products?.map((product) => (
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={`/admin/edit-product/${product.uid}`}
+                  key={product.uid}
+                >
+                  <CardProduct product={product} />
+                </Link>
+              ))}
             {analyst &&
               products?.map((product) => (
                 <Link
@@ -200,38 +155,11 @@ export default function MainHome({ history }: any) {
                 </Link>
               ))}
             {id &&
-              products?.map((product) => (
-                // <Pressable
-                //   onPress={() => {
-                //     console.log("VIew");
-                //     updateViews(product.uid, product.views);
-                //   }}
-                // >
-                // <Link
-                //   onFocus={async () => {
-                //     console.log("VIew");
-                //     await updateViews(product.uid, product.views)
-                //       .then(() => {
-                //         console.log("Views updated");
-                //       })
-                //       .catch((error) => {
-                //         console.log("ViewsError", error);
-                //       });
-                //   }}
-                //   style={{
-                //     textDecoration: "none",
-                //     marginLeft: 10,
-                //     marginRight: 10,
-                //   }}
-                //   to={`/product/${product.uid}`}
-                //   key={product.uid}
-                // >
+              products?.map((product, index) => (
                 <CardProduct
-                  key={product.uid}
+                  key={product.uid + index}
                   product={product}
                   handleOnPress={async () => {
-                    console.log("VIew");
-
                     await updateViews(product.uid, product.views)
                       .then(() => {
                         console.log("Views updated");
@@ -242,17 +170,13 @@ export default function MainHome({ history }: any) {
                       });
                   }}
                 />
-                // {/* </Link> */}
-                // {/* </Pressable> */}
               ))}
             {value &&
-              productsByView?.map((product) => (
+              productsByView?.map((product, index) => (
                 <CardProduct
-                  key={product.uid}
+                  key={product.uid + index}
                   product={product}
                   handleOnPress={async () => {
-                    console.log("VIew");
-
                     await updateViews(product.uid, product.views)
                       .then(() => {
                         console.log("Views updated");
@@ -263,8 +187,6 @@ export default function MainHome({ history }: any) {
                       });
                   }}
                 />
-                // {/* </Link> */}
-                // {/* </Pressable> */}
               ))}
           </Box>
         </>
