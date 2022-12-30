@@ -6,7 +6,7 @@ export const getDateString = () => {
   const hour = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
-  const shoppingDate = `${day}${month}${year}/${hour}h:${minutes}m:${seconds}s`;
+  const shoppingDate = `${day}${month}${year}-${hour}h:${minutes}m:${seconds}s`;
   return shoppingDate;
 };
 

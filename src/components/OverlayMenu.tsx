@@ -21,7 +21,6 @@ export default function OverlayMenu() {
 
   useEffect(() => {
     url = window.location.href;
-    console.log("URL", url);
   });
 
   //Get my url
@@ -104,21 +103,37 @@ export default function OverlayMenu() {
       </HStack> */}
 
       {user && (
-        <Button
-          my="10"
-          bg="gray.700"
-          shadow={9}
-          borderRadius="15"
-          onPress={() => {
-            signOutUser();
-            localStorage.removeItem("token");
-            window.location.href = "/";
-          }}
-        >
-          <Text color="white" fontSize={"xl"}>
-            {t("btn_log_out")}
-          </Text>
-        </Button>
+        <>
+          <Box shadow="8" borderRadius={15} mt="5">
+            <Link
+              style={{
+                textDecoration: "none",
+                width: "100%",
+              }}
+              to="shopping-history"
+            >
+              <Text color="black" fontSize={"xl"} p="3">
+                {t("shopping-history")}
+              </Text>
+            </Link>
+          </Box>
+
+          <Button
+            my="10"
+            bg="gray.700"
+            shadow={9}
+            borderRadius="15"
+            onPress={() => {
+              signOutUser();
+              localStorage.removeItem("token");
+              window.location.href = "/";
+            }}
+          >
+            <Text color="white" fontSize={"xl"}>
+              {t("btn_log_out")}
+            </Text>
+          </Button>
+        </>
       )}
     </Box>
   );

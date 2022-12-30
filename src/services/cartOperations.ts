@@ -3,6 +3,9 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  onSnapshot,
+  query,
   setDoc,
   Timestamp,
   updateDoc,
@@ -29,26 +32,42 @@ export const addCartToShoppingHistory = (
   dateBuy: Date,
   cartProducts: Iproducts[] | null
 ) => {
-  const shoppingHistoryRef = collection(
-    db,
-    "users",
-    uid,
-    "shoppingHistory",
-    uidShopping
-  );
-
   if (cartProducts) {
-    cartProducts.forEach((product) => {
-      addDoc(shoppingHistoryRef, {
+    cartProducts.forEach((product, index) => {
+      // addDoc(shoppingHistoryRef, {
+      //   ...product,
+      //   dateBuy: Timestamp.fromDate(dateBuy),
+      //   uidBuy: uidShopping,
+      // }).then(() => {
+      //   console.log("Producto agregado a historial de compras");
+      // });
+      setDoc(doc(db, "users", uid, "shoppingHistory", uidShopping + index), {
         ...product,
         dateBuy: Timestamp.fromDate(dateBuy),
         uidBuy: uidShopping,
-      }).then(() => {
-        console.log("Producto agregado a historial de compras");
       });
+
       deleteProductFromCart(uid, product.uid).then(() => {
         console.log("Producto eliminado del carrito");
       });
     });
   }
+};
+
+export const constGetShoppingHistoryByUser = async (
+  uid: string,
+  fSnapshot: (history: Iproducts[]) => void
+) => {
+  const shoppingHistoryRef = collection(db, "users", uid, "shoppingHistory");
+  onSnapshot(query(shoppingHistoryRef), (snapshot) => {
+    const shoppingHistory: any[] = [];
+
+    snapshot.forEach((doc) => {
+      shoppingHistory.push({
+        ...doc.data(),
+        // uid: doc.id,
+      });
+    });
+    fSnapshot(shoppingHistory);
+  });
 };

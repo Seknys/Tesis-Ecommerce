@@ -30,6 +30,7 @@ export interface Iproducts {
   productUid?: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+  dateBuy?: Timestamp;
 }
 
 export interface Iuser {

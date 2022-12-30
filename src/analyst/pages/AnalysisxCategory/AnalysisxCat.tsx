@@ -82,7 +82,7 @@ import ReactApexChart from "react-apexcharts";
 // };
 
 export const AnalysisxCat = () => {
-  const [categoryUid, setCategoryUid] = useState<string>();
+  const [categoryUid, setCategoryUid] = useState<Icategories>();
   const [categories, setCategories] = useState<Icategories[]>();
   const [products, setProducts] = useState<Iproducts[]>();
   const [views, setViews] = useState<number[]>([]);
@@ -243,6 +243,8 @@ export const AnalysisxCat = () => {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
           doc.data()
         );
+        console.log("CategoryUid: ", categoryUid);
+        console.log("ProductData: ", productsData);
         setProducts(productsData);
         if (productsData) {
           let viewsArray: number[] = [];
@@ -282,7 +284,7 @@ export const AnalysisxCat = () => {
           setName(nameArray);
         }
       };
-      getProductsByCategory(categoryUid, getProductSnapshot);
+      getProductsByCategory(categoryUid.uid, getProductSnapshot);
     }
   }, [categoryUid]);
 
@@ -296,7 +298,7 @@ export const AnalysisxCat = () => {
           <>
             <Center>
               <Text bold fontSize={"3xl"}>
-                Categoria: {categoryUid}
+                Categoria: {categoryUid.name}
               </Text>
             </Center>
             <Box

@@ -144,6 +144,7 @@ const Accordion = ({
                   return;
                 }
                 if (category) {
+                  console.log("category", category);
                   callBackParent(category);
                 }
               }}

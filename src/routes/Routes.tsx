@@ -21,6 +21,7 @@ import HomePage from "../pages/home/Home";
 import MainHome from "../pages/home/MainHome";
 import ProductDisplay from "../pages/home/ProductDisplay";
 import ProfileDisplay from "../pages/profile/ProfileDisplay";
+import { ShoppingHistory } from "../pages/profile/ShoppingHistory";
 
 export const RoutesClient = () => (
   <Box h="full">
@@ -43,6 +44,7 @@ export const RoutesClient = () => (
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/cart/details" component={CartDisplay} />
           <Route path="/checkout" component={Checkout} />
+          <Route path="/shopping-history" component={ShoppingHistory} />
         </Box>
       </Switch>
     </Router>
