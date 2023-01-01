@@ -254,9 +254,9 @@ export default function ProductDisplay({ history }: { history: any }) {
                 p="1"
                 m="1"
                 key={index}
-                fontSize="xl"
+                fontSize="lg"
                 color="black"
-                borderRadius={15}
+                borderRadius={5}
               >
                 {tag.label}
               </Text>

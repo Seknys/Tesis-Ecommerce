@@ -15,12 +15,27 @@ import { auth, db } from "../firebase/configFirebase";
 import { Iproducts } from "../interfaces/interface";
 import { getCartProductsByUser } from "./products";
 
-export const updateProductBuy = (uid: string, buy: number) => {
-  return updateDoc(doc(db, "products", uid), { buy: buy + 1 });
+// export const updateProductBuy = (uid: string, buy: number) => {
+//   return updateDoc(doc(db, "products", uid), { buy: buy + 1 });
+// };
+
+export const updateRemoveFromCart = (uid: string, remove: number) => {
+  return updateDoc(doc(db, "products", uid), { removeToCart: remove + 1 });
 };
 
-export const updateRemoveFromCart = (uid: string, cart: number) => {
-  return updateDoc(doc(db, "users", uid), { cart: cart + 1 });
+export const updateProductBought = (product: Iproducts[] | null) => {
+  if (product) {
+    product.forEach((product, index) => {
+      if (product.productUid) {
+        updateDoc(doc(db, "products", product.productUid), {
+          buy: product.buy + 1,
+          stock: product.stock - 1,
+        }).then(() => {
+          console.log("ProductoBOUGHT actualizado: ", product);
+        });
+      }
+    });
+  }
 };
 export const deleteProductFromCart = (uid: string, productUid: string) => {
   return deleteDoc(doc(db, "users", uid, "cart", productUid));

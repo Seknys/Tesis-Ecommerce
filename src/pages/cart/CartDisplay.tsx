@@ -14,12 +14,14 @@ import { IconContext } from "react-icons";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
 import { Pressable } from "react-native";
+import { MB } from "../../components/MyComponents";
 import { getDateString } from "../../constants/dateFormString";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
 import {
   addCartToShoppingHistory,
   deleteProductFromCart,
+  updateProductBought,
   updateRemoveFromCart,
 } from "../../services/cartOperations";
 import { getCartProductsByUser } from "../../services/products";
@@ -44,13 +46,17 @@ export const CartDisplay = ({ history }: any) => {
     }
   }, [user]);
 
-  const deletePCart = (productUid: string, removeToCart: number) => {
-    console.log("Delete product from cart", productUid);
-    if (user && productUid) {
-      deleteProductFromCart(user.uid, productUid)
+  const deletePCart = (
+    cartUid: string,
+    removeToCart: number,
+    productUid: string
+  ) => {
+    console.log("Delete product from cart", cartUid);
+    if (user && cartUid) {
+      deleteProductFromCart(user.uid, cartUid)
         .then(() => {
-          updateRemoveFromCart(user.uid, removeToCart);
-          console.log("Product deleted from cart");
+          updateRemoveFromCart(productUid, removeToCart);
+          console.log("Product deleted from cart Update VIEW");
         })
         .catch((error) => {
           console.log("Error deleting product from cart: ", error);
@@ -59,8 +65,8 @@ export const CartDisplay = ({ history }: any) => {
   };
 
   const handleBuyProducts = () => {
+    updateProductBought(cartProducts);
     let uidShop = getDateString();
-    console.log("click");
 
     if (user) {
       addCartToShoppingHistory(user?.uid, uidShop, new Date(), cartProducts);
@@ -116,8 +122,7 @@ export const CartDisplay = ({ history }: any) => {
                           justifyContent="space-around"
                         >
                           <Text>
-                            {t("cart_quantity")} {product.quantity}{" "}
-                            {count.current}
+                            {t("cart_quantity")} <MB>{product.quantity}</MB>
                           </Text>
                           {/* {product.quantity && product.quantity > 1 && (
                             <Pressable
@@ -170,7 +175,13 @@ export const CartDisplay = ({ history }: any) => {
                         <Pressable
                           onPress={() => {
                             console.log("Product: ", product);
-                            deletePCart(product.uid, product.removeToCart);
+                            if (product.productUid) {
+                              deletePCart(
+                                product.uid,
+                                product.removeToCart,
+                                product.productUid
+                              );
+                            }
                           }}
                         >
                           <IconContext.Provider

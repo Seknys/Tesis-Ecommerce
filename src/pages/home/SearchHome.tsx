@@ -47,7 +47,7 @@ export const SearchHome = ({ history }: any) => {
                   key={product.uid + index}
                   product={product}
                   handleOnPress={async () => {
-                    await updateViews(product.uid, product.views)
+                    await updateViews(product.uid)
                       .then(() => {
                         history.push(`/product/${product.uid}`);
                       })

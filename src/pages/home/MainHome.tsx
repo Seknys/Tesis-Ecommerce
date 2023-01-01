@@ -160,7 +160,7 @@ export default function MainHome({ history }: any) {
                   key={product.uid + index}
                   product={product}
                   handleOnPress={async () => {
-                    await updateViews(product.uid, product.views)
+                    await updateViews(product.uid)
                       .then(() => {
                         console.log("Views updated");
                         history.push(`/product/${product.uid}`);
@@ -177,7 +177,7 @@ export default function MainHome({ history }: any) {
                   key={product.uid + index}
                   product={product}
                   handleOnPress={async () => {
-                    await updateViews(product.uid, product.views)
+                    await updateViews(product.uid)
                       .then(() => {
                         console.log("Views updated");
                         history.push(`/product/${product.uid}`);

@@ -132,7 +132,7 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
               shadow={8}
               borderRadius={15}
               onPress={async () => {
-                await updateViews(product.uid, product.views)
+                await updateViews(product.uid)
                   .then(() => {
                     console.log("Views updated");
                     history.push(`/product/${product.uid}`);

@@ -24,8 +24,8 @@ export const getProductsByCategory = (
 ) => {
   const q = query(
     productRef,
-    where("catUid", "==", category),
-    orderBy("name", "asc")
+    where("catUid", "==", category)
+    // orderBy("name", "asc")
   );
   return onSnapshot(q, fSnapshot);
 };
@@ -35,6 +35,15 @@ export const getProductByUid = (
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
   return onSnapshot(doc(db, "products", uid), fSnapshot);
+};
+
+export const getProductByUidStatic = async (uid: string) => {
+  const docSnap = await getDoc(doc(db, "products", uid));
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    console.log("No such document!");
+  }
 };
 
 export const getCartProductsByUser = (
@@ -113,16 +122,19 @@ export const addCommentToProduct = (uid: string, comment: IComments) => {
   return setDoc(doc(db, "products", uid, "comments", comment.uid), comment);
 };
 
-export const updateViews = async (uid: string, views: number) => {
-  return await updateDoc(doc(db, "products", uid), {
-    views: views + 1,
-  });
-  // .then(() => {
-  //   console.log("Views updated");
-  // })
-  // .catch((error) => {
-  //   console.log("ViewsError", error);
+export const updateViews = async (uid: string) => {
+  // getProductByUid(uid, (snapshot) => {
+  //   const views = snapshot.data()?.views;
+  //   return updateDoc(doc(db, "products", uid), {
+  //     views: views + 1,
+  //   });
   // });
+  getProductByUidStatic(uid).then((snapshot) => {
+    const views = snapshot?.views;
+    return updateDoc(doc(db, "products", uid), {
+      views: views + 1,
+    });
+  });
 };
 
 export const updateAddedToCart = async (uid: string, addedToCart: number) => {
