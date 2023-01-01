@@ -39,6 +39,7 @@ export default function HomePage({ history }: any) {
       if (productsData.length > 10) {
         productsData.length = 10;
       }
+      console.log("productsData", productsData);
 
       setProductsByView(productsData);
     };

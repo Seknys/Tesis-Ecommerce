@@ -20,6 +20,7 @@ import { Checkout } from "../pages/cart/Checkout";
 import HomePage from "../pages/home/Home";
 import MainHome from "../pages/home/MainHome";
 import ProductDisplay from "../pages/home/ProductDisplay";
+import { SearchHome } from "../pages/home/SearchHome";
 import ProfileDisplay from "../pages/profile/ProfileDisplay";
 import { ShoppingHistory } from "../pages/profile/ShoppingHistory";
 
@@ -45,6 +46,7 @@ export const RoutesClient = () => (
           <Route path="/cart/details" component={CartDisplay} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/shopping-history" component={ShoppingHistory} />
+          <Route path="/search/:value" component={SearchHome} />
         </Box>
       </Switch>
     </Router>

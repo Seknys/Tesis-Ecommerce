@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   useMediaQuery,
+  Input,
 } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
@@ -31,6 +32,7 @@ import { MenuSideIcon } from "./hamburgerMenu/Menu";
 export default function MainHeader({ history }: any) {
   const [showMenu, setShowMenu] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   const { user } = useContext(UserContext);
   const [isMediumScreen] = useMediaQuery({
@@ -54,11 +56,7 @@ export default function MainHeader({ history }: any) {
           >
             <GoThreeBars />
           </IconContext.Provider>
-          <Menu
-           className="menuStyle"
-         
-            width={300}
-          >
+          <Menu className="menuStyle" width={300}>
             <OverlayMenu />
           </Menu>
         </Box>
@@ -86,7 +84,12 @@ export default function MainHeader({ history }: any) {
             />
           </Link>
 
-          <Box ml="10%">
+          <Pressable
+            onPress={() => {
+              setShowSearch(true);
+            }}
+            ml="10%"
+          >
             <IconContext.Provider
               value={{
                 color: "white",
@@ -96,7 +99,25 @@ export default function MainHeader({ history }: any) {
             >
               <BiSearchAlt />
             </IconContext.Provider>
-          </Box>
+          </Pressable>
+          {showSearch && (
+            <Input
+              placeholder="Search"
+              w="50%"
+              ml="5%"
+              bg="white"
+              borderRadius="10"
+              onKeyPress={(e: any) => {
+                if (e.key === "Enter") {
+                  console.log("Target", e.target.value);
+                  window.location.href = `/search/${e.target.value}`;
+                }
+              }}
+              color="black"
+              _focus={{ borderColor: "black" }}
+              variant="filled"
+            />
+          )}
         </HStack>
         <HStack
           flex={2}

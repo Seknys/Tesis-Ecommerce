@@ -4,6 +4,7 @@ import {
   doc,
   DocumentData,
   onSnapshot,
+  orderBy,
   query,
   setDoc,
   Timestamp,
@@ -42,7 +43,11 @@ export const getUsersByRole = (
 export const getProductsByViews = (
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
-  const q = query(productRef, where("views", ">", 25));
+  const q = query(
+    productRef,
+    where("views", ">", 25),
+    orderBy("views", "desc")
+  );
   return onSnapshot(q, fSnapshot);
 };
 

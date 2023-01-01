@@ -42,7 +42,7 @@ export const Navigation = () => {
 
   return (
     <motion.ul variants={variants}>
-      {cartProducts && (
+      {cartProducts && cartProducts?.length > 0 ? (
         // itemIds.map((i) => <MenuItem i={i} key={i} />)
         <>
           {cartProducts.map((product, index) => (
@@ -57,8 +57,7 @@ export const Navigation = () => {
             </Button>
           </Link>
         </>
-      )}
-      {cartProducts === null && (
+      ) : (
         <Box>
           <Text fontSize={"2xl"} color="white">
             {t("cart_empty")}

@@ -11,6 +11,7 @@ import {
   updateDoc,
   deleteDoc,
   Timestamp,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -21,7 +22,11 @@ export const getProductsByCategory = (
   category: string,
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
-  const q = query(productRef, where("catUid", "==", category));
+  const q = query(
+    productRef,
+    where("catUid", "==", category),
+    orderBy("name", "asc")
+  );
   return onSnapshot(q, fSnapshot);
 };
 
@@ -52,9 +57,6 @@ export const getCartProductsByUser = (
 };
 
 export const addProductToCart = (uid: string, product: any) => {
-  console.log("ProductIN: ", product);
-  console.log("uidIN: ", uid);
-
   return addDoc(collection(db, "users", uid, "cart"), product);
 };
 

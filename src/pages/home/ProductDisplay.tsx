@@ -52,10 +52,16 @@ export default function ProductDisplay({ history }: { history: any }) {
   const [count, setCount] = useState(1);
   const [comments, setComments] = useState<IComments[]>();
 
+  interface ITags {
+    label: string;
+    value: string;
+  }
+
   useEffect(() => {
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
+      console.log("snapshot", snapshot.data());
       setProduct(snapshot.data());
     };
     getProductByUid(uid, getProductSnapshot);
@@ -234,6 +240,27 @@ export default function ProductDisplay({ history }: { history: any }) {
               )}
             </HStack>
           </Box>
+        </HStack>
+        <Text mt="25" fontSize={"xl"} color="gray.400">
+          Tags:
+        </Text>
+        <HStack w="80%">
+          {product &&
+            product.tags &&
+            product?.tags.map((tag: any, index) => (
+              <Text
+                bg="gray.200"
+                shadow={9}
+                p="1"
+                m="1"
+                key={index}
+                fontSize="xl"
+                color="black"
+                borderRadius={15}
+              >
+                {tag.label}
+              </Text>
+            ))}
         </HStack>
       </SideBarMenu>
 
