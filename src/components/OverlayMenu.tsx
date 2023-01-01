@@ -102,22 +102,24 @@ export default function OverlayMenu() {
         <Text>Icon Here</Text>
       </HStack> */}
 
+      {user?.role === "client" && (
+        <Box shadow="8" borderRadius={15} mt="5">
+          <Link
+            style={{
+              textDecoration: "none",
+              width: "100%",
+            }}
+            to="shopping-history"
+          >
+            <Text color="black" fontSize={"xl"} p="3">
+              {t("shopping-history")}
+            </Text>
+          </Link>
+        </Box>
+      )}
+
       {user && (
         <>
-          <Box shadow="8" borderRadius={15} mt="5">
-            <Link
-              style={{
-                textDecoration: "none",
-                width: "100%",
-              }}
-              to="shopping-history"
-            >
-              <Text color="black" fontSize={"xl"} p="3">
-                {t("shopping-history")}
-              </Text>
-            </Link>
-          </Box>
-
           <Button
             my="10"
             bg="gray.700"

@@ -25,9 +25,7 @@ export const InputComent = ({ productUid }: IInputComent) => {
   const submitComent = () => {
     const uidComment: any = uuidv4().substring(0, 8);
 
-    console.log("IN");
     if (user && message !== "" && productUid) {
-      console.log("Send Comment");
       const newComment: IComments = {
         uid: uidComment,
         userUid: user.uid,

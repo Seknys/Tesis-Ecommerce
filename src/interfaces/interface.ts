@@ -40,7 +40,7 @@ export interface Iuser {
   lastName: string;
   phone?: string;
   role?: string;
-  img: string;
+  img?: string;
   orders?: string[];
   cart?: string[];
   wish?: string[];

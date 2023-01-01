@@ -6,6 +6,7 @@ import {
   Container,
   HStack,
   Pressable,
+  Spinner,
   Text,
 } from "native-base";
 // import BoxMui as Box from '@mui/material/Box';
@@ -18,8 +19,10 @@ import {
   reauthenticateUserActions,
   signOutUser,
   updateEmailAdress,
+  updateImageUser,
   updatePassService,
   updateUser,
+  uploadImageUser,
 } from "../../services/auth";
 import Grow from "@mui/material/Grow";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -27,6 +30,9 @@ import "./style.css";
 import { FcEditImage } from "react-icons/fc";
 import { RiEdit2Line } from "react-icons/ri";
 import { Iuser } from "../../interfaces/interface";
+
+import Dropzone from "react-dropzone-uploader";
+import { getDownloadURL } from "firebase/storage";
 
 export default function ProfileDisplay({ history }: any) {
   const { user } = useContext(UserContext);
@@ -54,11 +60,52 @@ export default function ProfileDisplay({ history }: any) {
   const [oldPass, setOldPass] = useState("");
 
   const [email, setEmail] = useState<string | undefined>("");
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState<any>();
   const [pass, setPass] = useState("");
   const [desc, setDesc] = useState("");
   const isValid = useRef(true);
   const [confirmPass, setConfirmPass] = useState("");
+  const inputRef = useRef<any>(null);
+  const [loadingImg, setLoadingImg] = useState(false);
+  const handleClick = () => {
+    // 👇️ open file input box on click of other element
+
+    inputRef.current.click();
+  };
+  const handleFileChange = (event: any) => {
+    const fileObj = event.target.files && event.target.files[0];
+    if (!fileObj) {
+      return;
+    }
+
+    if (user) {
+      setLoadingImg(true);
+      uploadImageUser(user?.uid, fileObj)
+        .then((res) => {
+          console.log("res", res.ref);
+          getDownloadURL(res.ref).then((url) => {
+            updateImageUser(user.uid, url).then((res) => {
+              console.log("res", res);
+              setLoadingImg(false);
+              SuccesToast(t("profile_img"));
+            });
+          });
+        })
+        .catch((err) => {
+          setLoadingImg(false);
+          ErrorToast(t("profile_imgError"));
+        });
+    }
+
+    // // 👇️ reset file input
+    // event.target.value = null;
+
+    // // 👇️ is now empty
+    // console.log("FILE:", event.target.files);
+
+    // // 👇️ can still access file object here
+    // console.log("OBJ: ", fileObj);
+  };
 
   useEffect(() => {
     if (user) {
@@ -78,7 +125,7 @@ export default function ProfileDisplay({ history }: any) {
         name: name,
         lastName: lastName,
         email: email,
-        img: img,
+        // img: img,
         bio: desc,
       };
       if (passAux !== "" && email) {
@@ -144,6 +191,18 @@ export default function ProfileDisplay({ history }: any) {
     }
   };
 
+  // useEffect(() => {
+  //   if (filesContent.length > 0 && user) {
+  //     console.log("filesContentUseEFfect", filesContent);
+  //     uploadImageUser(user?.uid, filesContent[0]).then((res) => {
+  //       console.log("res", res);
+  //       SuccesToast(t("profile_updated"));
+  //     });
+
+  //     setImg(filesContent[0]);
+  //   }
+  // }, [filesContent]);
+
   return (
     <>
       <ToastC />
@@ -179,9 +238,7 @@ export default function ProfileDisplay({ history }: any) {
             <Container>
               <HStack mt="55px">
                 <Pressable
-                  onPress={() => {
-                    console.log("ChangeIMg");
-                  }}
+                  onPress={handleClick}
                   onHoverIn={() => {
                     setHover(true);
                   }}
@@ -191,7 +248,7 @@ export default function ProfileDisplay({ history }: any) {
                 >
                   <Avatar
                     mx="50px"
-                    bg="amber.400"
+                    bg="rgba(0,0,0,0.5)"
                     size="150px"
                     source={{
                       uri: user?.img,
@@ -210,10 +267,33 @@ export default function ProfileDisplay({ history }: any) {
                       justifyContent="center"
                       alignItems="center"
                     >
-                      <FcEditImage className="iconImg" />
-                      <Text color="white" fontSize="18" mt="2">
-                        {t("change_img")}
-                      </Text>
+                      {!loadingImg ? (
+                        <>
+                          <input
+                            style={{ display: "none" }}
+                            ref={inputRef}
+                            type="file"
+                            accept="image/png, image/gif, image/jpeg"
+                            onChange={handleFileChange}
+                          />
+
+                          {/* <button onClick={handleClick}> */}
+                          <Box justifyContent="center" alignItems="center">
+                            <FcEditImage className="iconImg" />
+                            <Text color="white" fontSize="18" mt="2">
+                              {t("change_img")}
+                            </Text>
+                          </Box>
+
+                          {/* </button> */}
+                        </>
+                      ) : (
+                        <Spinner
+                          accessibilityLabel="Loading posts"
+                          color="blue.500"
+                          size="25px"
+                        />
+                      )}
                     </Box>
                   )}
                 </Pressable>

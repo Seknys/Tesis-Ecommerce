@@ -32,13 +32,13 @@ export const AnalysisxProduct = () => {
       const createdAtS = snapshot.data().createdAt;
       const updatedAtS = snapshot.data().updatedAt;
 
-      // productsAux.createdAt = new Date(
-      //   createdAtS.seconds * 1000
-      // ).toLocaleString();
+      productsAux.createdAt = new Date(
+        createdAtS.seconds * 1000
+      ).toLocaleString();
 
-      // productsAux.updatedAt = new Date(
-      //   updatedAtS.seconds * 1000
-      // ).toLocaleString();
+      productsAux.updatedAt = new Date(
+        updatedAtS.seconds * 1000
+      ).toLocaleString();
 
       setProduct(productsAux);
       pieValuesAux.push(snapshot.data().views);
@@ -114,12 +114,12 @@ export const AnalysisxProduct = () => {
           {product?.name}
         </Text>
       </Center>
-      {/* <Text fontSize={"xl"} ml="5%">
+      <Text fontSize={"xl"} ml="5%">
         {t("analyst_createdAt")} <MB>{product?.createdAt}</MB>
       </Text>
       <Text fontSize={"xl"} ml="5%">
         {t("analyst_updatedAt")} <MB>{product?.updatedAt}</MB>
-      </Text> */}
+      </Text>
 
       <HStack mt="25px">
         <Box flex={4}>

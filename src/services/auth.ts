@@ -1,4 +1,4 @@
-import { db } from "../firebase/configFirebase";
+import { db, storage } from "../firebase/configFirebase";
 import {
   getAuth,
   signInWithPopup,
@@ -14,8 +14,9 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { auth } from "../firebase/configFirebase";
-import { ref, onValue, set, push, remove } from "firebase/database";
+import { onValue, set, push, remove } from "firebase/database";
 import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { uploadBytes, ref } from "firebase/storage";
 
 export const signInWithGoogle = () => {
   auth.useDeviceLanguage();
@@ -159,4 +160,16 @@ export const updateEmailAdress = async (email: string) => {
 export const updatePassService = async (password: string) => {
   const user: any = auth.currentUser;
   return await updatePassword(user, password);
+};
+
+export const uploadImageUser = async (uid: string, image: any) => {
+  console.log("Image", image.name);
+  return await uploadBytes(
+    ref(storage, "users/" + uid + "/profile.png"),
+    image
+  );
+};
+
+export const updateImageUser = async (uid: string, image: string) => {
+  return await updateDoc(doc(db, "users", uid), { img: image });
 };
