@@ -197,7 +197,7 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     infinite: true,
-    arrows: false,
+
     speed: 500,
     fade: true,
     asNavFor: nav2,

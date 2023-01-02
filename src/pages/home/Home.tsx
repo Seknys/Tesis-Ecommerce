@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   Text,
+  useMediaQuery,
 } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,6 +23,15 @@ import "./style.css";
 
 export default function HomePage({ history }: any) {
   // const categories = useRef<Icategories[]>();
+
+  const [isSmallScreen] = useMediaQuery({
+    minWidth: 10,
+    maxWidth: 768,
+  });
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 769,
+    maxWidth: 1150,
+  });
 
   const { t } = useTranslation();
   const [productsByView, setProductsByView] = useState<Iproducts[]>([]);
@@ -61,7 +71,11 @@ export default function HomePage({ history }: any) {
         <Route exact path={path} children={MainHome} />
         <Route path={`${path}/:categoryId`} children={MainHome} />
       </Switch> */}
-
+        {isSmallScreen && (
+          <Text fontSize={"xl"} bold>
+            {t("label_categories")}
+          </Text>
+        )}
         <Container
           alignSelf={"center"}
           display={"flex"}
@@ -69,63 +83,106 @@ export default function HomePage({ history }: any) {
           flexDirection="row"
           justifyContent="space-around"
         >
-          {categories?.map((category: Icategories, index) => (
-            // <Link to={`${url}/${category.uid}`} key={category.uid}>
-            <div key={`${category.uid}_${index}`} className="menu-container">
-              <Pressable
-                shadow={8}
-                borderRadius="30"
-                onHoverIn={() => setHover({ value: true, index: index })}
-                onHoverOut={() => setHover(null)}
-                key={category.uid}
-              >
-                <Link
-                  to={`category/${category.uid}`}
-                  className="link-container"
+          {categories?.map((category: Icategories, index) => {
+            if (isSmallScreen) {
+              return (
+                <div
+                  key={`${category.uid}_${index}`}
+                  className="small-menu-container"
                 >
-                  <Image
-                    source={{ uri: category.img }}
-                    alt="Alternate Text"
-                    width="18vw"
-                    height="300"
-                    mx="10"
-                    resizeMode="contain"
-                    //   size='2xl'
-
+                  <Pressable
+                    shadow={8}
                     borderRadius="30"
-                  />
+                    // bg="cyan.600"
+                    w="125"
+                    h="100"
+                  >
+                    <Link
+                      to={`category/${category.uid}`}
+                      className="link-container"
+                    >
+                      <Image
+                        source={{ uri: category.img }}
+                        alt="Alternate Text"
+                        width="125"
+                        height="100"
+                        resizeMode="cover"
+                        borderRadius="30"
+                      />
+                    </Link>
+                  </Pressable>
+                  <Box w="100%">
+                    <Text fontSize={"md"} alignSelf={"center"}>
+                      {category.name}
+                    </Text>
+                  </Box>
+                </div>
+              );
+            } else {
+              return (
+                // <Link to={`${url}/${category.uid}`} key={category.uid}>
+                <div
+                  key={`${category.uid}_${index}`}
+                  className="menu-container"
+                >
+                  <Pressable
+                    shadow={8}
+                    borderRadius="30"
+                    onHoverIn={() => setHover({ value: true, index: index })}
+                    onHoverOut={() => setHover(null)}
+                    key={category.uid}
+                  >
+                    <Link
+                      to={`category/${category.uid}`}
+                      className="link-container"
+                    >
+                      <Image
+                        // bg="success.700"
+                        source={{ uri: category.img }}
+                        alt="Alternate Text"
+                        width="18vw"
+                        // height="300"
+                        height={isMediumScreen ? "200px" : "275px"}
+                        mx="10"
+                        resizeMode="contain"
+                        //   size='2xl'
 
-                  {hover?.value && hover?.index === index && (
-                    // <div className={`text-contain text-${index} `}>
-                    //   <Text
-                    //     fontSize="2xl"
-                    //     textAlign="center"
-                    //     color="white"
-                    //     bg="primary"
-                    //     py="3"
-                    //     borderRadius="35"
-                    //   >
-                    //     {category.name}
-                    //   </Text>
-                    // </div>
-                    <Box position="absolute" top="38%" px="35" w="100%">
-                      <Text
-                        isTruncated
-                        fontSize="2xl"
-                        textAlign="center"
-                        bg={"rgba(0,0,0, 0.7)"}
-                        color="white"
-                        py="3"
-                        borderRadius="35"
-                      >
-                        {category.name}
-                      </Text>
-                    </Box>
-                  )}
-                </Link>
-              </Pressable>
-            </div>
-          ))}
+                        borderRadius="30"
+                      />
+
+                      {hover?.value && hover?.index === index && (
+                        // <div className={`text-contain text-${index} `}>
+                        //   <Text
+                        //     fontSize="2xl"
+                        //     textAlign="center"
+                        //     color="white"
+                        //     bg="primary"
+                        //     py="3"
+                        //     borderRadius="35"
+                        //   >
+                        //     {category.name}
+                        //   </Text>
+                        // </div>
+                        <Box position="absolute" top="38%" px="35" w="100%">
+                          <Text
+                            isTruncated
+                            fontSize="2xl"
+                            textAlign="center"
+                            bg={"rgba(0,0,0, 0.7)"}
+                            color="white"
+                            py="3"
+                            borderRadius="35"
+                          >
+                            {category.name}
+                          </Text>
+                        </Box>
+                      )}
+                    </Link>
+                  </Pressable>
+                </div>
+              );
+            }
+          })}
         </Container>
 
         {productsByView.length > 4 && (
@@ -134,7 +191,14 @@ export default function HomePage({ history }: any) {
               to="/more-views/views?=true"
               style={{ textDecoration: "none" }}
             >
-              <Text fontSize={"3xl"} bold pl="25" my="15" w="100%">
+              <Text
+                textAlign={"center"}
+                fontSize={"3xl"}
+                bold
+                pl="25"
+                my="15"
+                w="100%"
+              >
                 {t("products_moreViewed")}
               </Text>
             </Link>

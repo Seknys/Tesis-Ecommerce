@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import {
   Box,
   HStack,
@@ -7,21 +8,33 @@ import {
   Avatar,
   Button,
 } from "native-base";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable } from "react-native";
 import { Link } from "react-router-dom";
 import UserContext from "../contexts/userContext";
+import { Icategories } from "../interfaces/interface";
 import { signOutUser } from "../services/auth";
+import { getCategories } from "../services/basicOperations";
 
 export default function OverlayMenu() {
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
+  const [categories, setCategories] = useState<Icategories[]>([]);
+
   let url = "";
 
   useEffect(() => {
     url = window.location.href;
-  });
+    console.log(url);
+    const getCategoriesSnapshot = (snapshot: DocumentData) => {
+      const categoriesData = snapshot.docs.map((doc: DocumentData) =>
+        doc.data()
+      );
+      setCategories(categoriesData);
+    };
+    getCategories(getCategoriesSnapshot);
+  }, []);
 
   //Get my url
 
@@ -58,8 +71,15 @@ export default function OverlayMenu() {
                   uri: user.img,
                 }}
               />
-              <Text ml="15" bold fontSize={"lg"}>
-                {user.name}
+              <Text
+                ml="15"
+                bold
+                fontSize={"lg"}
+                bg="yellow.400"
+                isTruncated
+                w="90%"
+              >
+                {user.name} {user.lastName}
               </Text>
             </HStack>
           </Link>
@@ -116,6 +136,29 @@ export default function OverlayMenu() {
             </Text>
           </Link>
         </Box>
+      )}
+
+      {user?.role !== "admin" && user?.role !== "analyst" && (
+        <>
+          <Text>{t("label_categories")}</Text>
+          <Box shadow="8" borderRadius={15} mt="5">
+            {categories &&
+              categories.map((category, index) => (
+                <Link
+                  key={category.name + index}
+                  style={{
+                    textDecoration: "none",
+                    width: "100%",
+                  }}
+                  to={`/category/${category.uid}`}
+                >
+                  <Text color="black" fontSize={"xl"} p="3">
+                    {category.name}
+                  </Text>
+                </Link>
+              ))}
+          </Box>
+        </>
       )}
 
       {user && (

@@ -56,8 +56,7 @@ export const signInWithGoogle = () => {
 };
 
 export const signOutUser = () => {
-  console.log("USerLog Out");
-  signOut(auth);
+  return signOut(auth)
 };
 
 export const userLogin = async (email: string, password: string) => {

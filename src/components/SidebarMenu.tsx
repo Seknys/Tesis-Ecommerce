@@ -1,4 +1,4 @@
-import { Box, Text } from "native-base";
+import { Box, Text, useMediaQuery } from "native-base";
 import React, { ReactNode, useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 
@@ -44,7 +44,8 @@ export default function SideBarMenu({
 }: IProps) {
   // const [expanded, setExpanded] = useState<string | false>(false);
   const [categories, setCategories] = useState<Icategories[]>([]);
-  const [expanded, setExpanded] = useState<false | number>(0);
+  const [expanded, setExpanded] = useState<false | number>(false);
+
   // const [valueSide, setValueSide] = useState<string | null>(null);
   useEffect(() => {
     if (!isAdmin) {
@@ -106,7 +107,11 @@ const Accordion = ({
   callBackParent,
   historyProduct,
 }: IPropsA) => {
-  const isOpen = i === expanded;
+  const isOpen = expanded === i;
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 10,
+    maxWidth: 1400,
+  });
 
   // const [value, setValue] = useState<string | null>(null);
   // By using `AnimatePresence` to mount and unmount the contents, we can animate
@@ -117,10 +122,19 @@ const Accordion = ({
         initial={false}
         animate={{ backgroundColor: isOpen ? "#FF0088" : "#E84EAA" }}
         onClick={() => setExpanded(isOpen ? false : i)}
+        style={{ cursor: "pointer", width: "90%" }}
       >
-        <Text fontSize="2xl" ml="25" bold color="white">
-          {category?.name}
-        </Text>
+        <Box w="90%" justifyItems={"center"}>
+          <Text
+            isTruncated
+            fontSize={isMediumScreen ? 19 : 22}
+            ml="3%"
+            bold
+            color="white"
+          >
+            {category?.name}
+          </Text>
+        </Box>
       </motion.header>
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -139,12 +153,10 @@ const Accordion = ({
             <Pressable
               onPress={() => {
                 if (isProduct) {
-                  console.log("isProduct", isProduct);
                   historyProduct.push(`/category/${category?.uid}`);
                   return;
                 }
                 if (category) {
-                  console.log("category", category);
                   callBackParent(category);
                 }
               }}

@@ -35,10 +35,21 @@ export default function MainHeader({ history }: any) {
   const [showSearch, setShowSearch] = useState(false);
 
   const { user } = useContext(UserContext);
-  const [isMediumScreen] = useMediaQuery({
+  // const [isSmallScreen] = useMediaQuery({
+  //   minWidth: 10,
+  //   maxWidth: 915,
+  // });
+
+  const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
-    maxWidth: 768,
+    maxWidth: 605,
   });
+
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 606,
+    maxWidth: 1145,
+  });
+
   useEffect(() => {
     // console.log("User", user);
   }, []);
@@ -70,9 +81,13 @@ export default function MainHeader({ history }: any) {
             }}
             to="/"
           >
-            <Text fontSize="2xl" color="white">
-              Up World
-            </Text>
+            {isSmallScreen ||
+              (!isMediumScreen && (
+                <Text fontSize="2xl" color="white">
+                  Up World
+                </Text>
+              ))}
+
             <Image
               source={{
                 uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
@@ -80,15 +95,14 @@ export default function MainHeader({ history }: any) {
               alt="MainLogo"
               width={50}
               height={50}
-              ml="25"
             />
           </Link>
 
           <Pressable
             onPress={() => {
-              setShowSearch(true);
+              setShowSearch(!showSearch);
             }}
-            ml="10%"
+            ml="15"
           >
             <IconContext.Provider
               value={{
@@ -103,7 +117,7 @@ export default function MainHeader({ history }: any) {
           {showSearch && (
             <Input
               placeholder="Search"
-              w="50%"
+              w={isSmallScreen ? "54%" : isMediumScreen ? "70%" : "70%"}
               ml="5%"
               bg="white"
               borderRadius="10"
@@ -158,10 +172,10 @@ export default function MainHeader({ history }: any) {
 
           {user?.role === "admin" || user?.role == "analyst"
             ? null
-            : !isMediumScreen && (
+            : (!isSmallScreen || !isMediumScreen) && (
                 <Box>
                   <div style={{ zIndex: 30, width: "100%" }}>
-                    <MenuSideIcon />
+                    {/* <MenuSideIcon /> */}
                   </div>
                 </Box>
               )}

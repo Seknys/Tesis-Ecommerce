@@ -24,8 +24,8 @@ export const getProductsByCategory = (
 ) => {
   const q = query(
     productRef,
-    where("catUid", "==", category)
-    // orderBy("name", "asc")
+    where("catUid", "==", category),
+    orderBy("name", "asc")
   );
   return onSnapshot(q, fSnapshot);
 };

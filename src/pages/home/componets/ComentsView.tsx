@@ -28,7 +28,7 @@ export const ComentsView = ({ comment, index }: ComentsProps) => {
       borderRadius={15}
       bg="white"
       px={4}
-      mr="35"
+      mx="17"
       mb="35"
       minW={"250px"}
     >

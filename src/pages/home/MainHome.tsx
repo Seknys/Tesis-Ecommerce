@@ -12,6 +12,7 @@ import {
   HStack,
   Pressable,
   PresenceTransition,
+  useMediaQuery,
 } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -55,6 +56,10 @@ export default function MainHome({ history }: any) {
     setProducts(productsData);
   };
 
+  const [isSmallScreen] = useMediaQuery({
+    minWidth: 10,
+    maxWidth: 1200,
+  });
   const getCategorySnapshot = (snapshot: DocumentData) => {
     const categoryData = snapshot.docs.map((doc: DocumentData) => doc.data());
     setCategory(categoryData[0]);
@@ -108,29 +113,109 @@ export default function MainHome({ history }: any) {
 
   return (
     <>
-      <SideBarMenu callBackParent={setAuxCategory}>
-        <>
-          <Box w="100%">
-            {auxCategory ? (
-              <Text bold textAlign="left" fontSize="2xl">
-                {auxCategory.name}
-              </Text>
-            ) : (
-              <Text bold textAlign="left" fontSize="2xl">
-                {category?.name}
-              </Text>
-            )}
-            {value && (
-              <Text bold textAlign="left" fontSize="2xl">
-                {t("label_moreView")}
-              </Text>
-            )}
-            {/* <Text bold textAlign="left" fontSize="2xl">
+      {!isSmallScreen ? (
+        <SideBarMenu callBackParent={setAuxCategory}>
+          <>
+            <Box w="100%">
+              {auxCategory ? (
+                <Text bold textAlign="left" fontSize="2xl">
+                  {auxCategory.name}
+                </Text>
+              ) : (
+                <Text bold textAlign="left" fontSize="2xl">
+                  {category?.name}
+                </Text>
+              )}
+              {value && (
+                <Text bold textAlign="left" fontSize="2xl">
+                  {t("label_moreView")}
+                </Text>
+              )}
+            </Box>
+            <Box
+              flexWrap="wrap"
+              w="100%"
+              // bg="yellow.400"
+              // justifyContent="space-around"
+              // justifyContent={"center"}
+              flexDirection="row"
+            >
+              {admin &&
+                products?.map((product) => (
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/admin/edit-product/${product.uid}`}
+                    key={product.uid}
+                  >
+                    <CardProduct product={product} />
+                  </Link>
+                ))}
+              {analyst &&
+                products?.map((product) => (
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/analyst/product/${product.uid}`}
+                    key={product.uid}
+                  >
+                    <CardProduct product={product} />
+                  </Link>
+                ))}
+              {id &&
+                products?.map((product, index) => (
+                  <CardProduct
+                    key={product.uid + index}
+                    product={product}
+                    handleOnPress={async () => {
+                      await updateViews(product.uid)
+                        .then(() => {
+                          console.log("Views updated");
+                          history.push(`/product/${product.uid}`);
+                        })
+                        .catch((error) => {
+                          console.log("ViewsError", error);
+                        });
+                    }}
+                  />
+                ))}
+              {value &&
+                productsByView?.map((product, index) => (
+                  <CardProduct
+                    key={product.uid + index}
+                    product={product}
+                    handleOnPress={async () => {
+                      await updateViews(product.uid)
+                        .then(() => {
+                          console.log("Views updated");
+                          history.push(`/product/${product.uid}`);
+                        })
+                        .catch((error) => {
+                          console.log("ViewsError", error);
+                        });
+                    }}
+                  />
+                ))}
+            </Box>
+          </>
+        </SideBarMenu>
+      ) : (
+        <Center w="100%" my="25">
+          {auxCategory ? (
+            <Text bold fontSize="2xl">
+              {auxCategory.name}
+            </Text>
+          ) : (
+            <Text bold fontSize="2xl">
               {category?.name}
-            </Text> */}
-          </Box>
+            </Text>
+          )}
+          {value && (
+            <Text bold fontSize="2xl">
+              {t("label_moreView")}
+            </Text>
+          )}
           <Box
             flexWrap="wrap"
+            justifyContent={"center"}
             // justifyContent="space-around"
             flexDirection="row"
           >
@@ -189,8 +274,8 @@ export default function MainHome({ history }: any) {
                 />
               ))}
           </Box>
-        </>
-      </SideBarMenu>
+        </Center>
+      )}
     </>
   );
 }

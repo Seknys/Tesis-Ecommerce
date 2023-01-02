@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Rating, { IconContainerProps } from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
@@ -8,6 +8,7 @@ import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import { Box, HStack, Text } from "native-base";
 import { useTranslation } from "react-i18next";
+import { useUnmountEffect } from "framer-motion";
 
 interface IRatingProps {
   rating: number;
@@ -58,27 +59,11 @@ export const RatingCustomView = ({
       label: t("rating_5"),
     },
   };
+  useEffect(() => {}, [isReadOnly]);
+
+  console.log("IsReadOnly: ", isReadOnly);
+  console.log("HOver?: ", hover);
   return (
-    // <HStack>
-    //   <StyledRating
-    //     name="highlight-selected-only"
-    //     size="large"
-    //     //   defaultValue={2}
-    //     value={rating}
-    //     readOnly={isReadOnly}
-    //     onChange={(event, newValue) => {
-    //       if (newValue && setRating) {
-    //         console.log("RatingValue: ", newValue)
-    //         setRating(newValue);
-    //       }
-    //     }}
-    //     IconContainerComponent={IconContainer}
-    //     getLabelText={(value: number) => customIcons[value].label}
-    //     highlightSelectedOnly
-    //   />
-    //   <Text ml="15" fontSize={"sm"}>
-    //     {customIcons[rating].label}
-    //   </Text>
     // </HStack>
     <HStack w="100%">
       <Rating
@@ -98,14 +83,40 @@ export const RatingCustomView = ({
         }}
         getLabelText={(value: number) => customIcons[value].label}
       />
-      {hover > 0 ? (
+      {/* {hover > 0 ? (
         <Box ml="15" w="150">
           <Text bold fontSize={"sm"}>
             {customIcons[hover].label}
           </Text>
         </Box>
+      ) : isReadOnly ? (
+        <Box ml="15" w="150">
+          <Text bold fontSize={"sm"}>
+            READ {customIcons[rating].label}
+          </Text>
+        </Box>
       ) : (
         <Box ml="15" w="150">
+          <Text bold fontSize={"sm"}>
+            {customIcons[1].label}
+          </Text>
+        </Box>
+      )} */}
+
+      {isReadOnly ? (
+        <Box ml="2" justifyContent={"center"} w="150">
+          <Text bold fontSize={"sm"}>
+            {customIcons[rating].label}
+          </Text>
+        </Box>
+      ) : hover > 0 ? (
+        <Box ml="2" justifyContent={"center"} w="150">
+          <Text bold fontSize={"sm"}>
+            {customIcons[hover].label}
+          </Text>
+        </Box>
+      ) : (
+        <Box ml="2" justifyContent={"center"} w="150">
           <Text bold fontSize={"sm"}>
             {customIcons[1].label}
           </Text>
