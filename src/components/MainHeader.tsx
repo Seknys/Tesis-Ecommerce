@@ -71,7 +71,7 @@ export default function MainHeader({ history }: any) {
             setShowMenu(!showMenu);
           }}
           position={"absolute"}
-          zIndex="100"
+          zIndex="10"
           // w="50"
           // h="50"
 

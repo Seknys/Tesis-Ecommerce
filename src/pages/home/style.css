@@ -203,3 +203,35 @@
   margin-right: 5px;
   transition: all 0.6s; */
 }
+
+.icon-views {
+  color: rgb(93, 89, 89);
+  font-size: 1rem;
+  margin-left: 5px;
+  /* margin-right: 5px; */
+  transition: all 0.6s;
+}
+
+.icon-views:hover {
+  color: #000;
+  font-size: 1.5rem;
+  /* margin-left: 5px;
+  margin-right: 5px;
+  transition: all 0.6s; */
+}
+
+.icon-buy {
+  color: rgb(93, 89, 89);
+  font-size: 1rem;
+  margin-left: 5px;
+  /* margin-right: 5px; */
+  transition: all 0.6s;
+}
+
+.icon-buy:hover {
+  color: #000;
+  font-size: 1.5rem;
+  /* margin-left: 5px;
+  margin-right: 5px;
+  transition: all 0.6s; */
+}

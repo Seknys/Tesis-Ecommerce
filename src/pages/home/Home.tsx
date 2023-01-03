@@ -5,6 +5,7 @@ import {
   Button,
   Center,
   Container,
+  HStack,
   Image,
   Pressable,
   Text,
@@ -12,6 +13,9 @@ import {
 } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaTags } from "react-icons/fa";
+import { IoStatsChart } from "react-icons/io5";
+import { MdSell } from "react-icons/md";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import { Interface } from "readline";
 import { Icategories, Iproducts } from "../../interfaces/interface";
@@ -82,6 +86,55 @@ export default function HomePage({ history }: any) {
         <Route exact path={path} children={MainHome} />
         <Route path={`${path}/:categoryId`} children={MainHome} />
       </Switch> */}
+
+        {!isSmallScreen ? (
+          <HStack w="70%" justifyContent={"space-around"}>
+            <Link
+              to="/more-views/views?=true"
+              style={{ textDecoration: "none" }}
+            >
+              <HStack alignItems={"center"}>
+                <Text mr="3" fontSize={"lg"} color="gray.400">
+                  {t("products_moreViewed")}
+                </Text>
+                <IoStatsChart className="icon-views" />
+              </HStack>
+            </Link>
+
+            <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
+              <HStack alignItems={"center"}>
+                <Text mr="3" fontSize={"lg"} color="gray.400">
+                  {t("products_moreBuy")}
+                </Text>
+                <FaTags className="icon-buy" />
+              </HStack>
+            </Link>
+          </HStack>
+        ) : (
+          <HStack w="100%" justifyContent={"space-around"}>
+            <Link
+              to="/more-views/views?=true"
+              style={{ textDecoration: "none" }}
+            >
+              <HStack alignItems={"center"}>
+                <Text mr="3" fontSize={"lg"} color="gray.400">
+                  {t("label_MovilVIew")}
+                </Text>
+                <IoStatsChart className="icon-views" />
+              </HStack>
+            </Link>
+
+            <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
+              <HStack alignItems={"center"}>
+                <Text mr="3" fontSize={"lg"} color="gray.400">
+                  {t("label_MovilBuy")}
+                </Text>
+                <FaTags className="icon-buy" />
+              </HStack>
+            </Link>
+          </HStack>
+        )}
+
         {isSmallScreen && (
           <Text fontSize={"xl"} bold>
             {t("label_categories")}
@@ -114,7 +167,7 @@ export default function HomePage({ history }: any) {
                     >
                       <Image
                         source={{ uri: category.img }}
-                        alt="Alternate Text"
+                        alt={category.uid}
                         width="125"
                         height="100"
                         resizeMode="cover"
@@ -150,7 +203,7 @@ export default function HomePage({ history }: any) {
                       <Image
                         // bg="success.700"
                         source={{ uri: category.img }}
-                        alt="Alternate Text"
+                        alt={category.uid}
                         width="18vw"
                         // height="300"
                         height={isMediumScreen ? "200px" : "275px"}

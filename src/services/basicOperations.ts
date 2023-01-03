@@ -5,6 +5,7 @@ import {
   DocumentData,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -14,7 +15,8 @@ import { Icategories } from "../interfaces/interface";
 const categoryRef = collection(db, "categories");
 
 export const getCategories = (fSnapshot: (snapshot: DocumentData) => void) => {
-  onSnapshot(collection(db, "categories"), fSnapshot);
+  const q = query(categoryRef, orderBy("name", "asc"));
+  onSnapshot(q, fSnapshot);
 };
 
 export const getOneCategory = (
