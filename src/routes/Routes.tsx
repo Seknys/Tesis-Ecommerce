@@ -16,6 +16,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import { CartDisplay } from "../pages/cart/CartDisplay";
 import { Checkout } from "../pages/cart/Checkout";
+import SpecialCategory from "../pages/home/DisplaySpecialCategory";
 
 import HomePage from "../pages/home/Home";
 import MainHome from "../pages/home/MainHome";
@@ -41,6 +42,7 @@ export const RoutesClient = () => (
           {/* <Route path="/home/scanner_cat" component={Login} /> */}
           <Route path="/category/:id" component={MainHome} />
           <Route path="/more-views/:value" component={MainHome} />
+          <Route path="/more-buy/:value" component={SpecialCategory} />
           <Route path="/product/:uid" component={ProductDisplay} />
           <Route path="/profile" component={ProfileDisplay} />
           <Route path="/cart/details" component={CartDisplay} />

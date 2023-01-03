@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import { Interface } from "readline";
 import { Icategories, Iproducts } from "../../interfaces/interface";
-import { getProductsByViews } from "../../services/admin";
+import { getProductsByBuy, getProductsByViews } from "../../services/admin";
 import { getCategories } from "../../services/basicOperations";
 import { ProductCarousel } from "./carousel/ProductCarousel";
 import MainHome from "./MainHome";
@@ -35,6 +35,7 @@ export default function HomePage({ history }: any) {
 
   const { t } = useTranslation();
   const [productsByView, setProductsByView] = useState<Iproducts[]>([]);
+  const [productsBuy, setProductsBuy] = useState<Iproducts[]>([]);
 
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [hover, setHover] = useState<{
@@ -49,11 +50,21 @@ export default function HomePage({ history }: any) {
       if (productsData.length > 10) {
         productsData.length = 10;
       }
-      console.log("productsData", productsData);
 
       setProductsByView(productsData);
     };
     getProductsByViews(getProductsByViewsSnapshot);
+    const getProductsByBuySnapshot = (snapshot: DocumentData) => {
+      const productsData = snapshot.docs.map((doc: DocumentData) => doc.data());
+
+      if (productsData.length > 10) {
+        productsData.length = 10;
+      }
+      console.log("BUY: ", productsData);
+
+      setProductsBuy(productsData);
+    };
+    getProductsByBuy(getProductsByBuySnapshot);
 
     const getCategoriesSnapshot = (snapshot: DocumentData) => {
       const categoriesData = snapshot.docs.map((doc: DocumentData) =>
@@ -204,6 +215,25 @@ export default function HomePage({ history }: any) {
             </Link>
 
             <ProductCarousel history={history} products={productsByView} />
+          </Container>
+        )}
+
+        {productsBuy.length > 4 && (
+          <Container alignItems="center" my="25" shadow={6} borderRadius={10}>
+            <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
+              <Text
+                textAlign={"center"}
+                fontSize={"3xl"}
+                bold
+                pl="25"
+                my="15"
+                w="100%"
+              >
+                {t("products_moreBuy")}
+              </Text>
+            </Link>
+
+            <ProductCarousel history={history} products={productsBuy} />
           </Container>
         )}
       </Center>

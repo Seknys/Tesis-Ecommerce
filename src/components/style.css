@@ -1,14 +1,23 @@
 .menuStyle {
-  padding-top: 15;
-  background-color: rgb(216, 208, 208);
+  padding-top: 25;
+  background-color: rgb(108, 107, 107);
+}
+.cartStyle {
+  padding-top: 55;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 50;
 }
 
 .headerStyle {
   background: linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%);
   position: sticky;
   top: 0px;
+  z-index: 50;
 }
 
+.sdsa {
+  color: #ff008c;
+}
 /* body {
   background-repeat: no-repeat;
   padding: 0;
@@ -89,4 +98,15 @@ header {
   .paragraph {
     margin-bottom: 20px;
   }
+}
+
+.menu-linkItem {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #f2c94c; */
+  margin: 15px 0px;
 }

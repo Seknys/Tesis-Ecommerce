@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import radioButton from "react-useanimations/lib/radioButton";
 import { stack as Menu } from "react-burger-menu";
+import { slide as MenuSide } from "react-burger-menu";
 import { GoThreeBars } from "react-icons/go";
 import { MdShoppingCart } from "react-icons/md";
 import { BiSearchAlt } from "react-icons/bi";
@@ -28,9 +29,11 @@ import "./hamburgerMenu/styleHamburger.css";
 import UserContext from "../contexts/userContext";
 import { Link } from "react-router-dom";
 import { MenuSideIcon } from "./hamburgerMenu/Menu";
+import { CartMenu } from "./CartMenu";
+import { IoCloseSharp } from "react-icons/io5";
 
 export default function MainHeader({ history }: any) {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState<boolean>(true);
   const [checked, setChecked] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -55,9 +58,26 @@ export default function MainHeader({ history }: any) {
   }, []);
 
   return (
-    <div className="headerStyle">
-      <HStack w="100%" h="60" alignItems={"center"}>
-        <Box flex={1}>
+    <>
+      <div
+        className="AppS"
+        id="outer-container"
+        style={{
+          backgroundColor: "#f2c94c",
+        }}
+      >
+        <Pressable
+          onPress={() => {
+            setShowMenu(!showMenu);
+          }}
+          position={"absolute"}
+          zIndex="100"
+          // w="50"
+          // h="50"
+
+          py="15"
+          right={"10%"}
+        >
           <IconContext.Provider
             value={{
               color: "white",
@@ -65,86 +85,19 @@ export default function MainHeader({ history }: any) {
               style: { alignSelf: "center" },
             }}
           >
-            <GoThreeBars />
+            {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
+            <MdShoppingCart />
           </IconContext.Provider>
-          <Menu className="menuStyle" width={300}>
-            <OverlayMenu />
-          </Menu>
-        </Box>
-        <HStack flex={7} alignItems={"center"}>
-          <Link
-            style={{
-              flexDirection: "row",
-              display: "flex",
-              textDecoration: "none",
-              alignItems: "center",
-            }}
-            to="/"
-          >
-            {isSmallScreen ||
-              (!isMediumScreen && (
-                <Text fontSize="2xl" color="white">
-                  Up World
-                </Text>
-              ))}
+          <CartMenu
+            pageWrapId={"page-wrap"}
+            outerContainerId={"outer-container"}
+          />
+        </Pressable>
 
-            <Image
-              source={{
-                uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
-              }}
-              alt="MainLogo"
-              width={50}
-              height={50}
-            />
-          </Link>
-
-          <Pressable
-            onPress={() => {
-              setShowSearch(!showSearch);
-            }}
-            ml="15"
-          >
-            <IconContext.Provider
-              value={{
-                color: "white",
-                size: "2em",
-                style: { alignSelf: "center" },
-              }}
-            >
-              <BiSearchAlt />
-            </IconContext.Provider>
-          </Pressable>
-          {showSearch && (
-            <Input
-              placeholder="Search"
-              w={isSmallScreen ? "54%" : isMediumScreen ? "70%" : "70%"}
-              ml="5%"
-              bg="white"
-              borderRadius="10"
-              onKeyPress={(e: any) => {
-                if (e.key === "Enter") {
-                  console.log("Target", e.target.value);
-                  window.location.href = `/search/${e.target.value}`;
-                }
-              }}
-              color="black"
-              _focus={{ borderColor: "black" }}
-              variant="filled"
-            />
-          )}
-        </HStack>
-        <HStack
-          flex={2}
-          alignItems={"center"}
-          justifyContent="space-between"
-          // pr="5%"
-          w="100%"
-
-          // bg='yellow.600'
-        >
-          <Box>
-            {user !== null ? (
-              <Link to="/profile" style={{ textDecoration: "none" }}>
+        <div id="page-wrap">
+          <div className="headerStyle">
+            <HStack w="100%" h="60" alignItems={"center"}>
+              <Box flex={1}>
                 <IconContext.Provider
                   value={{
                     color: "white",
@@ -152,35 +105,137 @@ export default function MainHeader({ history }: any) {
                     style: { alignSelf: "center" },
                   }}
                 >
-                  <FaRegUser />
+                  <GoThreeBars />
                 </IconContext.Provider>
-              </Link>
-            ) : (
-              <Link to="/login" style={{ textDecoration: "none" }}>
-                <IconContext.Provider
-                  value={{
-                    color: "white",
-                    size: "2em",
-                    style: { alignSelf: "center" },
+                <MenuSide className="menuStyle" width={300}>
+                  <OverlayMenu />
+                </MenuSide>
+              </Box>
+              <HStack flex={7} alignItems={"center"}>
+                <Link
+                  style={{
+                    flexDirection: "row",
+                    display: "flex",
+                    textDecoration: "none",
+                    alignItems: "center",
                   }}
+                  to="/"
                 >
-                  <FaRegUser />
-                </IconContext.Provider>
-              </Link>
-            )}
-          </Box>
+                  {isSmallScreen ||
+                    (!isMediumScreen && (
+                      <Text fontSize="2xl" color="white">
+                        Up World
+                      </Text>
+                    ))}
 
-          {user?.role === "admin" || user?.role == "analyst"
+                  <Image
+                    source={{
+                      uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
+                    }}
+                    alt="MainLogo"
+                    width={50}
+                    height={50}
+                  />
+                </Link>
+
+                <Pressable
+                  onPress={() => {
+                    setShowSearch(!showSearch);
+                  }}
+                  ml="15"
+                >
+                  <IconContext.Provider
+                    value={{
+                      color: "white",
+                      size: "2em",
+                      style: { alignSelf: "center" },
+                    }}
+                  >
+                    <BiSearchAlt />
+                  </IconContext.Provider>
+                </Pressable>
+                {showSearch && (
+                  <Input
+                    placeholder="Search"
+                    w={isSmallScreen ? "54%" : isMediumScreen ? "70%" : "70%"}
+                    ml="5%"
+                    bg="white"
+                    borderRadius="10"
+                    onKeyPress={(e: any) => {
+                      if (e.key === "Enter") {
+                        console.log("Target", e.target.value);
+                        window.location.href = `/search/${e.target.value}`;
+                      }
+                    }}
+                    color="black"
+                    _focus={{ borderColor: "black" }}
+                    variant="filled"
+                  />
+                )}
+              </HStack>
+              <HStack
+                flex={2}
+                alignItems={"center"}
+                justifyContent="space-between"
+                // pr="5%"
+                w="100%"
+
+                // bg='yellow.600'
+              >
+                <Box>
+                  {user !== null ? (
+                    <Link to="/profile" style={{ textDecoration: "none" }}>
+                      <IconContext.Provider
+                        value={{
+                          color: "white",
+                          size: "2em",
+                          style: { alignSelf: "center" },
+                        }}
+                      >
+                        <FaRegUser />
+                      </IconContext.Provider>
+                    </Link>
+                  ) : (
+                    <Link to="/login" style={{ textDecoration: "none" }}>
+                      <IconContext.Provider
+                        value={{
+                          color: "white",
+                          size: "2em",
+                          style: { alignSelf: "center" },
+                        }}
+                      >
+                        <FaRegUser />
+                      </IconContext.Provider>
+                    </Link>
+                  )}
+                </Box>
+
+                {/* {user?.role === "admin" || user?.role == "analyst"
             ? null
             : (!isSmallScreen || !isMediumScreen) && (
-                <Box>
-                  <div style={{ zIndex: 30, width: "100%" }}>
-                    {/* <MenuSideIcon /> */}
-                  </div>
+                // <Box>
+                //   <div style={{ zIndex: 30, width: "100%" }}>
+
+                //     <MenuSideIcon />
+                //   </div>
+                // </Box>
+                <Box flex="2">
+                  <IconContext.Provider
+                    value={{
+                      color: "white",
+                      size: "2em",
+                      style: { alignSelf: "center" },
+                    }}
+                  >
+                    <GoThreeBars />
+                  </IconContext.Provider>
                 </Box>
-              )}
-        </HStack>
-      </HStack>
-    </div>
+              )} */}
+              </HStack>
+            </HStack>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

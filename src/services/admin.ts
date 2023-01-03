@@ -51,6 +51,17 @@ export const getProductsByViews = (
   return onSnapshot(q, fSnapshot);
 };
 
+export const getProductsByBuy = (
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  const q = query(
+    productRef,
+    where("buy", ">", 25),
+    orderBy("buy", "desc")
+  );
+  return onSnapshot(q, fSnapshot);
+};
+
 export const deleteUserByUid = (uid: string) => {
   return deleteDoc(doc(userRef, uid));
 };
