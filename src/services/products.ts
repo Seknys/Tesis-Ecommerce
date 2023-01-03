@@ -94,6 +94,19 @@ export const getProductsBySearch = (
   return onSnapshot(q, fSnapshot);
 };
 
+export const getProductsSearch = (
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  //   const querySnapshot = await getDocs(collection(db, "cities"));
+  // querySnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+
+  //Get all documents of a collection OnSnapshot
+  onSnapshot(collection(db, "products"), fSnapshot);
+};
+
 export const getCommetsbyProduct = (
   uid: string,
   fSnapshot: (snapshot: IComments[]) => void

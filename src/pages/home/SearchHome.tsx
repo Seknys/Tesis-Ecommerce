@@ -5,7 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import SideBarMenu from "../../components/SidebarMenu";
 import { Iproducts } from "../../interfaces/interface";
-import { getProductsBySearch, updateViews } from "../../services/products";
+import {
+  getProductsBySearch,
+  getProductsSearch,
+  updateViews,
+} from "../../services/products";
 import { CardProduct } from "./componets/CardProduct";
 
 export const SearchHome = ({ history }: any) => {
@@ -21,11 +25,27 @@ export const SearchHome = ({ history }: any) => {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
           doc.data()
         );
-        console.log("productsData", productsData);
 
         setProductsSearch(productsData.length > 0 ? productsData : null);
       };
-      getProductsBySearch(value, getProductsBySearchSnapshot);
+      // getProductsBySearch(value, getProductsBySearchSnapshot);
+      const getProductsSearchSnapshot = (snapshot: DocumentData) => {
+        const productsData = snapshot.docs.map((doc: DocumentData) =>
+          doc.data()
+        );
+
+        value.toString().toLowerCase();
+        const result = productsData.filter(
+          (products: Iproducts) =>
+            products.name.toString().toLowerCase().indexOf(value) > -1
+        );
+
+        setProductsSearch(result.length > 0 ? result : null);
+
+        console.log("Search result", result);
+      };
+
+      getProductsSearch(getProductsSearchSnapshot);
     }
   }, [value]);
 
