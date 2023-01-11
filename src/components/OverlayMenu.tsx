@@ -26,7 +26,7 @@ export default function OverlayMenu() {
 
   useEffect(() => {
     url = window.location.href;
-    console.log(url);
+
     const getCategoriesSnapshot = (snapshot: DocumentData) => {
       const categoriesData = snapshot.docs.map((doc: DocumentData) =>
         doc.data()

@@ -7,6 +7,7 @@ import {
   FcBusinessman,
   FcInfo,
   FcInspection,
+  FcStatistics,
   FcViewDetails,
 } from "react-icons/fc";
 import { Link } from "react-router-dom";
@@ -49,7 +50,7 @@ export const HomeAnalyst = () => {
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
                     {/* {t("admin_user")} */}
-                    Analisis x categoria
+                    {t("analysis_category")}
                   </Text>
                 </Box>
               )}
@@ -72,17 +73,18 @@ export const HomeAnalyst = () => {
                 <IconContext.Provider
                   value={{
                     color: "black",
-                    size: "10em",
+                    size: "9em",
+                    style: { padding: 14 },
                   }}
                 >
-                  <FcBusinessman />
+                  <FcStatistics />
                 </IconContext.Provider>
               </div>
               {hover?.value && hover?.index === 2 && (
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
                     {/* {t("admin_create_product")} */}
-                    Analisis x producto
+                    {t("analysis_product")}
                   </Text>
                 </Box>
               )}

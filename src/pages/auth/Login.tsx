@@ -50,6 +50,7 @@ export default function Login({ history }: any) {
   const auth_pass: string = t("auth_pass");
 
   const handleGoogleLogin = () => {
+    setBttnSubmit(false);
     signInWithGoogle()
       .then((result) => {
         SuccesToast(t("auth_login_success"));
@@ -58,9 +59,7 @@ export default function Login({ history }: any) {
         // const token = credential?.accessToken;
         // The signed-in user info.
         const user = result.user;
-        console.log("WORK?");
 
-        console.log("User Google", user);
         SaveUserToFireBase(
           user.uid,
           user.displayName,
@@ -68,9 +67,7 @@ export default function Login({ history }: any) {
           user.email,
           "client",
           user.photoURL
-        ).then(() => {
-          console.log("User saved");
-        });
+        );
 
         setTimeout(() => {
           history.push("/home");
@@ -80,17 +77,32 @@ export default function Login({ history }: any) {
       })
       .catch((error) => {
         // Handle Errors here.
-        ErrorToast(t("auth_login_error"));
+
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.customData.email;
+
+        switch (errorCode) {
+          case "auth/account-exists-with-different-credential":
+            ErrorToast(t("auht_error_Different Credential"));
+            break;
+          case "auth/popup-closed-by-user":
+            ErrorToast(t("auth_error-PopupClose"));
+            break;
+          default:
+            ErrorToast(t("auth_unknown_error"));
+        }
+        // ErrorToast(t("auth_login_error"));
+
+        setBttnSubmit(true);
         // The AuthCredential type that was used.
         // const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
       });
   };
   const handleGitHubLogin = () => {
+    setBttnSubmit(false);
     singInWithGitHub()
       .then((result) => {
         SuccesToast(t("auth_login_success"));
@@ -100,7 +112,6 @@ export default function Login({ history }: any) {
         // The signed-in user info.
         const user = result.user;
 
-        console.log("USerGitHub", user);
         SaveUserToFireBase(
           user.uid,
           user.displayName,
@@ -108,9 +119,7 @@ export default function Login({ history }: any) {
           user.email,
           "client",
           user.photoURL
-        ).then(() => {
-          console.log("User saved");
-        });
+        );
         setTimeout(() => {
           history.push("/home");
         }, 2000);
@@ -119,21 +128,32 @@ export default function Login({ history }: any) {
       })
       .catch((error) => {
         // Handle Errors here.
-        ErrorToast(t("auth_login_error"));
+
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.customData.email;
 
-        console.log("errorCode", errorCode);
-        console.log("errorMessage", errorMessage);
-        console.log("email", email);
+        switch (errorCode) {
+          case "auth/account-exists-with-different-credential":
+            ErrorToast(t("auht_error_Different Credential"));
+            break;
+          case "auth/popup-closed-by-user":
+            ErrorToast(t("auth_error-PopupClose"));
+            break;
+          default:
+            ErrorToast(t("auth_unknown_error"));
+        }
+        // ErrorToast(t("auth_login_error"));
+
+        setBttnSubmit(true);
         // The AuthCredential type that was used.
         // const credential = GithubAuthProvider.credentialFromError(error);
         // ...
       });
   };
   const handleTwitterLogin = () => {
+    setBttnSubmit(false);
     singInWithTwitter()
       .then((result) => {
         SuccesToast(t("auth_login_success"));
@@ -143,7 +163,6 @@ export default function Login({ history }: any) {
         // The signed-in user info.
         const user = result.user;
 
-        console.log("USerGitHub", user);
         SaveUserToFireBase(
           user.uid,
           user.displayName,
@@ -151,9 +170,7 @@ export default function Login({ history }: any) {
           user.email,
           "client",
           user.photoURL
-        ).then(() => {
-          console.log("User saved");
-        });
+        );
         setTimeout(() => {
           history.push("/home");
         }, 2000);
@@ -162,15 +179,26 @@ export default function Login({ history }: any) {
       })
       .catch((error) => {
         // Handle Errors here.
-        ErrorToast(t("auth_login_error"));
+
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.customData.email;
 
-        console.log("errorCode", errorCode);
-        console.log("errorMessage", errorMessage);
-        console.log("email", email);
+        switch (errorCode) {
+          case "auth/account-exists-with-different-credential":
+            ErrorToast(t("auht_error_Different Credential"));
+            break;
+          case "auth/popup-closed-by-user":
+            ErrorToast(t("auth_error-PopupClose"));
+            break;
+          default:
+            ErrorToast(t("auth_unknown_error"));
+        }
+        // ErrorToast(t("auth_login_error"));
+
+        setBttnSubmit(true);
+
         // The AuthCredential type that was used.
         // const credential = TwitterAuthProvider.credentialFromError(error);
         // ...
@@ -320,7 +348,6 @@ export default function Login({ history }: any) {
               w="100%"
               my="3"
               onPress={() => {
-                console.log("SHow modal");
                 setShowModal(true);
               }}
             >

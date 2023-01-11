@@ -194,7 +194,7 @@ export const AnalysisxProduct = () => {
       >
         <div className="spakBox4 desc-container">
           <Text color="white" bold fontSize={"2xl"}>
-            Ganancias totales: {product && product.buy * product.price}
+            Ganancias totales: ${product && product.buy * product.price}
           </Text>
         </div>
       </HStack>

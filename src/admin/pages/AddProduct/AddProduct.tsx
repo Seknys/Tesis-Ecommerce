@@ -252,7 +252,7 @@ export default function AddProduct({ history }: any) {
 
   const handleUpdateProduct = (cat: Icategories) => {
     setIsLoading(true);
-    console.log("ArrayImages: ", arrayImages);
+    console.log("ArrayImagesUpdate: ", arrayImages);
     if (product) {
       const updateProductData: Iproducts = {
         catUid: cat.uid,

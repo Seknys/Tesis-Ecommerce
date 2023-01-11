@@ -14,6 +14,8 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
   const { user } = useContext(UserContext);
   const [cartProducts, setCartProducts] = useState<Iproducts[] | null>(null);
 
+  
+
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
       console.log("CartProducts: ", products);
@@ -31,6 +33,7 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
   }, [user]);
   return (
     <Menu
+    
       width={"300px"}
       right
       pageWrapId={pageWrap}

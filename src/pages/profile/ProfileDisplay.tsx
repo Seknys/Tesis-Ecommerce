@@ -77,8 +77,6 @@ export default function ProfileDisplay({ history }: any) {
   });
 
   const handleClick = () => {
-    // 👇️ open file input box on click of other element
-
     inputRef.current.click();
   };
   const handleFileChange = (event: any) => {
@@ -105,18 +103,10 @@ export default function ProfileDisplay({ history }: any) {
           ErrorToast(t("profile_imgError"));
         });
     }
-
-    // // 👇️ reset file input
-    // event.target.value = null;
-
-    // // 👇️ is now empty
-    // console.log("FILE:", event.target.files);
-
-    // // 👇️ can still access file object here
-    // console.log("OBJ: ", fileObj);
   };
 
   useEffect(() => {
+    console.log("USE EFECCT");
     if (user) {
       setName(user.name);
       setLastName(user.lastName);
@@ -200,18 +190,6 @@ export default function ProfileDisplay({ history }: any) {
     }
   };
 
-  // useEffect(() => {
-  //   if (filesContent.length > 0 && user) {
-  //     console.log("filesContentUseEFfect", filesContent);
-  //     uploadImageUser(user?.uid, filesContent[0]).then((res) => {
-  //       console.log("res", res);
-  //       SuccesToast(t("profile_updated"));
-  //     });
-
-  //     setImg(filesContent[0]);
-  //   }
-  // }, [filesContent]);
-
   return (
     <>
       <ToastC />
@@ -231,13 +209,15 @@ export default function ProfileDisplay({ history }: any) {
                 bg="blue.500"
                 onPress={() => {
                   setLoading(true);
-                  console.log("logout", loading);
-                  signOutUser();
-                  // SuccesToast(t("log_out"));
 
+                  signOutUser();
+                  // setLoading(false);
                   setTimeout(() => {
+                    console.log("SUPPOSED TO REDIRECT TO HOME");
                     history.push("/home");
                   }, 1500);
+
+                  // SuccesToast(t("log_out"));
                 }}
                 _hover={{
                   bg: "blue.600",
@@ -263,10 +243,12 @@ export default function ProfileDisplay({ history }: any) {
                   >
                     <Avatar
                       mx="50px"
-                      bg="rgba(0,0,0,0.5)"
+                      bg="rgba(255,255,255,0.5)"
                       size="150px"
                       source={{
-                        uri: user?.img,
+                        uri: user?.img
+                          ? user.img
+                          : "https://firebasestorage.googleapis.com/v0/b/ecommerce-epn.appspot.com/o/asset%2FUserAsset.png?alt=media&token=436e30da-eea2-4dfd-a764-99f9f7e954b5",
                       }}
                     />
                     {hover && (

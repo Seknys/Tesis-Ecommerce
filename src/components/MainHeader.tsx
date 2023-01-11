@@ -38,6 +38,7 @@ export default function MainHeader({ history }: any) {
   const [showSearch, setShowSearch] = useState(false);
 
   const { user } = useContext(UserContext);
+  console.log("USER", user?.role);
   // const [isSmallScreen] = useMediaQuery({
   //   minWidth: 10,
   //   maxWidth: 915,
@@ -66,33 +67,35 @@ export default function MainHeader({ history }: any) {
           backgroundColor: "#f2c94c",
         }}
       >
-        <Pressable
-          onPress={() => {
-            setShowMenu(!showMenu);
-          }}
-          position={"absolute"}
-          zIndex="100"
-          // w="50"
-          // h="50"
-
-          py="15"
-          right={"10%"}
-        >
-          <IconContext.Provider
-            value={{
-              color: "white",
-              size: "2em",
-              style: { alignSelf: "center" },
+        {user?.role !== "analyst" && user?.role !== "admin" && (
+          <Pressable
+            onPress={() => {
+              setShowMenu(!showMenu);
             }}
+            position={"absolute"}
+            zIndex="100"
+            // w="50"
+            // h="50"
+
+            py="15"
+            right={"10%"}
           >
-            {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
-            <MdShoppingCart />
-          </IconContext.Provider>
-          <CartMenu
-            pageWrapId={"page-wrap"}
-            outerContainerId={"outer-container"}
-          />
-        </Pressable>
+            <IconContext.Provider
+              value={{
+                color: "white",
+                size: "2em",
+                style: { alignSelf: "center" },
+              }}
+            >
+              {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
+              <MdShoppingCart />
+            </IconContext.Provider>
+            <CartMenu
+              pageWrapId={"page-wrap"}
+              outerContainerId={"outer-container"}
+            />
+          </Pressable>
+        )}
 
         <div id="page-wrap">
           <div className="headerStyle">
