@@ -56,7 +56,7 @@ export const signInWithGoogle = () => {
 };
 
 export const signOutUser = () => {
-  return signOut(auth)
+  return signOut(auth);
 };
 
 export const userLogin = async (email: string, password: string) => {
@@ -80,11 +80,13 @@ export const RegisterWithEmail = async (
   await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
+      console.log("CREATE?");
       const user = userCredential.user;
       console.log("User logged in", user.uid);
       //Save user in database
       SaveUserToFireBase(user.uid, name, lastName, email, role).then(() => {
         console.log("User saved");
+      
       });
     })
     .catch((error) => {

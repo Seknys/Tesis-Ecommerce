@@ -16,8 +16,9 @@ import { Iproducts } from "../interfaces/interface";
 
 const productRef = collection(db, "products");
 const userRef = collection(db, "users");
-export const uploadImage = (file: any) => {
-  return uploadBytes(ref(storage, `images/${file.name}`), file);
+export const uploadImage = (file: any, uid: string) => {
+  console.log("BACKUID: ", uid);
+  return uploadBytes(ref(storage, `images/${uid}/${file.name}`), file);
 };
 
 export const getUrlImage = async (pathImage: string) => {
@@ -54,11 +55,7 @@ export const getProductsByViews = (
 export const getProductsByBuy = (
   fSnapshot: (snapshot: DocumentData) => void
 ) => {
-  const q = query(
-    productRef,
-    where("buy", ">", 25),
-    orderBy("buy", "desc")
-  );
+  const q = query(productRef, where("buy", ">", 25), orderBy("buy", "desc"));
   return onSnapshot(q, fSnapshot);
 };
 

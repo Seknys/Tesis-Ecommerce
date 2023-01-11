@@ -19,6 +19,7 @@ import { RegisterWithEmail } from "../../services/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
+import { auth } from "../../firebase/configFirebase";
 
 interface IRegisterProps {
   history: any;
@@ -27,7 +28,6 @@ interface IRegisterProps {
 export default function Register({ history, isAdmin }: IRegisterProps) {
   //Const
 
-  console.log("IS ADMIN: ", isAdmin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -52,21 +52,24 @@ export default function Register({ history, isAdmin }: IRegisterProps) {
 
   const onSubmit = () => {
     setBttnSubmit(false);
+    let originalUser = auth.currentUser;
+    console.log("ORIGINAL USER", originalUser);
+
     if (isValid.current) {
       RegisterWithEmail(email, password, name, lastName, role)
         .then((res) => {
           // console.log("Test Front", res);
           if (isAdmin) {
-            
-            SuccesToast(t("admin_register_success"));
             setTimeout(() => {
-              history.push("/home");
+              SuccesToast(t("admin_register_success"));
+              auth.updateCurrentUser(originalUser);
+              console.log("AUTH UPDATE");
             }, 2000);
-
           } else {
+            console.log("NO?");
             SuccesToast(t("auth_register_success"));
             setTimeout(() => {
-              history.push("/login");
+              history.push("/home");
             }, 2000);
           }
           // SuccesToast(t("auth_register_success"));

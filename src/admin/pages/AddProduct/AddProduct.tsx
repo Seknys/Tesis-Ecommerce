@@ -45,6 +45,7 @@ import ModalConfirm from "../../components/ModalConfirm";
 import SelectCategory from "../../components/SelectComponent";
 import Tooltip from "@mui/material/Tooltip";
 
+const uidSub: any = uuidv4().substring(0, 8);
 const colourOptions: ITags[] = [
   { value: "chaning", label: "Ocean" },
   { value: "blue", label: "Blue" },
@@ -62,7 +63,7 @@ export default function AddProduct({ history }: any) {
   const { uid } = useParams<{ uid: string }>();
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [name, setName] = useState<string>("");
-  const [img, setImg] = useState<string>("");
+  const [img, setImg] = useState<string[]>([]);
   const [price, setPrice] = useState<string>("");
   const [stock, setStock] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
@@ -165,14 +166,16 @@ export default function AddProduct({ history }: any) {
   const handleSubmitImage = (files: any, allFiles: any) => {
     let array: string[] = [];
     files.map((f: any, index: number) => {
-      uploadImage(f.file).then((url) => {
+      uploadImage(f.file, uid ? uid : uidSub).then((url) => {
         getUrlImage(url.ref.fullPath).then((url) => {
           array.push(url);
         });
       });
     });
     allFiles.forEach((f: any) => f.remove());
+    console.log("ARRAY", array);
     setArrayImages(array);
+    console.log("ARRAY2", arrayImages);
     setIsEnable(false);
   };
 
@@ -199,8 +202,8 @@ export default function AddProduct({ history }: any) {
   };
 
   const handleAddProduct = (cat: Icategories) => {
-    const uid: any = uuidv4().substring(0, 8);
-    console.log("UID:", uid);
+    // const uid: any = uuidv4().substring(0, 8);
+
     setIsLoading(true);
     if (isValid.current) {
       console.log("Valid");
@@ -214,7 +217,7 @@ export default function AddProduct({ history }: any) {
         stock: parseFloat(stock),
         tags: selectedTags,
         feat: feat,
-        uid: uid,
+        uid: uidSub,
         views: 0,
         addedToCart: 0,
         removeToCart: 0,
@@ -229,7 +232,7 @@ export default function AddProduct({ history }: any) {
           console.log("PRODUCT SUCCESFULLY ADDED: ", res);
           setName("");
           setCategory("");
-          setImg("");
+          setImg([]);
           setPrice("");
           setStock("");
           setDesc("");
@@ -249,12 +252,13 @@ export default function AddProduct({ history }: any) {
 
   const handleUpdateProduct = (cat: Icategories) => {
     setIsLoading(true);
+    console.log("ArrayImages: ", arrayImages);
     if (product) {
       const updateProductData: Iproducts = {
         catUid: cat.uid,
         category: cat.name,
         desc: desc,
-        img: product.img,
+        img: arrayImages ? arrayImages : img,
         name: name,
         price: parseFloat(price),
         stock: parseFloat(stock),
@@ -272,9 +276,9 @@ export default function AddProduct({ history }: any) {
         .then((res) => {
           SuccesToastAdmin("Product Updated");
 
-          setTimeout(() => {
-            history.goBack();
-          }, 2000);
+          // setTimeout(() => {
+          //   history.goBack();
+          // }, 2000);
         })
         .catch((err) => {
           ErrorToastAdmin(`Error ${err.message}`);
@@ -292,7 +296,7 @@ export default function AddProduct({ history }: any) {
 
       setName("");
       setCategory("");
-      setImg("");
+      setImg([]);
       setPrice("");
       setStock("");
       setDesc("");

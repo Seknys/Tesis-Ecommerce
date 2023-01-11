@@ -186,6 +186,19 @@ export const AnalysisxProduct = () => {
           </Text>
         </div>
       </HStack>
+      <HStack
+        mt="50px"
+        w="100%"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <div className="spakBox4 desc-container">
+          <Text color="white" bold fontSize={"2xl"}>
+            Ganancias totales: {product && product.buy * product.price}
+          </Text>
+        </div>
+      </HStack>
+
       <Box w="100%" bg="red.400" alignItems={"center"}></Box>
     </>
   );

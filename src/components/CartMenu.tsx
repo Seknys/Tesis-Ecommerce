@@ -57,7 +57,10 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
               //     damping: 20,
               //   }}
             >
-              <Link to={`/product/${product.uid}`} className="menu-linkItem">
+              <Link
+                to={`/product/${product.productUid}`}
+                className="menu-linkItem"
+              >
                 <Avatar
                   //   borderColor={colors[i]}
                   borderColor="#ff008c"
