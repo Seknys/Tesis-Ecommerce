@@ -43,9 +43,17 @@ export default function MainHeader({ history }: any) {
   //   minWidth: 10,
   //   maxWidth: 915,
   // });
+  const [isExtraSmall] = useMediaQuery({
+    minWidth: 1,
+    maxWidth: 490,
+  });
 
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
+    maxWidth: 605,
+  });
+  const [isSmallScreenAux] = useMediaQuery({
+    minWidth: 491,
     maxWidth: 605,
   });
 
@@ -67,35 +75,97 @@ export default function MainHeader({ history }: any) {
           backgroundColor: "#f2c94c",
         }}
       >
-        {user?.role !== "analyst" && user?.role !== "admin" && (
-          <Pressable
-            onPress={() => {
-              setShowMenu(!showMenu);
-            }}
-            position={"absolute"}
-            zIndex="100"
-            // w="50"
-            // h="50"
+        {user?.role !== "analyst" && user?.role !== "admin" ? (
+          !isSmallScreenAux && !isMediumScreen ? (
+            !isExtraSmall && (
+              <Pressable
+                onPress={() => {
+                  setShowMenu(!showMenu);
+                }}
+                position={"absolute"}
+                zIndex="100"
+                // w="50"
+                // h="50"
 
-            py="15"
-            right={"10%"}
-          >
-            <IconContext.Provider
-              value={{
-                color: "white",
-                size: "2em",
-                style: { alignSelf: "center" },
+                py="15"
+                right={"10%"}
+              >
+                <IconContext.Provider
+                  value={{
+                    color: "white",
+                    size: "2em",
+                    style: { alignSelf: "center" },
+                  }}
+                >
+                  {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
+                  <MdShoppingCart />
+                </IconContext.Provider>
+                <CartMenu
+                  pageWrapId={"page-wrap"}
+                  outerContainerId={"outer-container"}
+                />
+              </Pressable>
+            )
+          ) : isMediumScreen ? (
+            <Pressable
+              onPress={() => {
+                setShowMenu(!showMenu);
               }}
+              position={"absolute"}
+              zIndex="100"
+              // w="50"
+              // h="50"
+
+              py="15"
+              right={"7%"}
             >
-              {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
-              <MdShoppingCart />
-            </IconContext.Provider>
-            <CartMenu
-              pageWrapId={"page-wrap"}
-              outerContainerId={"outer-container"}
-            />
-          </Pressable>
-        )}
+              <IconContext.Provider
+                value={{
+                  color: "white",
+                  size: "2em",
+                  style: { alignSelf: "center" },
+                }}
+              >
+                {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
+                <MdShoppingCart />
+              </IconContext.Provider>
+              <CartMenu
+                pageWrapId={"page-wrap"}
+                outerContainerId={"outer-container"}
+              />
+            </Pressable>
+          ) : (
+            isSmallScreen && (
+              <Pressable
+                onPress={() => {
+                  setShowMenu(!showMenu);
+                }}
+                position={"absolute"}
+                zIndex="100"
+                // w="50"
+                // h="50"
+
+                py="15"
+                right={"3%"}
+              >
+                <IconContext.Provider
+                  value={{
+                    color: "white",
+                    size: "2em",
+                    style: { alignSelf: "center" },
+                  }}
+                >
+                  {/* {showMenu ? <MdShoppingCart /> : <IoCloseSharp />} */}
+                  <MdShoppingCart />
+                </IconContext.Provider>
+                <CartMenu
+                  pageWrapId={"page-wrap"}
+                  outerContainerId={"outer-container"}
+                />
+              </Pressable>
+            )
+          )
+        ) : null}
 
         <div id="page-wrap">
           <div className="headerStyle">

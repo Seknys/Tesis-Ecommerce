@@ -7,6 +7,7 @@ import {
   Link as LinkNativeBase,
   Avatar,
   Button,
+  useMediaQuery,
 } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,14 @@ export default function OverlayMenu() {
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
   const [categories, setCategories] = useState<Icategories[]>([]);
-
+  const [isSmallScreen] = useMediaQuery({
+    minWidth: 1,
+    maxWidth: 490,
+  });
+  const [isMediumScreen] = useMediaQuery({
+    minWidth: 491,
+    maxWidth: 1200,
+  });
   let url = "";
 
   useEffect(() => {
@@ -71,17 +79,26 @@ export default function OverlayMenu() {
                   uri: user.img,
                 }}
               />
-              <Text
-                ml="15"
-                bold
-                fontSize={"lg"}
-                bg="yellow.400"
-                isTruncated
-                w="90%"
-              >
+              <Text ml="15" bold fontSize={"lg"} isTruncated w="90%">
                 {user.name} {user.lastName}
               </Text>
             </HStack>
+          </Link>
+          <Link
+            to="/cart/details"
+            style={{
+              textDecoration: "none",
+              marginTop: "25px",
+              width: "75%",
+              backgroundColor: "#fc2",
+              alignSelf: "center",
+            }}
+          >
+            <Button bg="amber.400">
+              <Text bold color="black">
+                {t("cart_details")}
+              </Text>
+            </Button>
           </Link>
         </Box>
       )}
@@ -138,28 +155,30 @@ export default function OverlayMenu() {
         </Box>
       )}
 
-      {user?.role !== "admin" && user?.role !== "analyst" && (
-        <>
-          <Text>{t("label_categories")}</Text>
-          <Box shadow="8" borderRadius={15} mt="5">
-            {categories &&
-              categories.map((category, index) => (
-                <Link
-                  key={category.name + index}
-                  style={{
-                    textDecoration: "none",
-                    width: "100%",
-                  }}
-                  to={`/category/${category.uid}`}
-                >
-                  <Text color="black" fontSize={"xl"} p="3">
-                    {category.name}
-                  </Text>
-                </Link>
-              ))}
-          </Box>
-        </>
-      )}
+      {user?.role !== "admin" &&
+        user?.role !== "analyst" &&
+        (isSmallScreen || isMediumScreen) && (
+          <>
+            <Text>{t("label_categories")}</Text>
+            <Box shadow="8" borderRadius={15} mt="5">
+              {categories &&
+                categories.map((category, index) => (
+                  <Link
+                    key={category.name + index}
+                    style={{
+                      textDecoration: "none",
+                      width: "100%",
+                    }}
+                    to={`/category/${category.uid}`}
+                  >
+                    <Text color="black" fontSize={"xl"} p="3">
+                      {category.name}
+                    </Text>
+                  </Link>
+                ))}
+            </Box>
+          </>
+        )}
 
       {user && (
         <>
