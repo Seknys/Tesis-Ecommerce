@@ -1,3 +1,4 @@
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import {
   Box,
   Center,
@@ -13,9 +14,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IconContext } from "react-icons";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
+import { BsPaypal } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import { Pressable } from "react-native";
 import { MB } from "../../components/MyComponents";
+import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
 import { getDateString } from "../../constants/dateFormString";
 import UserContext from "../../contexts/userContext";
 import { Iproducts } from "../../interfaces/interface";
@@ -77,7 +80,7 @@ export const CartDisplay = ({ history }: any) => {
       addCartToShoppingHistory(user?.uid, uidShop, new Date(), cartProducts);
     }
     setTimeout(() => {
-      history.push("/checkout");
+      history.push("/home");
     }, 3000);
   };
 
@@ -85,6 +88,7 @@ export const CartDisplay = ({ history }: any) => {
 
   return (
     <Center w="100%" mt="50px">
+      <ToastC />
       <Text italic bold fontSize={"3xl"}>
         {t("cart")}
       </Text>
@@ -262,18 +266,69 @@ export const CartDisplay = ({ history }: any) => {
               </Text>
             </HStack>
 
-            <button
+            {/* <button
               onClick={() => {
                 handleBuyProducts();
               }}
               className="button-cart"
             >
               {t("cart_confirm")}
-            </button>
+            </button> */}
+            <PayPalScriptProvider
+              options={{
+                "client-id":
+                  //SANDBOX CLIENT
+                  // "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+              }}
+            >
+              <PayPalButtons
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value:
+                            //SandBox
+                            //(subTotal.current - discount).toString(),
+                            //LIVE
+                            "0.01",
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={(data, actions: any) => {
+                  return actions.order.capture().then((details: any) => {
+                    if (details.status === "COMPLETED") {
+                      console.log("Details: ", details);
+                      handleBuyProducts();
+                    }
+                    if (details.payer.name) {
+                      const name = details.payer.name.given_name;
+                      // alert(`Transaction completed by ${name}`);
+                      SuccesToast(`Transaction completed by ${name}`);
+                      console.log("DONE", details.payer);
+                    }
+                  });
+                }}
+                style={{
+                  layout: "horizontal",
+                  shape: "pill",
+                  color: "gold",
+                  tagline: false,
+                }}
+                onCancel={(data) => {
+                  console.log("CANCEL:", data);
+                  ErrorToast("purchase canceled");
+                }}
+              />
+            </PayPalScriptProvider>
           </Box>
         </HStack>
       ) : (
-        <Box w="95%" my="50px">
+        <Box w="95%" my="50px" bg="green.400">
           <Box>
             {cartProducts &&
               cartProducts.map((product, index) => {
@@ -446,7 +501,7 @@ export const CartDisplay = ({ history }: any) => {
                 {subTotal.current - discount}
               </Text>
             </HStack>
-
+            {/* 
             <button
               onClick={() => {
                 handleBuyProducts();
@@ -454,7 +509,58 @@ export const CartDisplay = ({ history }: any) => {
               className="button-cart"
             >
               {t("cart_confirm")}
-            </button>
+            </button> */}
+            <PayPalScriptProvider
+              options={{
+                "client-id":
+                  //SANDBOX CLIENT
+                  // "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+              }}
+            >
+              <PayPalButtons
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value:
+                            //SandBox
+                            //(subTotal.current - discount).toString(),
+                            //LIVE
+                            "0.01",
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={(data, actions: any) => {
+                  return actions.order.capture().then((details: any) => {
+                    if (details.status === "COMPLETED") {
+                      console.log("Details: ", details);
+                      //handleBuyProducts();
+                    }
+                    if (details.payer.name) {
+                      const name = details.payer.name.given_name;
+                      // alert(`Transaction completed by ${name}`);
+                      SuccesToast(`Transaction completed by ${name}`);
+                      console.log("DONE", details.payer);
+                    }
+                  });
+                }}
+                style={{
+                  layout: "horizontal",
+                  shape: "pill",
+                  color: "gold",
+                  tagline: false,
+                }}
+                onCancel={(data) => {
+                  console.log("CANCEL:", data);
+                  ErrorToast("purchase canceled");
+                }}
+              />
+            </PayPalScriptProvider>
           </Box>
         </Box>
       )}
