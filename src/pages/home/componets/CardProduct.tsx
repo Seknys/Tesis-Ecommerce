@@ -146,16 +146,18 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
                        </Box> */}
               </Box>
               <Box pl="3">
-                <Text fontSize="2xl">
-                  {product.name.length > 16
+                <Text fontSize="2xl" isTruncated bg="yellow.300">
+                  {/* {product.name.length > 16
                     ? `${product.name.substring(0, 15)}...`
-                    : product.name}
+                    : product.name} */}
+                  {product.name}
                 </Text>
                 <Text fontSize="xl">{product.price}$</Text>
-                <Text>
-                  {product.desc.length > 30
+                <Text isTruncated>
+                  {product.desc}
+                  {/* {product.desc.length > 30
                     ? `${product.desc.substring(0, 30)}...`
-                    : product.desc}
+                    : product.desc} */}
                 </Text>
               </Box>
             </Box>

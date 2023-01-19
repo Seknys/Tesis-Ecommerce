@@ -44,22 +44,23 @@ import {
 import ModalConfirm from "../../components/ModalConfirm";
 import SelectCategory from "../../components/SelectComponent";
 import Tooltip from "@mui/material/Tooltip";
+import { async } from "@firebase/util";
 
-const uidSub: any = uuidv4().substring(0, 8);
 const colourOptions: ITags[] = [
-  { value: "chaning", label: "Ocean" },
-  { value: "blue", label: "Blue" },
-  { value: "purple", label: "Purple" },
-  { value: "red", label: "Red" },
-  { value: "orange", label: "Orange" },
-  { value: "yellow", label: "Yellow" },
-  { value: "green", label: "Green" },
-  { value: "forest", label: "Forest" },
-  { value: "slate", label: "Slate" },
-  { value: "silver", label: "Silver" },
+  { value: "chaning", label: "Computadora" },
+  { value: "blue", label: "Impresoras" },
+  { value: "purple", label: "Laptops" },
+  { value: "red", label: "Monitores" },
+  { value: "orange", label: "Tarjetas Gráficas" },
+  { value: "yellow", label: "Teclados" },
+  { value: "green", label: "Nvidia" },
+  { value: "forest", label: "AMD" },
+  { value: "slate", label: "2022" },
+  { value: "silver", label: "Nuevo" },
 ];
 
 export default function AddProduct({ history }: any) {
+  const uidSub: any = uuidv4().substring(0, 8);
   const { uid } = useParams<{ uid: string }>();
   const [categories, setCategories] = useState<Icategories[]>([]);
   const [name, setName] = useState<string>("");
@@ -97,7 +98,8 @@ export default function AddProduct({ history }: any) {
   const [product, setProduct] = useState<Iproducts>();
 
   useEffect(() => {
-    // console.log("UID:", uuidv4());
+    console.log("UID:", uuidv4());
+    console.log("SUB:", uidSub);
     const getCategoriesSnapshot = (snapshot: DocumentData) => {
       const categoriesData = snapshot.docs.map((doc: DocumentData) =>
         doc.data()
@@ -109,7 +111,7 @@ export default function AddProduct({ history }: any) {
 
     const getProductByUidSnapshot = (snapshot: DocumentData) => {
       const productData = snapshot.data();
-      console.log("DAta", productData);
+
       setName(productData.name);
       setImg(productData.img);
       setPrice(productData.price);
@@ -125,20 +127,14 @@ export default function AddProduct({ history }: any) {
       getProductByUid(uid, getProductByUidSnapshot);
     }
   }, []);
-  // setTags([
-  //   { label: "One", value: "one" },
-  //   { label: "Two", value: "two" },
-  // ]);
 
   const handleTagsChange = async (options: any, actionMeta: any) => {
     if (actionMeta.action === "create-option") {
-      console.log("ACTION META?", actionMeta.option);
       //await addTag(tags.concat(options[options.length - 1].value));
       // setTags(tags.concat(options[options.length - 1].value));
     }
 
     if (options) {
-      console.log("OPtion: ", options);
       let newtags: any = [];
       options.map((option: any) => {
         newtags?.push({ label: option.label, value: option.value });
@@ -160,22 +156,24 @@ export default function AddProduct({ history }: any) {
 
   const handleChangeStatus = ({ meta }: any, status: any) => {
     setStatus(status);
-    console.log(status, meta);
   };
 
-  const handleSubmitImage = (files: any, allFiles: any) => {
+  const handleSubmitImage = async (files: any, allFiles: any) => {
     let array: string[] = [];
-    files.map((f: any, index: number) => {
-      uploadImage(f.file, uid ? uid : uidSub).then((url) => {
-        getUrlImage(url.ref.fullPath).then((url) => {
+
+    for (const fileImg of files) {
+      console.log("FILES:", fileImg.file.name);
+      await uploadImage(fileImg.file, uid ? uid : uidSub).then(async (url) => {
+        await getUrlImage(url.ref.fullPath).then((url) => {
+          console.log("URL:", url);
           array.push(url);
         });
       });
-    });
+    }
     allFiles.forEach((f: any) => f.remove());
-    console.log("ARRAY", array);
+    console.log("ARRAY:", array);
+
     setArrayImages(array);
-    console.log("ARRAY2", arrayImages);
     setIsEnable(false);
   };
 
@@ -185,7 +183,7 @@ export default function AddProduct({ history }: any) {
       //   title: "Please Enter Text",
       //   status: "warning",
       // });
-      console.log("IS EMPTY");
+
       return;
     }
 
@@ -206,7 +204,6 @@ export default function AddProduct({ history }: any) {
 
     setIsLoading(true);
     if (isValid.current) {
-      console.log("Valid");
       const newProductData: Iproducts = {
         catUid: cat.uid,
         category: cat.name,
@@ -224,12 +221,11 @@ export default function AddProduct({ history }: any) {
         buy: 0,
         // tags: selectedTags,
       };
-      console.log("New Product: ", newProductData);
 
       addProduct(newProductData)
         .then((res) => {
           SuccesToastAdmin("Product Added");
-          console.log("PRODUCT SUCCESFULLY ADDED: ", res);
+
           setName("");
           setCategory("");
           setImg([]);
@@ -240,10 +236,13 @@ export default function AddProduct({ history }: any) {
           setFeat([]);
           setArrayImages([]);
           setIsLoading(false);
+          setTimeout(() => {
+            history.push("/home");
+          }, 2500);
         })
         .catch((err) => {
           ErrorToastAdmin(`Error ${err.message}`);
-          console.log("ERROR ADDING PRODUCT: ", err);
+
           setIsLoading(false);
         });
     }
@@ -252,7 +251,7 @@ export default function AddProduct({ history }: any) {
 
   const handleUpdateProduct = (cat: Icategories) => {
     setIsLoading(true);
-    console.log("ArrayImagesUpdate: ", arrayImages);
+
     if (product) {
       const updateProductData: Iproducts = {
         catUid: cat.uid,
@@ -271,7 +270,7 @@ export default function AddProduct({ history }: any) {
         buy: product.buy,
         // tags: selectedTags,
       };
-      console.log("Update Product: ", updateProductData);
+
       updateProduct(uid, updateProductData)
         .then((res) => {
           SuccesToastAdmin("Product Updated");
@@ -282,7 +281,7 @@ export default function AddProduct({ history }: any) {
         })
         .catch((err) => {
           ErrorToastAdmin(`Error ${err.message}`);
-          console.log("ERROR UPDATING PRODUCT: ", err);
+
           setIsLoading(false);
         });
     }
@@ -292,7 +291,6 @@ export default function AddProduct({ history }: any) {
 
     deleteProduct(uid).then((res) => {
       WariningToastAdmin("Product Deleted");
-      console.log("PRODUCT SUCCESFULLY DELETED: ", res);
 
       setName("");
       setCategory("");
@@ -720,12 +718,9 @@ export default function AddProduct({ history }: any) {
               onPress={() => {
                 categories.map((category: Icategories) => {
                   if (category.uid === categorySelected) {
-                    console.log("CategoryUId: ?", category.uid);
                     handleUpdateProduct(category);
                   }
                 });
-
-                console.log("UPDATE PRODUCT: ", uid);
               }}
             >
               <Text fontSize="2xl" color="white">

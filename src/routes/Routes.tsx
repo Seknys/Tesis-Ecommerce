@@ -8,6 +8,7 @@ import {
 import { AddAccountAnalist } from "../admin/pages/AddAccountAnalist/AddAccountAnalist";
 import AddProduct from "../admin/pages/AddProduct/AddProduct";
 import HomeAdmin from "../admin/pages/Home/HomeAdmin";
+import { SearchHomeADMIN } from "../admin/pages/Home/SearchAdmin";
 import { AnalysisxCat } from "../analyst/pages/AnalysisxCategory/AnalysisxCat";
 import { AnalysisxProduct } from "../analyst/pages/AnalysisxProduct/AnalysisProduct";
 import { HomeAnalyst } from "../analyst/pages/home/HomeAnalyst";
@@ -75,6 +76,7 @@ export const RoutesAdmin = () => (
           <Route path="/admin/edit-product/:uid" component={AddProduct} />
           <Route path="/admin/add-account" component={AddAccountAnalist} />
           <Route path="/admin/products/:admin" component={MainHome} />
+          <Route path="/search/:value" component={SearchHomeADMIN} />
         </Box>
         {/* <Box bg="red.500">
         <Text fontSize="2xl">This is an admin text pls word</Text>

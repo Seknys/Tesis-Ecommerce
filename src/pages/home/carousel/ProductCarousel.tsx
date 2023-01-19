@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -214,6 +214,21 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
     centerMode: true,
     focusOnSelect: true,
   };
+  var settings3 = {
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    speed: 500,
+    infinite: true,
+    asNavFor: nav1,
+    ref: (slider: any) => setNav2(slider),
+    dots: true,
+    centerMode: true,
+    focusOnSelect: true,
+  };
+
+  useEffect(() => {
+    console.log("HOW MANY TIMES???");
+  }, []);
 
   return (
     <Box py="15">
@@ -247,10 +262,40 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
           );
         })}
       </Slider>
+      {product && product.img.length > 2 ? (
+        <Slider {...settings2}>
+          {product?.img.map((img, index) => {
+            console.log("INDEX:? ", index);
 
-      <Slider {...settings2}>
-        {product?.img.map((img, index) => (
-          <Box paddingLeft={10} key={index}>
+            return (
+              <Box paddingLeft={10} key={index}>
+                <motion.div
+                  whileHover={{ scale: 1.07 }}
+                  whileTap={{ scale: 0.8 }}
+                >
+                  <Image
+                    // borderColor={index === 0 ? "red.500" : "gray.200"}
+                    // borderWidth={index === 0 ? 2 : 1}
+                    borderColor={"gray.300"}
+                    borderWidth={1}
+                    rounded={"lg"}
+                    source={{
+                      uri: img,
+                    }}
+                    alt={product?.name}
+                    w="80"
+                    h="60"
+                    resizeMode="contain"
+                    alignSelf="center"
+                  />
+                </motion.div>
+              </Box>
+            );
+          })}
+        </Slider>
+      ) : product && product.img.length == 2 ? (
+        <Slider {...settings3}>
+          <Box paddingLeft={20} w="80px">
             <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
               <Image
                 // borderColor={index === 0 ? "red.500" : "gray.200"}
@@ -259,19 +304,38 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
                 borderWidth={1}
                 rounded={"lg"}
                 source={{
-                  uri: img,
+                  uri: product?.img[0],
                 }}
-                // alt={productName.current}
                 alt={product?.name}
-                w="80"
-                h="60"
+                w="80px"
+                h="60px"
                 resizeMode="contain"
                 alignSelf="center"
               />
             </motion.div>
           </Box>
-        ))}
-      </Slider>
+
+          <Box w="80">
+            <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.8 }}>
+              <Image
+                // borderColor={index === 0 ? "red.500" : "gray.200"}
+                // borderWidth={index === 0 ? 2 : 1}
+                borderColor={"gray.300"}
+                borderWidth={1}
+                rounded={"lg"}
+                source={{
+                  uri: product?.img[1],
+                }}
+                alt={product?.name}
+                w="80px"
+                h="60px"
+                resizeMode="contain"
+                alignSelf="center"
+              />
+            </motion.div>
+          </Box>
+        </Slider>
+      ) : null}
     </Box>
   );
 };

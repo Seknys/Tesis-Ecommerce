@@ -35,7 +35,7 @@ interface IPropsMenuItem {
 
 export const MenuItem = ({ i, product }: IPropsMenuItem) => {
   const style = { border: `2px solid ${colors[i]}` };
-  console.log("name: ", product?.name, "length: ", product?.name.length);
+  console.log("name¿=?¿?: ", product?.name, "length: ", product?.name.length);
   if (product) {
     if (product.name.length > 13) {
       product.name = `${product.name.substring(0, 10)}... `;
@@ -100,10 +100,10 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
               borderRadius={35}
             >
               <Box>
-                <Text color="white" bold>
-                  {product?.name}
+                <Text color="white" bold bg="yellow.200" isTruncated>
+                  ??{product?.name}
                 </Text>
-                <Text color="white">{product?.category}</Text>
+                <Text color="white">??{product?.category}</Text>
                 {/* <Text color="white">{product?.quantity}</Text> */}
               </Box>
 

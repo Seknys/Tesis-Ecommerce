@@ -95,7 +95,7 @@ export default function HomePage({ history }: any) {
             >
               <HStack alignItems={"center"}>
                 <Text mr="3" fontSize={"lg"} color="gray.400">
-                  {t("products_moreViewed")}
+                  {t("products_moreViewed")} 
                 </Text>
                 <IoStatsChart className="icon-views" />
               </HStack>
@@ -249,7 +249,7 @@ export default function HomePage({ history }: any) {
           })}
         </Container>
 
-        {productsByView.length > 4 && (
+        {productsByView.length > 5 && (
           <Container alignItems="center" my="25" shadow={6} borderRadius={10}>
             <Link
               to="/more-views/views?=true"
@@ -271,7 +271,7 @@ export default function HomePage({ history }: any) {
           </Container>
         )}
 
-        {productsBuy.length > 4 && (
+        {productsBuy.length > 5 && (
           <Container alignItems="center" my="25" shadow={6} borderRadius={10}>
             <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
               <Text

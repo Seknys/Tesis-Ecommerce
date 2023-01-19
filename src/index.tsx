@@ -1,10 +1,10 @@
-  import React, { Suspense } from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { theme } from "./theme";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
-import { Box, NativeBaseProvider, Text } from "native-base";
+import { Box, Center, NativeBaseProvider, Spinner, Text } from "native-base";
 import "./index.css";
 
 // extend the theme
@@ -14,7 +14,17 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <NativeBaseProvider theme={theme}>
-      <Suspense fallback={<Text bg="black">Loading??????</Text>}>
+      <Suspense
+        fallback={
+          <Center h="500px" alignItems="center">
+            <Text fontSize={"2xl"}>
+              CARGANDO <br />
+              CONTENIDOS ....
+            </Text>
+            <Spinner color={"pink.500"} size="lg" mt="35" />
+          </Center>
+        }
+      >
         <div className="main-container">
           <App />
         </div>

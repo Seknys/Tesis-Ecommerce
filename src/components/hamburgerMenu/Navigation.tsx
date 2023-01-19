@@ -47,7 +47,7 @@ export const Navigation = () => {
         <>
           {cartProducts.map((product, index) => (
             <>
-              <MenuItem key={product.uid} i={index} product={product} />
+              {/* <MenuItem key={product.uid} i={index} product={product} /> */}
             </>
           ))}
 

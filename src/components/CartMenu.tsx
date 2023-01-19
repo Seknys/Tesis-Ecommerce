@@ -14,11 +14,8 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
   const { user } = useContext(UserContext);
   const [cartProducts, setCartProducts] = useState<Iproducts[] | null>(null);
 
-  
-
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
-      console.log("CartProducts: ", products);
       if (products.length > 10) {
         products = products.slice(0, 10);
         setCartProducts(products);
@@ -33,7 +30,6 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
   }, [user]);
   return (
     <Menu
-    
       width={"300px"}
       right
       pageWrapId={pageWrap}
@@ -84,11 +80,13 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
                   borderRadius={35}
                   justifyContent="space-between"
                 >
-                  <Box>
-                    <Text color="white" bold>
+                  <Box w="70%">
+                    <Text color="white" bold isTruncated>
                       {product?.name}
                     </Text>
-                    <Text color="white">{product?.category}</Text>
+                    <Text isTruncated color="white">
+                      {product?.category}
+                    </Text>
                     {/* <Text color="white">{product?.quantity}</Text> */}
                   </Box>
 
