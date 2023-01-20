@@ -196,7 +196,7 @@ export default function MainHeader({ history }: any) {
                 >
                   {isSmallScreen ||
                     (!isMediumScreen && (
-                      <Text fontSize="2xl" color="white">
+                      <Text fontSize="2xl" color="white" fontFamily={"heading"}>
                         Up World
                       </Text>
                     ))}

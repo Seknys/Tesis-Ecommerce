@@ -109,7 +109,7 @@ export default function ProductDisplay({ history }: { history: any }) {
             <>
               <Center my="15">
                 <Container>
-                  <Text fontSize="3xl" bold>
+                  <Text fontFamily="heading" fontSize="3xl" bold>
                     {product?.name}
                   </Text>
                 </Container>
@@ -133,9 +133,18 @@ export default function ProductDisplay({ history }: { history: any }) {
                       <TbFileDescription />
                     </IconContext.Provider>
 
-                    <Text fontSize="sm">{t("product_desc")}</Text>
+                    <Text
+                      fontSize="sm"
+                      fontFamily={"heading"}
+                      fontStyle="italic"
+                      fontWeight={"300"}
+                    >
+                      {t("product_desc")}
+                    </Text>
                   </HStack>
-                  <Text fontSize="2xl">{product?.desc}</Text>
+                  <Text ml="17" fontSize="xl" fontWeight={"300"}>
+                    {product?.desc}
+                  </Text>
                   <HStack alignItems={"center"}>
                     <IconContext.Provider
                       value={{
@@ -147,8 +156,17 @@ export default function ProductDisplay({ history }: { history: any }) {
                       <ImPriceTags />
                     </IconContext.Provider>
 
-                    <Text fontSize="sm">{t("product_price")}: </Text>
-                    <Text fontSize="2xl">${product?.price}</Text>
+                    <Text
+                      fontSize="sm"
+                      fontFamily={"heading"}
+                      fontStyle="italic"
+                      fontWeight={"300"}
+                    >
+                      {t("product_price")}:{" "}
+                    </Text>
+                    <Text fontSize="2xl" fontWeight={"300"}>
+                      {product?.price}$
+                    </Text>
                   </HStack>
                   <HStack alignItems={"center"} mb="15">
                     <IconContext.Provider
@@ -161,8 +179,17 @@ export default function ProductDisplay({ history }: { history: any }) {
                       <FaBoxes />
                     </IconContext.Provider>
 
-                    <Text fontSize="sm">Stock: </Text>
-                    <Text fontSize="2xl">{product?.stock}</Text>
+                    <Text
+                      fontSize="sm"
+                      fontFamily={"heading"}
+                      fontStyle="italic"
+                      fontWeight={"300"}
+                    >
+                      Stock:{" "}
+                    </Text>
+                    <Text fontSize="2xl" fontWeight={"300"}>
+                      {product?.stock}
+                    </Text>
                   </HStack>
 
                   {user ? (
@@ -181,17 +208,37 @@ export default function ProductDisplay({ history }: { history: any }) {
                         <AiOutlineShoppingCart className="icon-cart" />
                       </button>
                     ) : (
-                      <Text>{t("no_stock")} stock</Text>
+                      <Text
+                        fontFamily={"heading"}
+                        fontStyle="italic"
+                        fontWeight={"300"}
+                      >
+                        {t("no_stock")} stock
+                      </Text>
                     )
                   ) : (
-                    <Text fontSize={"18px"} color="black">
+                    <Text
+                      fontFamily={"heading"}
+                      fontStyle="italic"
+                      fontWeight={"300"}
+                      fontSize={"18px"}
+                      color="black"
+                    >
                       {t("cart_noUser")}
                     </Text>
                   )}
 
                   {product && product.feat && (
                     <Box>
-                      <Text mt="15" mb="2" fontSize="sm" color="black">
+                      <Text
+                        fontFamily={"heading"}
+                        fontStyle="italic"
+                        fontWeight={"300"}
+                        mt="15"
+                        mb="2"
+                        fontSize="sm"
+                        color="black"
+                      >
                         {t("product_about")}
                       </Text>
 
@@ -203,7 +250,12 @@ export default function ProductDisplay({ history }: { history: any }) {
                           key={index}
                         >
                           <VscDebugBreakpointData />
-                          <Text fontSize="xl" color="black" key={index}>
+                          <Text
+                            fontWeight={"300"}
+                            fontSize="xl"
+                            color="black"
+                            key={index}
+                          >
                             {feat}
                           </Text>
                         </HStack>
@@ -256,7 +308,14 @@ export default function ProductDisplay({ history }: { history: any }) {
                   </HStack>
                 </Box>
               </HStack>
-              <Text mt="25" fontSize={"xl"} color="gray.400">
+              <Text
+                mt="25"
+                fontSize={"xl"}
+                color="gray.400"
+                fontFamily={"heading"}
+                fontStyle="italic"
+                fontWeight={"300"}
+              >
                 Tags:
               </Text>
               <HStack w="80%">
@@ -264,12 +323,13 @@ export default function ProductDisplay({ history }: { history: any }) {
                   product.tags &&
                   product?.tags.map((tag: any, index) => (
                     <Text
+                      fontFamily={"heading"}
                       bg="gray.200"
                       shadow={9}
                       p="1"
                       m="1"
                       key={index}
-                      fontSize="lg"
+                      fontSize="md"
                       color="black"
                       borderRadius={5}
                     >
@@ -280,8 +340,7 @@ export default function ProductDisplay({ history }: { history: any }) {
             </>
           ) : (
             <Center mt="150px">
-              <Text bold fontSize={"2xl"}>
-                {" "}
+              <Text bold fontSize={"2xl"} fontFamily="heading">
                 {t("not_product")}
               </Text>
             </Center>
@@ -434,7 +493,7 @@ export default function ProductDisplay({ history }: { history: any }) {
 
       <Center w="100%" mt={isSmallScreen ? "0" : "100"}>
         <Box>
-          <Text fontSize={"2xl"} bold>
+          <Text fontSize={"2xl"} bold fontFamily={"heading"}>
             {t("comments")}
           </Text>
         </Box>
@@ -483,7 +542,7 @@ export default function ProductDisplay({ history }: { history: any }) {
             ))
           ) : (
             <Center w="100%" mt="150px">
-              <Text fontSize={"2xl"} bold>
+              <Text fontSize={"2xl"} bold fontFamily={"heading"}>
                 {t("no_comments")}
               </Text>
             </Center>

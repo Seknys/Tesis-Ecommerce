@@ -3,8 +3,6 @@ html {
   padding: 0px;
 }
 
-
-
 /* body {
   height: 93vh;
   background-color: #000;
@@ -13,4 +11,55 @@ html {
 .main-container {
   height: 100vh;
   /* background-color: aqua; */
+}
+
+/*300*/
+@font-face {
+  font-family: "Heebo-light";
+  src: url("./fonts/Heebo-Light.ttf") format("truetype");
+}
+
+/*500*/
+@font-face {
+  font-family: "Heebo-medium";
+  src: url("./fonts/Heebo-Medium.ttf") format("truetype");
+}
+
+/*500*/
+@font-face {
+  font-family: "Heebo-bold";
+  src: url("./fonts/Heebo-Bold.ttf") format("truetype");
+}
+
+/*300*/
+@font-face {
+  font-family: "Poppins-light";
+  src: url("./fonts/Poppins-Light.ttf") format("truetype");
+}
+/*300 ITALIC*/
+@font-face {
+  font-family: "Poppins-lightItalic";
+  src: url("./fonts/Poppins-LightItalic.ttf") format("truetype");
+}
+
+/*500*/
+@font-face {
+  font-family: "Poppins-medium";
+  src: url("./fonts/Poppins-Medium.ttf") format("truetype");
+}
+/*500 ITALIC*/
+@font-face {
+  font-family: "Poppins-meidumItalic";
+  src: url("./fonts/Poppins-MediumItalic.ttf") format("truetype");
+}
+
+/*700*/
+@font-face {
+  font-family: "Poppins-bold";
+  src: url("./fonts/Poppins-Bold.ttf") format("truetype");
+}
+/*700 ITALIC*/
+@font-face {
+  font-family: "Poppins-boldItalic";
+  src: url("./fonts/Poppins-BoldItalic.ttf") format("truetype");
 }

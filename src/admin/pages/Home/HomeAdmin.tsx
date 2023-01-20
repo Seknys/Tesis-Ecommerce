@@ -27,6 +27,7 @@ export default function HomeAdmin() {
       flexDirection="row"
       alignItems={"center"}
       justifyContent="space-evenly"
+      // flexWrap={"wrap"}
       h="55vh"
     >
       <Pressable
@@ -116,6 +117,36 @@ export default function HomeAdmin() {
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
                     {t("admin_edit_product")}
+                  </Text>
+                </Box>
+              )}
+            </motion.div>
+          </div>
+        </Link>
+      </Pressable>
+      <Pressable
+        onHoverIn={() => setHover({ value: true, index: 4 })}
+        onHoverOut={() => setHover(null)}
+        my="150"
+      >
+        <Link to="/admin/users-client" style={{ textDecoration: "none" }}>
+          <div>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <div className="admin-container">
+                <IconContext.Provider
+                  value={{
+                    color: "black",
+                    size: "9em",
+                    style: { padding: 10 },
+                  }}
+                >
+                  <FcViewDetails />
+                </IconContext.Provider>
+              </div>
+              {hover?.value && hover?.index === 4 && (
+                <Box mt="25">
+                  <Text textAlign="center" w="175px" fontSize="2xl" bold>
+                    {t("admin_edit_product")} USERS
                   </Text>
                 </Box>
               )}

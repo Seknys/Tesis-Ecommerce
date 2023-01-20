@@ -146,6 +146,7 @@
 }
 
 .btn-addCart {
+  font-family: "Poppins-medium";
   width: 35%;
   background-color: rgb(244, 114, 209);
   border-radius: 15px;

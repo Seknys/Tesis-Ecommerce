@@ -105,7 +105,7 @@ export const RatingCustomView = ({
 
       {isReadOnly ? (
         <Box ml="2" justifyContent={"center"} w="150">
-          <Text bold fontSize={"sm"}>
+          <Text  fontSize={"sm"} >
             {customIcons[rating].label}
           </Text>
         </Box>

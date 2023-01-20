@@ -10,6 +10,7 @@ import {
 } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { MB } from "../../components/MyComponents";
 
 import UserContext from "../../contexts/userContext";
@@ -21,20 +22,22 @@ import { CardProduct } from "../home/componets/CardProduct";
 export const ShoppingHistory = ({ history }: any) => {
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
+  const { uid } = useParams<{ uid: string }>();
   const [productsShop, setProductsShop] = useState<Iproducts[]>();
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
     maxWidth: 1050,
   });
   const total = useRef(0);
-
+  const shoppingProductsFunction = (products: Iproducts[]) => {
+    console.log("products", products);
+    setProductsShop(products);
+  };
   useEffect(() => {
-    const shoppingProductsFunction = (products: Iproducts[]) => {
-      console.log("products", products);
-      setProductsShop(products);
-    };
-    if (user) {
+    if (user && user.role === "client") {
       constGetShoppingHistoryByUser(user.uid, shoppingProductsFunction);
+    } else {
+      constGetShoppingHistoryByUser(uid, shoppingProductsFunction);
     }
   }, [user]);
 
@@ -108,15 +111,17 @@ export const ShoppingHistory = ({ history }: any) => {
                       borderRadius={15}
                       shadow={7}
                       onPress={() => {
-                        if (product.productUid) {
-                          updateViews(product.productUid)
-                            .then(() => {
-                              console.log("Views updated");
-                              history.push(`/product/${product.productUid}`);
-                            })
-                            .catch((error) => {
-                              console.log("ViewsError", error);
-                            });
+                        if (!uid) {
+                          if (product.productUid) {
+                            updateViews(product.productUid)
+                              .then(() => {
+                                console.log("Views updated");
+                                history.push(`/product/${product.productUid}`);
+                              })
+                              .catch((error) => {
+                                console.log("ViewsError", error);
+                              });
+                          }
                         }
                       }}
                     >
@@ -209,15 +214,19 @@ export const ShoppingHistory = ({ history }: any) => {
                         shadow={8}
                         borderRadius="15"
                         onPress={() => {
-                          if (product.productUid) {
-                            updateViews(product.productUid)
-                              .then(() => {
-                                console.log("Views updated");
-                                history.push(`/product/${product.productUid}`);
-                              })
-                              .catch((error) => {
-                                console.log("ViewsError", error);
-                              });
+                          if (!uid) {
+                            if (product.productUid) {
+                              updateViews(product.productUid)
+                                .then(() => {
+                                  console.log("Views updated");
+                                  history.push(
+                                    `/product/${product.productUid}`
+                                  );
+                                })
+                                .catch((error) => {
+                                  console.log("ViewsError", error);
+                                });
+                            }
                           }
                         }}
                       >

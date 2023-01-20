@@ -94,8 +94,15 @@ export default function HomePage({ history }: any) {
               style={{ textDecoration: "none" }}
             >
               <HStack alignItems={"center"}>
-                <Text mr="3" fontSize={"lg"} color="gray.400">
-                  {t("products_moreViewed")} 
+                <Text
+                  mr="3"
+                  fontSize={"lg"}
+                  color="gray.400"
+                  fontFamily="heading"
+                  fontWeight="300"
+                  fontStyle={"italic"}
+                >
+                  {t("products_moreViewed")}
                 </Text>
                 <IoStatsChart className="icon-views" />
               </HStack>
@@ -103,7 +110,14 @@ export default function HomePage({ history }: any) {
 
             <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
               <HStack alignItems={"center"}>
-                <Text mr="3" fontSize={"lg"} color="gray.400">
+                <Text
+                  mr="3"
+                  fontSize={"lg"}
+                  color="gray.400"
+                  fontFamily="heading"
+                  fontWeight="300"
+                  fontStyle={"italic"}
+                >
                   {t("products_moreBuy")}
                 </Text>
                 <FaTags className="icon-buy" />
@@ -117,7 +131,14 @@ export default function HomePage({ history }: any) {
               style={{ textDecoration: "none" }}
             >
               <HStack alignItems={"center"}>
-                <Text mr="3" fontSize={"lg"} color="gray.400">
+                <Text
+                  mr="3"
+                  fontSize={"lg"}
+                  color="gray.400"
+                  fontFamily="heading"
+                  fontWeight="300"
+                  fontStyle={"italic"}
+                >
                   {t("label_MovilVIew")}
                 </Text>
                 <IoStatsChart className="icon-views" />
@@ -126,7 +147,14 @@ export default function HomePage({ history }: any) {
 
             <Link to="/more-buy/buy?=true" style={{ textDecoration: "none" }}>
               <HStack alignItems={"center"}>
-                <Text mr="3" fontSize={"lg"} color="gray.400">
+                <Text
+                  mr="3"
+                  fontSize={"lg"}
+                  color="gray.400"
+                  fontFamily="heading"
+                  fontWeight="300"
+                  fontStyle={"italic"}
+                >
                   {t("label_MovilBuy")}
                 </Text>
                 <FaTags className="icon-buy" />
@@ -176,7 +204,12 @@ export default function HomePage({ history }: any) {
                     </Link>
                   </Pressable>
                   <Box w="100%">
-                    <Text fontSize={"md"} alignSelf={"center"}>
+                    <Text
+                      fontSize={"md"}
+                      alignSelf={"center"}
+                      fontFamily="heading"
+                      fontWeight="500"
+                    >
                       {category.name}
                     </Text>
                   </Box>
@@ -236,6 +269,8 @@ export default function HomePage({ history }: any) {
                             color="white"
                             py="3"
                             borderRadius="35"
+                            fontFamily={"heading"}
+                            fontWeight="700"
                           >
                             {category.name}
                           </Text>
@@ -257,11 +292,12 @@ export default function HomePage({ history }: any) {
             >
               <Text
                 textAlign={"center"}
-                fontSize={"3xl"}
-                bold
+                fontSize={"2xl"}
                 pl="25"
                 my="15"
                 w="100%"
+                fontFamily="heading"
+                fontWeight="500"
               >
                 {t("products_moreViewed")}
               </Text>
@@ -281,6 +317,8 @@ export default function HomePage({ history }: any) {
                 pl="25"
                 my="15"
                 w="100%"
+                fontFamily="heading"
+                fontWeight="500"
               >
                 {t("products_moreBuy")}
               </Text>

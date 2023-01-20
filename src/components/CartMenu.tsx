@@ -117,7 +117,7 @@ export const CartMenu = (pageWrap: any, outerContainer: any) => {
           }}
         >
           <Button bg="amber.400">
-            <Text bold color="black">
+            <Text bold color="black" fontFamily={"heading"} fontStyle="italic">
               {t("cart_details")}
             </Text>
           </Button>

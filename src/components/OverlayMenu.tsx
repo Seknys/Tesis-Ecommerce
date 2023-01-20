@@ -59,7 +59,7 @@ export default function OverlayMenu() {
           ml="25"
         />
 
-        <Text fontSize="xl" bold>
+        <Text fontSize="xl" fontFamily={"heading"} fontWeight="500">
           Up World
         </Text>
       </HStack>
@@ -95,7 +95,12 @@ export default function OverlayMenu() {
             }}
           >
             <Button bg="amber.400">
-              <Text bold color="black">
+              <Text
+                bold
+                color="black"
+                fontFamily={"heading"}
+                fontStyle="italic"
+              >
                 {t("cart_details")}
               </Text>
             </Button>
@@ -148,7 +153,7 @@ export default function OverlayMenu() {
             }}
             to="shopping-history"
           >
-            <Text color="black" fontSize={"xl"} p="3">
+            <Text color="black" fontSize={"xl"} p="3" fontFamily="heading">
               {t("shopping-history")}
             </Text>
           </Link>
@@ -193,7 +198,7 @@ export default function OverlayMenu() {
               window.location.href = "/";
             }}
           >
-            <Text color="white" fontSize={"xl"}>
+            <Text color="white" fontSize={"xl"} fontFamily="heading">
               {t("btn_log_out")}
             </Text>
           </Button>

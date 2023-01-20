@@ -351,7 +351,7 @@ export default function Login({ history }: any) {
                 setShowModal(true);
               }}
             >
-              <Text bold textAlign="end">
+              <Text fontFamily={"heading"} fontStyle="italic" textAlign="end">
                 {t("auth_forgot")}
               </Text>
             </Pressable>
@@ -383,7 +383,9 @@ export default function Login({ history }: any) {
               to="/register"
               style={{ textDecoration: "none", marginLeft: 14 }}
             >
-              <Text bold>{t("auth_register")}</Text>
+              <Text bold fontFamily={"heading"} fontStyle="italic">
+                {t("auth_register")}
+              </Text>
             </Link>
           </HStack>
           <Text alignSelf="center">{t("auth_extra")}</Text>

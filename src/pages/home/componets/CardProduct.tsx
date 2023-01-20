@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Box, Pressable, Image, Text, useMediaQuery } from "native-base";
 import React from "react";
+import { MB } from "../../../components/MyComponents";
 import { Iproducts } from "../../../interfaces/interface";
 
 interface ICardProps {
@@ -146,14 +147,27 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
                        </Box> */}
               </Box>
               <Box pl="3">
-                <Text fontSize="2xl" isTruncated bg="yellow.300">
+                <Text
+                  fontSize="2xl"
+                  fontFamily="heading"
+                  fontWeight="500"
+                  isTruncated
+                >
                   {/* {product.name.length > 16
                     ? `${product.name.substring(0, 15)}...`
                     : product.name} */}
                   {product.name}
                 </Text>
-                <Text fontSize="xl">{product.price}$</Text>
-                <Text isTruncated>
+                <Text
+                  fontSize="xl"
+                  fontFamily="heading"
+                  fontStyle={"italic"}
+                  fontWeight={"500"}
+                >
+                  {product.price}
+                  <MB color="red.500">$</MB>
+                </Text>
+                <Text isTruncated fontFamily="body" fontWeight={"300"}>
                   {product.desc}
                   {/* {product.desc.length > 30
                     ? `${product.desc.substring(0, 30)}...`

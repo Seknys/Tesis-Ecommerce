@@ -52,7 +52,13 @@ export const ComentsView = ({ comment, index }: ComentsProps) => {
         <Text my="15" fontSize={"xl"}>
           {comment.message}
         </Text>
-        <Text textAlign="end" fontSize={"md"}>
+        <Text
+          textAlign="end"
+          fontSize={"sm"}
+          fontStyle="italic"
+          fontWeight={"300"}
+          fontFamily={"heading"}
+        >
           {comment.date}
         </Text>
       </Box>

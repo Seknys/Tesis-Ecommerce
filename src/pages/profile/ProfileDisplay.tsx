@@ -204,7 +204,7 @@ export default function ProfileDisplay({ history }: any) {
             >
               <Button
                 // right="0px"
-                w="170px"
+                w="180px"
                 m="25"
                 bg="blue.500"
                 onPress={() => {
@@ -223,7 +223,7 @@ export default function ProfileDisplay({ history }: any) {
                   bg: "blue.600",
                 }}
               >
-                <Text bold color="white" fontSize={"2xl"}>
+                <Text bold color="white" fontSize={"2xl"} fontFamily="heading">
                   {t("btn_log_out")}
                 </Text>
               </Button>
@@ -302,7 +302,13 @@ export default function ProfileDisplay({ history }: any) {
                     <Text bold fontSize={"2xl"} mb="10px">
                       {user?.name} {user?.lastName}
                     </Text>
-                    <Text fontSize={"2xl"} mb="10px">
+                    <Text
+                      fontSize={"2xl"}
+                      mb="10px"
+                      fontFamily="heading"
+                      fontWeight={"300"}
+                      fontStyle="italic"
+                    >
                       {user?.email}
                     </Text>
                   </Box>

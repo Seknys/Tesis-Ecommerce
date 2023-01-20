@@ -50,7 +50,7 @@ export const columns = [
     headerAlign: "center",
     align: "center",
     headerStyle: {
-      backgroundColor: "#806b53",
+      backgroundColor: "#002",
     },
     // style: {
     //   backgroundColor: "#81c7",
@@ -69,7 +69,7 @@ export const columns = [
     sort: true,
     headerAlign: "center",
     headerStyle: {
-      backgroundColor: "#806b53",
+      backgroundColor: "#002",
     },
     filter: textFilter({
       placeholder: "Buscar",
@@ -84,7 +84,7 @@ export const columns = [
     headerAlign: "center",
     align: "center",
     headerStyle: {
-      backgroundColor: "#806b53",
+      backgroundColor: "#002",
     },
     filter: textFilter({
       placeholder: "Buscar",
@@ -99,22 +99,22 @@ export const columns = [
     headerAlign: "center",
     align: "center",
     headerStyle: {
-      backgroundColor: "#806b53",
+      backgroundColor: "#002",
     },
     filter: textFilter({
       placeholder: "Buscar",
     }),
     headerFormatter: headerText,
   },
-  {
-    dataField: "actions",
-    text: "Acciones",
-    formatter: ButtonsTable,
-    headerAlign: "center",
-    align: "center",
-    headerStyle: {
-      backgroundColor: "#806b53",
-    },
-    headerFormatter: headerText,
-  },
+  // {
+  //   dataField: "actions",
+  //   text: "Acciones",
+  //   formatter: ButtonsTable,
+  //   headerAlign: "center",
+  //   align: "center",
+  //   headerStyle: {
+  //     backgroundColor: "#806b53",
+  //   },
+  //   headerFormatter: headerText,
+  // },
 ];

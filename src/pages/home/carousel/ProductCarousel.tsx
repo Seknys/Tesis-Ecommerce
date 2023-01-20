@@ -10,6 +10,7 @@ import { updateViews } from "../../../services/products";
 import { motion } from "framer-motion";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import { MB } from "../../../components/MyComponents";
 
 interface ICarouselProps {
   products: Iproducts[];
@@ -163,16 +164,25 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
                       />
                     </Box>
                     <Box pl="3">
-                      <Text fontSize="2xl">
-                        {product.name.length > 16
-                          ? `${product.name.substring(0, 15)}...`
-                          : product.name}
+                      <Text
+                        fontSize="2xl"
+                        fontFamily="heading"
+                        fontWeight="500"
+                        isTruncated
+                      >
+                        {product.name}
                       </Text>
-                      <Text fontSize="xl">{product.price}</Text>
-                      <Text>
-                        {product.desc.length > 30
-                          ? `${product.desc.substring(0, 30)}...`
-                          : product.desc}
+                      <Text
+                        fontSize="xl"
+                        fontFamily="heading"
+                        fontStyle={"italic"}
+                        fontWeight={"500"}
+                      >
+                        {product.price}
+                        <MB color="red.500">$</MB>
+                      </Text>
+                      <Text isTruncated fontFamily="body" fontWeight={"300"}>
+                        {product.desc}
                       </Text>
                     </Box>
                   </Box>

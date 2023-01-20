@@ -110,14 +110,26 @@ export const AnalysisxProduct = () => {
   return (
     <>
       <Center>
-        <Text mt="50px" fontSize={"3xl"} bold>
+        <Text mt="50px" fontSize={"3xl"} fontFamily="heading" bold>
           {product?.name}
         </Text>
       </Center>
-      <Text fontSize={"xl"} ml="5%">
+      <Text
+        fontSize={"xl"}
+        ml="5%"
+        fontFamily={"heading"}
+        fontStyle="italic"
+        fontWeight={"300"}
+      >
         {t("analyst_createdAt")} <MB>{product?.createdAt}</MB>
       </Text>
-      <Text fontSize={"xl"} ml="5%">
+      <Text
+        fontSize={"xl"}
+        ml="5%"
+        fontFamily={"heading"}
+        fontStyle="italic"
+        fontWeight={"300"}
+      >
         {t("analyst_updatedAt")} <MB>{product?.updatedAt}</MB>
       </Text>
 

@@ -118,11 +118,23 @@ export default function MainHome({ history }: any) {
           <>
             <Box w="100%">
               {auxCategory ? (
-                <Text bold textAlign="left" fontSize="2xl">
+                <Text
+                  bold
+                  textAlign="left"
+                  fontSize="2xl"
+                  fontFamily="heading"
+                  fontWeight="500"
+                >
                   {auxCategory.name}
                 </Text>
               ) : (
-                <Text bold textAlign="left" fontSize="2xl">
+                <Text
+                  bold
+                  textAlign="left"
+                  fontSize="2xl"
+                  fontFamily="heading"
+                  fontWeight="500"
+                >
                   {category?.name}
                 </Text>
               )}
