@@ -3,6 +3,7 @@ import {
   deleteDoc,
   doc,
   DocumentData,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -61,4 +62,10 @@ export const getProductsByBuy = (
 
 export const deleteUserByUid = (uid: string) => {
   return deleteDoc(doc(userRef, uid));
+};
+
+//Get comment by product static
+
+export const getCommentsByProductStatic = async (uid: string) => {
+ return await getDocs(collection(db, "products", uid, "comments"));
 };

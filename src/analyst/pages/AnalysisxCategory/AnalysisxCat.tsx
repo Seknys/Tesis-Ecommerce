@@ -14,6 +14,13 @@ import { DocumentData } from "firebase/firestore";
 import ApexCharts from "apexcharts";
 import "./style.css";
 import ReactApexChart from "react-apexcharts";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import { getCommentsByProductStatic } from "../../../services/admin";
+import { connect } from "net";
 
 // const config = {
 //   options: {
@@ -85,17 +92,21 @@ export const AnalysisxCat = () => {
   const [categoryUid, setCategoryUid] = useState<Icategories>();
   const [categories, setCategories] = useState<Icategories[]>();
   const [products, setProducts] = useState<Iproducts[]>();
-  const [views, setViews] = useState<number[]>([]);
+
+  const [option, setOption] = useState<number[]>([]);
   const [name, setName] = useState<string[]>([]);
   const [pieValues, setPieValues] = useState<number[]>([]);
+  const [boxValue, setBoxValue] = useState<any>("views");
+  const [comentsLenght, setComentsLenght] = useState<any>(0);
+  const [boxName, setBoxName] = useState<string>("Views");
 
   //Set arrays for chart
 
   const config = {
     series: [
       {
-        name: "Views",
-        data: views,
+        name: boxName,
+        data: option,
       },
     ],
 
@@ -129,7 +140,7 @@ export const AnalysisxCat = () => {
       //     curve: "straight",
       //   },
       title: {
-        text: "Vistas de productos por categoría",
+        text: `${boxName} de productos por categoría`,
         floating: true,
         offsetY: 330,
 
@@ -237,15 +248,15 @@ export const AnalysisxCat = () => {
       ],
     },
   };
+
   useEffect(() => {
     if (categoryUid) {
-      const getProductSnapshot = (snapshot: DocumentData) => {
+      const getProductSnapshot = async (snapshot: DocumentData) => {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
           doc.data()
         );
-        console.log("CategoryUid: ", categoryUid);
-        console.log("ProductData: ", productsData);
         setProducts(productsData);
+
         if (productsData) {
           let viewsArray: number[] = [];
           let nameArray: string[] = [];
@@ -256,21 +267,49 @@ export const AnalysisxCat = () => {
           let commentsSum = 0;
           let buySum = 0;
 
-          const commetsByProductFunction = (commets: IComments[]) => {
-            if (commets.length > 0) {
-              console.log("Comments Inside: ", commets.length);
-              commentsSum += commets.length;
-            }
-          };
-          productsData.forEach((product: Iproducts) => {
+          for (const product of productsData) {
+            // getCommetsbyProduct(product.uid, commetsByProductFunction);
             nameArray.push(product.name);
             viewsArray.push(product.views);
             viewsSum += product.views;
             addCartSum += product.addedToCart;
             removeToCartSum += product.removeToCart;
             buySum += product.buy;
-            getCommetsbyProduct(product.uid, commetsByProductFunction);
-          });
+            await getCommentsByProductStatic(product.uid).then((res) => {
+              // res.forEach((doc) => {
+              commentsSum += res.docs.length;
+              //   // console.log("commentsSum: ", commentsSum);
+              //   setComentsLenght(commentsSum);
+
+              //   console.log("RES DOC: ", doc.data());
+              // });
+              console.log("RESLENG:¿ ", res.docs.length);
+            });
+          }
+
+          // const commetsByProductFunction = (commets: IComments[]) => {
+          //   if (commets.length > 0) {
+          //     console.log(
+          //       "Comments For of: ",
+          //       commets[0].userName,
+          //       commets.length
+          //     );
+          //     commentsSum += commets.length;
+          //     setComentsLenght(commentsSum);
+          //   }
+          // };
+          // productsData.forEach((product: Iproducts) => {
+
+          //   getCommentsByProductStatic(product.uid).then((res) => {
+          //     res.forEach((doc) => {
+          //       commentsSum++;
+          //       // console.log("commentsSum: ", commentsSum);
+          //       setComentsLenght(commentsSum);
+
+          //       console.log("RES DOC: ", doc.data());
+          //     });
+          //   });
+          // });
 
           setPieValues([
             viewsSum,
@@ -280,13 +319,68 @@ export const AnalysisxCat = () => {
             buySum,
           ]);
           console.log("PieValues: ", pieValues);
-          setViews(viewsArray);
+          console.log("CommentsPie", comentsLenght);
+          setOption(viewsArray);
           setName(nameArray);
         }
       };
       getProductsByCategory(categoryUid.uid, getProductSnapshot);
+      setBoxValue("views");
     }
   }, [categoryUid]);
+
+  useEffect(() => {
+    console.log("CHANGE COMETNS?");
+  }, [comentsLenght]);
+
+  useEffect(() => {
+    if (products) {
+      let optionsArray: number[] = [];
+      const optionComent = async () => {
+        for (const product of products) {
+          await getCommentsByProductStatic(product.uid).then((res) => {
+            optionsArray.push(res.docs.length);
+          });
+        }
+      };
+
+      if (boxValue === "comments") {
+        optionComent();
+        setBoxValue("comments");
+      } else {
+        products.forEach((product: any) => {
+          optionsArray.push(product[boxValue]);
+          console.log("ArrayV: ", product[boxValue]);
+        });
+      }
+
+      setOption(optionsArray);
+    }
+  }, [boxValue]);
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let auxName = "";
+    console.log("Label: ", event.target.labels);
+    setBoxValue((event.target as HTMLInputElement).value);
+    switch ((event.target as HTMLInputElement).value) {
+      case "views":
+        auxName = "Views";
+        break;
+      case "addedToCart":
+        auxName = "Added to Cart";
+        break;
+      case "removeToCart":
+        auxName = "Removed to Cart";
+        break;
+
+      case "buy":
+        auxName = "Purchased";
+        break;
+      default:
+        break;
+    }
+    setBoxName(auxName);
+  };
 
   return (
     <>
@@ -294,6 +388,7 @@ export const AnalysisxCat = () => {
         {/* <div>
             <h3>{categoryUid} trext</h3>
           </div> */}
+
         {categoryUid ? (
           <>
             <Center>
@@ -301,6 +396,42 @@ export const AnalysisxCat = () => {
                 Categoria: {categoryUid.name}
               </Text>
             </Center>
+            <FormControl>
+              <FormLabel id="demo-radio-buttons-group-label">Options</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-radio-buttons-group-label"
+                value={boxValue}
+                onChange={handleOnChange}
+                name="radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="views"
+                  control={<Radio />}
+                  label="Views"
+                />
+                <FormControlLabel
+                  value="addedToCart"
+                  control={<Radio />}
+                  label="Added to Cart"
+                />
+                <FormControlLabel
+                  value="removeToCart"
+                  control={<Radio />}
+                  label="Removed to Cart"
+                />
+                <FormControlLabel
+                  value="buy"
+                  control={<Radio />}
+                  label="Purchased"
+                />
+                {/* <FormControlLabel
+                  value="comments"
+                  control={<Radio />}
+                  label="Comments"
+                /> */}
+              </RadioGroup>
+            </FormControl>
             <Box
               mx="30px"
               // borderWidth={3}

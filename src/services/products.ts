@@ -130,6 +130,29 @@ export const getCommetsbyProduct = (
     }
   );
 };
+export const getCommetsbyProduct2 = (
+  uid: string,
+  fSnapshot: (snapshot: IComments[]) => void
+) => {
+  return onSnapshot(
+    query(collection(db, "products", uid, "comments")),
+    (snapshot) => {
+      const comments: any[] = [];
+
+      snapshot.forEach((doc) => {
+        comments.push({
+          ...doc.data(),
+          uid: doc.id,
+          date: new Date(doc.data().date.seconds * 1000).toLocaleDateString(
+            "en-US"
+          ), //Convert Timestamp to Date, extract only the date
+        });
+      });
+
+      fSnapshot(comments);
+    }
+  );
+};
 
 export const addCommentToProduct = (uid: string, comment: IComments) => {
   return setDoc(doc(db, "products", uid, "comments", comment.uid), comment);

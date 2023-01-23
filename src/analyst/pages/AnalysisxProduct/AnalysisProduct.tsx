@@ -1,5 +1,5 @@
 import { DocumentData } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IComments, Iproducts } from "../../../interfaces/interface";
 import {
@@ -12,8 +12,13 @@ import { Rating } from "@mui/material";
 import "./style.css";
 import { useTranslation } from "react-i18next";
 import { MB } from "../../../components/MyComponents";
+import { PdfViewProduct } from "../../components/ProductPdfView";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import JsPDF from "jspdf";
+import { toJpeg } from "html-to-image";
 
 export const AnalysisxProduct = () => {
+  const refCalendar = useRef<HTMLDivElement>();
   const { uid } = useParams<{ uid: string }>();
   const [product, setProduct] = useState<Iproducts>();
   const [pieValues, setPieValues] = useState<any>([]);
@@ -23,6 +28,54 @@ export const AnalysisxProduct = () => {
   const roundHalf = (num: number) => {
     return Math.round(num * 2) / 2;
   };
+
+  const downloadImage = useCallback(() => {
+    toJpeg(refCalendar.current!, { quality: 0.95, backgroundColor: "#DCD2BE" })
+      .then(function (dataUrl) {
+        const link = document.createElement("a");
+        link.download = "Calendario BAQ.JPEG";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [refCalendar]);
+
+  const downloadPDF = useCallback(() => {
+    toJpeg(refCalendar.current!, {
+      quality: 1,
+      backgroundColor: "#DCD2BE",
+    })
+      .then(function (dataUrl) {
+        const padding = 5;
+        const fontsize = 15;
+        const color = "#DCD2BE";
+        const doc = new JsPDF({ orientation: "landscape" });
+        let width = doc.internal.pageSize.getWidth();
+        let height = doc.internal.pageSize.getHeight();
+        doc.setFillColor(color);
+        doc.setFontSize(fontsize);
+        doc.rect(0, 0, width, height, "F");
+
+        let text = "CALENDARIO BAQ";
+        let txtWidth =
+          (doc.getStringUnitWidth(text) * fontsize) / doc.internal.scaleFactor;
+        doc.text(text, (width - txtWidth) / 2, 10);
+        doc.addImage(
+          dataUrl,
+          "PNG",
+          padding,
+          20,
+          width - padding * 2,
+          (width - padding * 2) / 1.8
+        );
+        doc.save("Agenda BAQ.pdf");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [refCalendar]);
 
   useEffect(() => {
     const getProductSnapshot = (snapshot: DocumentData) => {
@@ -108,7 +161,7 @@ export const AnalysisxProduct = () => {
   };
 
   return (
-    <>
+    <div id="report" ref={refCalendar as React.RefObject<HTMLDivElement>}>
       <Center>
         <Text mt="50px" fontSize={"3xl"} fontFamily="heading" bold>
           {product?.name}
@@ -138,9 +191,10 @@ export const AnalysisxProduct = () => {
           <Image
             shadow={9}
             source={{
-              uri: product?.img[0],
+              // uri: product?.img[0],
+              uri: "https://www.timeoutdubai.com/cloud/timeoutdubai/2021/09/11/udHvbKwV-IMG-Dubai-UAE-1.jpg",
             }}
-            alt={product?.name}
+            alt={product ? product.name : "Img desc"}
             w="380"
             h="320"
             resizeMode="contain"
@@ -211,7 +265,30 @@ export const AnalysisxProduct = () => {
         </div>
       </HStack>
 
-      <Box w="100%" bg="red.400" alignItems={"center"}></Box>
-    </>
+      <button onClick={downloadPDF} type="button">
+        NEW PDF?
+      </button>
+
+      <button onClick={downloadImage} type="button">
+        downloadImage
+      </button>
+
+      {/* <Box h="550px">
+        <PDFViewer>
+          <PdfViewProduct product={product} />
+        </PDFViewer>
+      </Box>
+
+      <PDFDownloadLink
+        document={<PdfViewProduct product={product} />}
+        fileName="somename.pdf"
+      >
+        <Box bg="yellow.500">
+          <Text bold fontFamily={"heading"}>
+            DESCARGAr
+          </Text>
+        </Box>
+      </PDFDownloadLink> */}
+    </div>
   );
 };
