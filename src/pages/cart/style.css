@@ -14,3 +14,12 @@
   background-color: #500;
   color: #fff;
 }
+
+.text-Url {
+  text-decoration: none;
+  transition: all 0.8s;
+}
+
+.text-Url:hover > div {
+  color: rgb(210, 13, 125);
+}

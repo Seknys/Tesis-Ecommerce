@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import anime from "animejs/lib/anime.es.js";
 import "./checkout.css";
 import gsap from "gsap";
+import { Box, Center, Text, Image } from "native-base";
+import Zdog from "zdog";
 
 export const Checkout = ({ history }: any) => {
   let state = {
@@ -89,6 +91,9 @@ export const Checkout = ({ history }: any) => {
       return index * 80;
     },
   });
+
+  /////// LETTERS ANIMATION ////////
+
   return (
     <div id="App" className="main-container-animation">
       <svg id="sky">
@@ -117,12 +122,20 @@ export const Checkout = ({ history }: any) => {
           />
         ))}
       </div>
-      <div className="center">
-        <div className="loader blur">
-          <div className="circle circle-1"></div>
-          <div className="circle circle-2"></div>
-        </div>
-      </div>
+
+      <Center mt="150">
+        <Image
+          source={{
+            uri: "https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba",
+          }}
+          w="325px"
+          h="325px"
+          alt="MainLogo"
+        />
+        <Text bold color="white" fontSize={"2xl"} mt="50px">
+          GRACIAS POR SU COMPRA :)
+        </Text>
+      </Center>
     </div>
   );
 };

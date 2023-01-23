@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  increment,
   onSnapshot,
   query,
   setDoc,
@@ -26,10 +27,12 @@ export const updateRemoveFromCart = (uid: string, remove: number) => {
 export const updateProductBought = (product: Iproducts[] | null) => {
   if (product) {
     product.forEach((product, index) => {
-      if (product.productUid) {
+      console.log("BACK PDORUCT:", product);
+      console.log("NEW QUANTITY: ", product.quantity);
+      if (product.productUid && product.quantity) {
         updateDoc(doc(db, "products", product.productUid), {
           buy: product.buy + 1,
-          stock: product.stock - 1,
+          stock: increment(-product.quantity),
         }).then(() => {
           console.log("ProductoBOUGHT actualizado: ", product);
         });

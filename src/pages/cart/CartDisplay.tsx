@@ -17,6 +17,7 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { BsPaypal } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import { Pressable } from "react-native";
+import { Link } from "react-router-dom";
 import { MB } from "../../components/MyComponents";
 import { ErrorToast, SuccesToast, ToastC } from "../../components/Toast";
 import { getDateString } from "../../constants/dateFormString";
@@ -35,10 +36,12 @@ export const CartDisplay = ({ history }: any) => {
   const { user } = useContext(UserContext);
   // const [count, setCount] = useState(1);
   const count = useRef(1);
-  const [cartProducts, setCartProducts] = useState<Iproducts[] | null>(null);
+  const [cartProducts, setCartProducts] = useState<Iproducts[]>([]);
   const { t } = useTranslation();
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [auxQuantity, setAuxQuantity] = useState(0);
+  const myAux = useRef<any>(0);
   const subTotal = useRef(0);
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
@@ -51,7 +54,10 @@ export const CartDisplay = ({ history }: any) => {
 
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
-      setCartProducts(products);
+      if (products) {
+        console.log("PRODUCTS: ", products);
+        setCartProducts(products);
+      }
     };
     if (user) {
       getCartProductsByUser(user.uid, cartProductsFunction);
@@ -76,7 +82,7 @@ export const CartDisplay = ({ history }: any) => {
     }
   };
 
-  const handleBuyProducts = () => {
+  const handleBuyProducts = (paypal: boolean) => {
     updateProductBought(cartProducts);
     let uidShop = getDateString();
 
@@ -84,7 +90,7 @@ export const CartDisplay = ({ history }: any) => {
       addCartToShoppingHistory(user?.uid, uidShop, new Date(), cartProducts);
     }
     setTimeout(() => {
-      history.push("/home");
+      paypal ? history.push("/home") : history.push("/checkout");
     }, 3000);
   };
 
@@ -93,7 +99,7 @@ export const CartDisplay = ({ history }: any) => {
   return (
     <Center w="100%" mt="50px">
       <ToastC />
-      <Text italic bold fontSize={"3xl"}>
+      <Text italic bold fontFamily="heading" fontSize={"3xl"}>
         {t("cart")}
       </Text>
       {isMediumScreen || isSmallScreen ? (
@@ -149,9 +155,16 @@ export const CartDisplay = ({ history }: any) => {
                         <Box // bg="emerald.300"
                           justifyContent="space-between"
                         >
-                          <Text fontSize={"xl"} width="150">
-                            {product.name}
-                          </Text>
+                          <Link
+                            target={"_blank"}
+                            to={`/product/${product.productUid}`}
+                            className="text-Url"
+                          >
+                            <Text fontSize={"xl"} width="150">
+                              {product.name}
+                            </Text>
+                          </Link>
+
                           <HStack
                             w="130"
                             alignItems={"center"}
@@ -160,48 +173,50 @@ export const CartDisplay = ({ history }: any) => {
                             <Text>
                               {t("cart_quantity")} <MB>{product.quantity}</MB>
                             </Text>
-                            {/* {product.quantity && product.quantity > 1 && (
-                          <Pressable
-                            onPress={() => {
-                              if (product.quantity) {
-                                product.quantity -= 1;
-                                count.current -= 1;
-                              }
-                            }}
-                          >
-                            <IconContext.Provider
-                              value={{
-                                color: "black",
-                                size: "1.5em",
-                                style: {},
-                              }}
-                            >
-                              <AiFillMinusCircle />
-                            </IconContext.Provider>
-                          </Pressable>
-                        )}
-                        {product.quantity &&
-                          product.quantity < product.stock && (
-                            <Pressable
-                              onPress={() => {
-                                if (product.quantity) {
-                                  console.log("Product: ", product.quantity);
-                                  product.quantity += 1;
-                                  count.current += 1;
-                                }
-                              }}
-                            >
-                              <IconContext.Provider
-                                value={{
-                                  color: "black",
-                                  size: "1.5em",
-                                  style: {},
+                            {product.quantity && product.quantity > 1 && (
+                              <Pressable
+                                onPress={() => {
+                                  if (product.quantity) {
+                                    product.quantity -= 1;
+                                    myAux.current -= 1;
+                                    setAuxQuantity((myAux.current -= 1));
+                                  }
                                 }}
                               >
-                                <AiFillPlusCircle />
-                              </IconContext.Provider>
-                            </Pressable>
-                          )} */}
+                                <IconContext.Provider
+                                  value={{
+                                    color: "black",
+                                    size: "1.5em",
+                                    style: {},
+                                  }}
+                                >
+                                  <AiFillMinusCircle />
+                                </IconContext.Provider>
+                              </Pressable>
+                            )}
+                            {product.quantity &&
+                              product.quantity < product.stock && (
+                                <Pressable
+                                  onPress={() => {
+                                    if (product.quantity) {
+                                      product.quantity += 1;
+                                      myAux.current += 1;
+                                      setAuxQuantity((myAux.current += 1));
+                                      console.log("Aux: ", myAux.current);
+                                    }
+                                  }}
+                                >
+                                  <IconContext.Provider
+                                    value={{
+                                      color: "black",
+                                      size: "1.5em",
+                                      style: {},
+                                    }}
+                                  >
+                                    <AiFillPlusCircle />
+                                  </IconContext.Provider>
+                                </Pressable>
+                              )}
                           </HStack>
                         </Box>
                         <Box
@@ -247,106 +262,110 @@ export const CartDisplay = ({ history }: any) => {
                   </Box>
                 );
               })}
-            {cartProducts === null && <p>Cart is empty</p>}
+            {cartProducts.length === 0 && (
+              <Text fontSize={"xl"}>THE CART IS EMPTY</Text>
+            )}
           </Box>
-          <Box
-            my="35"
-            h="220"
-            mx="25"
-            shadow={8}
-            p="15"
-            borderRadius={15}
-            borderColor="gray.500"
-            borderBottomWidth={3}
-            borderRightWidth={3}
-            position="sticky"
-            top="150"
-          >
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" fontSize={"21"} mb="15">
-                Subtotal
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {subTotal.current}
-              </Text>
-            </HStack>
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" fontSize={"21"} mb="15">
-                {t("cart_discount")}
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {discount}
-              </Text>
-            </HStack>
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" bold fontSize={"21"} mb="15">
-                {t("cart_total")}
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {subTotal.current - discount}
-              </Text>
-            </HStack>
+          {cartProducts.length !== 0 && (
+            <Box
+              my="35"
+              h="310"
+              mx="25"
+              shadow={8}
+              p="15"
+              borderRadius={15}
+              borderColor="gray.500"
+              borderBottomWidth={3}
+              borderRightWidth={3}
+              position="sticky"
+              top="150"
+            >
+              <HStack justifyContent={"space-between"}>
+                <Text color="black" fontSize={"21"} mb="15">
+                  Subtotal
+                </Text>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {subTotal.current}
+                </Text>
+              </HStack>
+              <HStack justifyContent={"space-between"}>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {t("cart_discount")}
+                </Text>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {discount}
+                </Text>
+              </HStack>
+              <HStack justifyContent={"space-between"}>
+                <Text color="black" bold fontSize={"21"} mb="15">
+                  {t("cart_total")}
+                </Text>
+                <Text color="black" bold fontSize={"21"} mb="15">
+                  {subTotal.current - discount}
+                </Text>
+              </HStack>
 
-            <button
-              onClick={() => {
-                handleBuyProducts();
-              }}
-              className="button-cart"
-            >
-              {t("cart_confirm")}
-            </button>
-            <Text>{t("another_pay")}</Text>
-            <PayPalScriptProvider
-              options={{
-                "client-id":
-                  //SANDBOX CLIENT
-                  "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                //LIVE LCIENT
-                //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
-              }}
-            >
-              <PayPalButtons
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: {
-                          value:
-                            //SandBox
-                            //(subTotal.current - discount).toString(),
-                            //LIVE
-                            "0.01",
+              <button
+                onClick={() => {
+                  handleBuyProducts(false);
+                }}
+                className="button-cart"
+              >
+                {t("cart_confirm")}
+              </button>
+              <Text textAlign={"center"}>{t("another_pay")}</Text>
+              <PayPalScriptProvider
+                options={{
+                  "client-id":
+                    //SANDBOX CLIENT
+                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                }}
+              >
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value:
+                              //SandBox
+                              //(subTotal.current - discount).toString(),
+                              //LIVE
+                              "0.01",
+                          },
                         },
-                      },
-                    ],
-                  });
-                }}
-                onApprove={(data, actions: any) => {
-                  return actions.order.capture().then((details: any) => {
-                    if (details.status === "COMPLETED") {
-                      console.log("Details: ", details);
-                      handleBuyProducts();
-                    }
-                    if (details.payer.name) {
-                      const name = details.payer.name.given_name;
-                      // alert(`Transaction completed by ${name}`);
-                      SuccesToast(`Transaction completed by ${name}`);
-                      console.log("DONE", details.payer);
-                    }
-                  });
-                }}
-                style={{
-                  layout: "horizontal",
-                  shape: "pill",
-                  color: "gold",
-                  tagline: false,
-                }}
-                onCancel={(data) => {
-                  ErrorToast(t("paypal_cancel"));
-                }}
-              />
-            </PayPalScriptProvider>
-          </Box>
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions: any) => {
+                    return actions.order.capture().then((details: any) => {
+                      if (details.status === "COMPLETED") {
+                        console.log("Details: ", details);
+                        handleBuyProducts(true);
+                      }
+                      if (details.payer.name) {
+                        const name = details.payer.name.given_name;
+                        // alert(`Transaction completed by ${name}`);
+                        SuccesToast(`Transaction completed by ${name}`);
+                        console.log("DONE", details.payer);
+                      }
+                    });
+                  }}
+                  style={{
+                    layout: "horizontal",
+                    shape: "pill",
+                    color: "gold",
+                    tagline: false,
+                  }}
+                  onCancel={(data) => {
+                    ErrorToast(t("paypal_cancel"));
+                  }}
+                />
+              </PayPalScriptProvider>
+            </Box>
+          )}
         </Box>
       ) : (
         <HStack w="80%" my="50px">
@@ -354,18 +373,11 @@ export const CartDisplay = ({ history }: any) => {
             {cartProducts &&
               cartProducts.map((product, index) => {
                 if (product.quantity) {
-                  console.log(
-                    "Product: ",
-                    product.quantity,
-                    "*",
-                    product.price
-                  );
                   aux += product.quantity * product.price;
-
-                  console.log("Aux: ", Math.round(aux * 100) / 100);
                   subTotal.current = Math.round(aux * 100) / 100;
                   count.current = product.quantity;
                 }
+                myAux.current = product.quantity;
 
                 return (
                   <Box key={`${product.uid}_${product.name}_${index}`}>
@@ -387,57 +399,67 @@ export const CartDisplay = ({ history }: any) => {
 
                       <HStack w="80%" justifyContent="space-between">
                         <Box justifyContent="space-between">
-                          <Text fontSize={"3xl"}>{product.name}</Text>
+                          <Link
+                            target={"_blank"}
+                            to={`/product/${product.productUid}`}
+                            className="text-Url"
+                          >
+                            <Text fontSize={"3xl"}>{product.name}</Text>
+                          </Link>
+
                           <HStack
                             w="130"
                             alignItems={"center"}
                             justifyContent="space-around"
                           >
                             <Text>
-                              {t("cart_quantity")} <MB>{product.quantity}</MB>
+                              {/* {t("cart_quantity")} <MB>{product.quantity}</MB> */}
+                              {t("cart_quantity")} <MB>{myAux.current} </MB>
                             </Text>
-                            {/* {product.quantity && product.quantity > 1 && (
-                          <Pressable
-                            onPress={() => {
-                              if (product.quantity) {
-                                product.quantity -= 1;
-                                count.current -= 1;
-                              }
-                            }}
-                          >
-                            <IconContext.Provider
-                              value={{
-                                color: "black",
-                                size: "1.5em",
-                                style: {},
-                              }}
-                            >
-                              <AiFillMinusCircle />
-                            </IconContext.Provider>
-                          </Pressable>
-                        )}
-                        {product.quantity &&
-                          product.quantity < product.stock && (
-                            <Pressable
-                              onPress={() => {
-                                if (product.quantity) {
-                                  console.log("Product: ", product.quantity);
-                                  product.quantity += 1;
-                                  count.current += 1;
-                                }
-                              }}
-                            >
-                              <IconContext.Provider
-                                value={{
-                                  color: "black",
-                                  size: "1.5em",
-                                  style: {},
+                            {product.quantity && product.quantity > 1 && (
+                              <Pressable
+                                onPress={() => {
+                                  if (product.quantity) {
+                                    product.quantity -= 1;
+                                    myAux.current -= 1;
+                                    setAuxQuantity((myAux.current -= 1));
+                                  }
                                 }}
                               >
-                                <AiFillPlusCircle />
-                              </IconContext.Provider>
-                            </Pressable>
-                          )} */}
+                                <IconContext.Provider
+                                  value={{
+                                    color: "black",
+                                    size: "1.5em",
+                                    style: {},
+                                  }}
+                                >
+                                  <AiFillMinusCircle />
+                                </IconContext.Provider>
+                              </Pressable>
+                            )}
+                            {product.quantity &&
+                              product.quantity < product.stock && (
+                                <Pressable
+                                  onPress={() => {
+                                    if (product.quantity) {
+                                      product.quantity += 1;
+                                      myAux.current += 1;
+                                      setAuxQuantity((myAux.current += 1));
+                                      console.log("Aux: ", myAux.current);
+                                    }
+                                  }}
+                                >
+                                  <IconContext.Provider
+                                    value={{
+                                      color: "black",
+                                      size: "1.5em",
+                                      style: {},
+                                    }}
+                                  >
+                                    <AiFillPlusCircle />
+                                  </IconContext.Provider>
+                                </Pressable>
+                              )}
                           </HStack>
                         </Box>
                         <Box
@@ -446,7 +468,6 @@ export const CartDisplay = ({ history }: any) => {
                         >
                           <Pressable
                             onPress={() => {
-                              console.log("Product: ", product);
                               if (product.productUid) {
                                 deletePCart(
                                   product.uid,
@@ -482,106 +503,125 @@ export const CartDisplay = ({ history }: any) => {
                   </Box>
                 );
               })}
-            {cartProducts === null && <p>Cart is empty</p>}
+            {cartProducts.length === 0 && (
+              <Text fontSize={"xl"}>THE CART IS EMPTY</Text>
+            )}
           </Box>
-          <Box
-            h="290"
-            flex="2"
-            ml="75"
-            shadow={8}
-            p="15"
-            borderRadius={15}
-            borderColor="gray.500"
-            borderBottomWidth={3}
-            borderRightWidth={3}
-            position="sticky"
-            top="150"
-          >
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" fontSize={"21"} mb="15">
-                Subtotal
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {subTotal.current}
-              </Text>
-            </HStack>
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" fontSize={"21"} mb="15">
-                {t("cart_discount")}
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {discount}
-              </Text>
-            </HStack>
-            <HStack justifyContent={"space-between"}>
-              <Text color="black" bold fontSize={"21"} mb="15">
-                {t("cart_total")}
-              </Text>
-              <Text color="black" fontSize={"21"} mb="15">
-                {subTotal.current - discount}
-              </Text>
-            </HStack>
+          {cartProducts.length !== 0 && (
+            <Box
+              h="290"
+              flex="2"
+              ml="75"
+              shadow={8}
+              p="15"
+              borderRadius={15}
+              borderColor="gray.500"
+              borderBottomWidth={3}
+              borderRightWidth={3}
+              position="sticky"
+              top="150"
+            >
+              <HStack justifyContent={"space-between"}>
+                <Text color="black" fontSize={"21"} mb="15">
+                  Subtotal
+                </Text>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {subTotal.current}
+                </Text>
+              </HStack>
+              <HStack justifyContent={"space-between"}>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {t("cart_discount")}
+                </Text>
+                <Text color="black" fontSize={"21"} mb="15">
+                  {discount}
+                </Text>
+              </HStack>
+              <HStack justifyContent={"space-between"}>
+                <Text
+                  color="black"
+                  bold
+                  fontFamily={"heading"}
+                  italic
+                  fontSize={"21"}
+                  mb="15"
+                >
+                  {t("cart_total")}
+                </Text>
+                <Text
+                  color="black"
+                  bold
+                  fontFamily={"heading"}
+                  italic
+                  fontSize={"21"}
+                  mb="15"
+                >
+                  {subTotal.current - discount}
+                </Text>
+              </HStack>
+              <button
+                // disabled={cartProducts ? true : false}
 
-            <button
-              onClick={() => {
-                handleBuyProducts();
-              }}
-              className="button-cart"
-            >
-              {t("cart_confirm")}
-            </button>
-            <Text alignSelf={"center"}>{t("another_pay")}</Text>
-            <PayPalScriptProvider
-              options={{
-                "client-id":
-                  //SANDBOX CLIENT
-                  "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                //LIVE LCIENT
-                //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
-              }}
-            >
-              <PayPalButtons
-                createOrder={(data, actions) => {
-                  return actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: {
-                          value:
-                            //SandBox
-                            //(subTotal.current - discount).toString(),
-                            //LIVE
-                            "0.01",
+                onClick={() => {
+                  handleBuyProducts(false);
+                }}
+                className="button-cart"
+              >
+                {t("cart_confirm")} btw
+              </button>
+              <Text alignSelf={"center"}>{t("another_pay")}</Text>
+              <PayPalScriptProvider
+                options={{
+                  "client-id":
+                    //SANDBOX CLIENT
+                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                }}
+              >
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value:
+                              //SandBox
+                              //(subTotal.current - discount).toString(),
+                              //LIVE
+                              "0.01",
+                          },
                         },
-                      },
-                    ],
-                  });
-                }}
-                onApprove={(data, actions: any) => {
-                  return actions.order.capture().then((details: any) => {
-                    if (details.status === "COMPLETED") {
-                      console.log("Details: ", details);
-                      handleBuyProducts();
-                    }
-                    if (details.payer.name) {
-                      const name = details.payer.name.given_name;
-                      // alert(`Transaction completed by ${name}`);
-                      SuccesToast(`Transaction completed by ${name}`);
-                      console.log("DONE", details.payer);
-                    }
-                  });
-                }}
-                style={{
-                  layout: "horizontal",
-                  shape: "pill",
-                  color: "gold",
-                  tagline: false,
-                }}
-                onCancel={(data) => {
-                  ErrorToast(t("paypal_cancel"));
-                }}
-              />
-            </PayPalScriptProvider>
-          </Box>
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions: any) => {
+                    return actions.order.capture().then((details: any) => {
+                      if (details.status === "COMPLETED") {
+                        console.log("Details: ", details);
+                        handleBuyProducts(true);
+                      }
+                      if (details.payer.name) {
+                        const name = details.payer.name.given_name;
+                        // alert(`Transaction completed by ${name}`);
+                        SuccesToast(`Transaction completed by ${name}`);
+                        console.log("DONE", details.payer);
+                      }
+                    });
+                  }}
+                  style={{
+                    layout: "horizontal",
+                    shape: "pill",
+                    color: "gold",
+                    tagline: false,
+                  }}
+                  onCancel={(data) => {
+                    ErrorToast(t("paypal_cancel"));
+                  }}
+                />
+              </PayPalScriptProvider>
+            </Box>
+          )}
         </HStack>
       )}
     </Center>
