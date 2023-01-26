@@ -12,6 +12,7 @@ import {
   deleteDoc,
   Timestamp,
   orderBy,
+  increment,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -159,23 +160,14 @@ export const addCommentToProduct = (uid: string, comment: IComments) => {
 };
 
 export const updateViews = async (uid: string) => {
-  // getProductByUid(uid, (snapshot) => {
-  //   const views = snapshot.data()?.views;
-  //   return updateDoc(doc(db, "products", uid), {
-  //     views: views + 1,
-  //   });
-  // });
-  getProductByUidStatic(uid).then((snapshot) => {
-    const views = snapshot?.views;
-    return updateDoc(doc(db, "products", uid), {
-      views: views + 1,
-    });
+  return await updateDoc(doc(db, "products", uid), {
+    views: increment(1),
   });
 };
 
 export const updateAddedToCart = async (uid: string, addedToCart: number) => {
   await updateDoc(doc(db, "products", uid), {
-    addedToCart: addedToCart + 1,
+    addedToCart: increment(1),
   }).then(() => {
     console.log("addedToCart updated");
   });

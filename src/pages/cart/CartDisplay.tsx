@@ -318,9 +318,9 @@ export const CartDisplay = ({ history }: any) => {
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                  //LIVE LCIENT
-                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                    //"AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                    //LIVE LCIENT
+                    "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
                 }}
               >
                 <PayPalButtons
@@ -574,9 +574,9 @@ export const CartDisplay = ({ history }: any) => {
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                  //LIVE LCIENT
-                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                    // "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                    //LIVE LCIENT
+                    "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
                 }}
               >
                 <PayPalButtons

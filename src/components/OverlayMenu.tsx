@@ -151,7 +151,7 @@ export default function OverlayMenu() {
               textDecoration: "none",
               width: "100%",
             }}
-            to="shopping-history"
+            to="/shopping-history"
           >
             <Text color="black" fontSize={"xl"} p="3" fontFamily="heading">
               {t("shopping-history")}

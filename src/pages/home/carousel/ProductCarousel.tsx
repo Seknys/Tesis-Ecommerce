@@ -135,11 +135,11 @@ export const ProductCarousel = ({ products, history }: ICarouselProps) => {
               onPress={async () => {
                 await updateViews(product.uid)
                   .then(() => {
-                    console.log("Views updated");
+                 
                     history.push(`/product/${product.uid}`);
                   })
                   .catch((error) => {
-                    console.log("ViewsError", error);
+                  
                   });
               }}
             >
@@ -237,7 +237,7 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
   };
 
   useEffect(() => {
-    console.log("HOW MANY TIMES???");
+
   }, []);
 
   return (
@@ -275,7 +275,7 @@ export const ImageSyncCarousel = ({ product }: IImageSyncCarouselProps) => {
       {product && product.img.length > 2 ? (
         <Slider {...settings2}>
           {product?.img.map((img, index) => {
-            console.log("INDEX:? ", index);
+    
 
             return (
               <Box paddingLeft={10} key={index}>

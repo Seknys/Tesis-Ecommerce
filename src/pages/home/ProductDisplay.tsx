@@ -68,7 +68,6 @@ export default function ProductDisplay({ history }: { history: any }) {
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
-      console.log("snapshot", snapshot.data());
       setProduct(snapshot.data());
     };
     getProductByUid(uid, getProductSnapshot);
@@ -88,11 +87,8 @@ export default function ProductDisplay({ history }: { history: any }) {
     if (user && product) {
       product["quantity"] = count;
       product["productUid"] = product.uid;
-      // console.log("add to cart", user.uid);
-      console.log("ADD TO CART: ", product);
+
       addProductToCart(user.uid, product).then((data) => {
-        console.log("data¿", data);
-        console.log("Add Messege");
         SuccesToast(t("cart_added"));
       });
 

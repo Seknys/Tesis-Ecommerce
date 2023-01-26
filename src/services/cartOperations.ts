@@ -27,11 +27,9 @@ export const updateRemoveFromCart = (uid: string, remove: number) => {
 export const updateProductBought = (product: Iproducts[] | null) => {
   if (product) {
     product.forEach((product, index) => {
-      console.log("BACK PDORUCT:", product);
-      console.log("NEW QUANTITY: ", product.quantity);
       if (product.productUid && product.quantity) {
         updateDoc(doc(db, "products", product.productUid), {
-          buy: product.buy + 1,
+          buy: increment(1),
           stock: increment(-product.quantity),
         }).then(() => {
           console.log("ProductoBOUGHT actualizado: ", product);

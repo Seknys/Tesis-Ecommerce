@@ -61,8 +61,6 @@ export const RatingCustomView = ({
   };
   useEffect(() => {}, [isReadOnly]);
 
-  console.log("IsReadOnly: ", isReadOnly);
-  console.log("HOver?: ", hover);
   return (
     // </HStack>
     <HStack w="100%">
@@ -73,12 +71,10 @@ export const RatingCustomView = ({
         readOnly={isReadOnly}
         onChange={(event, newValue) => {
           if (newValue && setRating) {
-            console.log("RatingValue: ", newValue);
             setRating(newValue);
           }
         }}
         onChangeActive={(event, newHover) => {
-          console.log("newHover: ", newHover);
           setHover(newHover);
         }}
         getLabelText={(value: number) => customIcons[value].label}
@@ -105,9 +101,7 @@ export const RatingCustomView = ({
 
       {isReadOnly ? (
         <Box ml="2" justifyContent={"center"} w="150">
-          <Text  fontSize={"sm"} >
-            {customIcons[rating].label}
-          </Text>
+          <Text fontSize={"sm"}>{customIcons[rating].label}</Text>
         </Box>
       ) : hover > 0 ? (
         <Box ml="2" justifyContent={"center"} w="150">
