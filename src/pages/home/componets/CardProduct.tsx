@@ -1,15 +1,25 @@
 import { motion } from "framer-motion";
 import { Box, Pressable, Image, Text, useMediaQuery } from "native-base";
-import React from "react";
+import React, { useRef } from "react";
+import { IconContext } from "react-icons";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MB } from "../../../components/MyComponents";
 import { Iproducts } from "../../../interfaces/interface";
 
 interface ICardProps {
   product: Iproducts;
   handleOnPress?: any;
+  isClient?: boolean;
+  index?: number;
 }
-export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
-  const [hover, setHover] = React.useState<any>(null);
+export const CardProduct = ({
+  product,
+  handleOnPress,
+  isClient,
+  index,
+}: ICardProps) => {
+  const [hover, setHover] = React.useState<any>({ value: false, index: -1 });
+  // const hover = useRef();
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
     maxWidth: 1200,
@@ -70,9 +80,11 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
         // borderColor="gray.200"
         borderRadius={15}
         onHoverIn={() => {
-          // setHover({ value: true, index: index });
+          setHover({ value: true, index: index });
         }}
-        onHoverOut={() => {}}
+        onHoverOut={() => {
+          setHover({ value: false, index: -1 });
+        }}
         onPress={handleOnPress}
       >
         <div className="card-container-menu">
@@ -104,47 +116,37 @@ export const CardProduct = ({ product, handleOnPress }: ICardProps) => {
                   resizeMode="cover"
                 />
 
-                {/* <Box>
-                         <Box
-                           bg="violet.500"
-                           _dark={{
-                             bg: "violet.400",
-                           }}
-                           _text={{
-                             color: "warmGray.50",
-                             fontWeight: "700",
-                             fontSize: "xs",
-                           }}
-                           position="absolute"
-                           bottom="0"
-                           px="3"
-                           py="1.5"
-                           borderRadius={35}
-                         >
-                           <Text> {category?.name}</Text>
-                         </Box>
-                         {product.sold > 15 && (
-                           <Box
-                             bg="red.500"
-                             _dark={{
-                               bg: "red.400",
-                             }}
-                             _text={{
-                               color: "warmGray.50",
-                               fontWeight: "700",
-                               fontSize: "xs",
-                             }}
-                             position="absolute"
-                             top="0"
-                             right="0"
-                             px="3"
-                             py="1.5"
-                             borderRadius={5}
-                           >
-                             <Text> Best Seller </Text>
-                           </Box>
-                         )}
-                       </Box> */}
+                {/* {isClient && hover.index === index && (
+                  <>
+                    <Pressable
+                      onPress={() => {
+                        console.log("PRODUCTCART");
+                      }}
+                      w="50"
+                      h="50"
+                      position={"absolute"}
+                      right="0"
+                      top="0"
+                      bg="red.500"
+                      borderRadius={"full"}
+                      borderColor="red.400"
+                      borderWidth={3}
+                    >
+                      <IconContext.Provider
+                        value={{
+                          color: "red",
+                          size: "20px",
+                          style: {
+                            marginTop: "20",
+                            marginLeft: "10",
+                          },
+                        }}
+                      >
+                        <AiOutlineShoppingCart />
+                      </IconContext.Provider>
+                    </Pressable>
+                  </>
+                )} */}
               </Box>
               <Box pl="3">
                 <Text

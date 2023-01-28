@@ -13,6 +13,7 @@ import {
   Timestamp,
   orderBy,
   increment,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -108,6 +109,14 @@ export const getProductsSearch = (
   onSnapshot(collection(db, "products"), fSnapshot);
 };
 
+export const getProductTest = async () => {
+  // return await getDocs(collection(db, "products"));
+  return await new Promise<any>((resolve, reject) => {
+    resolve({ data: 32 });
+    reject({ data: 35 });
+  });
+};
+
 export const getCommetsbyProduct = (
   uid: string,
   fSnapshot: (snapshot: IComments[]) => void
@@ -171,4 +180,16 @@ export const updateAddedToCart = async (uid: string, addedToCart: number) => {
   }).then(() => {
     console.log("addedToCart updated");
   });
+};
+
+export const productExistOnCart = (
+  userUid: string,
+  uidProduct: string,
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  const q = query(
+    collection(db, "users", userUid, "cart"),
+    where("productUid", "==", uidProduct)
+  );
+  return onSnapshot(q, fSnapshot);
 };

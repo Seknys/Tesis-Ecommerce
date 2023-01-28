@@ -98,8 +98,6 @@ export default function AddProduct({ history }: any) {
   const [product, setProduct] = useState<Iproducts>();
 
   useEffect(() => {
-    console.log("UID:", uuidv4());
-    console.log("SUB:", uidSub);
     const getCategoriesSnapshot = (snapshot: DocumentData) => {
       const categoriesData = snapshot.docs.map((doc: DocumentData) =>
         doc.data()
@@ -275,9 +273,9 @@ export default function AddProduct({ history }: any) {
         .then((res) => {
           SuccesToastAdmin("Product Updated");
 
-          // setTimeout(() => {
-          //   history.goBack();
-          // }, 2000);
+          setTimeout(() => {
+            history.goBack();
+          }, 2000);
         })
         .catch((err) => {
           ErrorToastAdmin(`Error ${err.message}`);
@@ -344,7 +342,7 @@ export default function AddProduct({ history }: any) {
             fontSize={"2xl"}
             color="red.500"
           >
-            Añadir un nuevo producto
+            {uid ? "Añadir un nuevo producto" : "Actualizar Producto"}
           </Text>
           <HStack
             py="3"

@@ -9,6 +9,7 @@ import {
   FcBusinessman,
   FcDoughnutChart,
   FcPaid,
+  FcShipped,
   FcViewDetails,
 } from "react-icons/fc";
 import { LinearGradient } from "react-native-svg";
@@ -140,13 +141,13 @@ export default function HomeAdmin() {
                     style: { padding: 10 },
                   }}
                 >
-                  <FcViewDetails />
+                  <FcShipped />
                 </IconContext.Provider>
               </div>
               {hover?.value && hover?.index === 4 && (
                 <Box mt="25">
                   <Text textAlign="center" w="175px" fontSize="2xl" bold>
-                    {t("admin_edit_product")} USERS
+                    {t("admin_usersHisotry")} 
                   </Text>
                 </Box>
               )}

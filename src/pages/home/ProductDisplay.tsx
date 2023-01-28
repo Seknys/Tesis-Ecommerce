@@ -22,6 +22,7 @@ import {
   addProductToCart,
   getCommetsbyProduct,
   getProductByUid,
+  productExistOnCart,
   updateAddedToCart,
 } from "../../services/products";
 import { ImageSyncCarousel } from "./carousel/ProductCarousel";
@@ -52,6 +53,7 @@ export default function ProductDisplay({ history }: { history: any }) {
   const productName = useRef("");
   const { user } = useContext(UserContext);
   const [count, setCount] = useState(1);
+  const [alreadyCart, setAlreadyCart] = useState<boolean>(false);
   const [comments, setComments] = useState<IComments[]>();
 
   const [isSmallScreen] = useMediaQuery({
@@ -65,6 +67,24 @@ export default function ProductDisplay({ history }: { history: any }) {
   }
 
   useEffect(() => {
+    const productExistSnap = (snapshot: DocumentData) => {
+      //   const productDatac
+
+      if (snapshot.docs.length > 0) {
+        console.log("LENGth: ", snapshot.docs.length);
+        setAlreadyCart(true);
+        // snapshot.docs.map((doc: DocumentData) => {
+        //   console.log("EXIST", doc.data());
+        // });
+      } else {
+        console.log("NO");
+        setAlreadyCart(false);
+      }
+    };
+    if (user) {
+      productExistOnCart(user.uid, uid, productExistSnap);
+    }
+
     const getProductSnapshot = (snapshot: DocumentData) => {
       //   const productData
 
@@ -190,19 +210,25 @@ export default function ProductDisplay({ history }: { history: any }) {
 
                   {user ? (
                     product && product.stock > 0 ? (
-                      <button
-                        // bg="primary"
-                        // w="25%"
-                        className="btn-addCart"
-                        onClick={() => {
-                          addToCart();
-                        }}
-                      >
+                      !alreadyCart ? (
+                        <button
+                          // bg="primary"
+                          // w="25%"
+                          className="btn-addCart"
+                          onClick={() => {
+                            addToCart();
+                          }}
+                        >
+                          <Text fontSize={"18px"} color="black">
+                            {t("add_cart")}
+                          </Text>
+                          <AiOutlineShoppingCart className="icon-cart" />
+                        </button>
+                      ) : (
                         <Text fontSize={"18px"} color="black">
-                          {t("add_cart")}
+                          {t("product_alreadyOnCart")}
                         </Text>
-                        <AiOutlineShoppingCart className="icon-cart" />
-                      </button>
+                      )
                     ) : (
                       <Text
                         fontFamily={"heading"}
@@ -400,19 +426,25 @@ export default function ProductDisplay({ history }: { history: any }) {
 
               {user ? (
                 product && product.stock > 0 ? (
-                  <button
-                    // bg="primary"
-                    // w="25%"
-                    className="movil-btn-addCart"
-                    onClick={() => {
-                      addToCart();
-                    }}
-                  >
+                  !alreadyCart ? (
+                    <button
+                      // bg="primary"
+                      // w="25%"
+                      className="movil-btn-addCart"
+                      onClick={() => {
+                        addToCart();
+                      }}
+                    >
+                      <Text fontSize={"18px"} color="black">
+                        {t("add_cart")}
+                      </Text>
+                      <AiOutlineShoppingCart className="icon-cart" />
+                    </button>
+                  ) : (
                     <Text fontSize={"18px"} color="black">
-                      {t("add_cart")}
+                      {t("product_alreadyOnCart")}
                     </Text>
-                    <AiOutlineShoppingCart className="icon-cart" />
-                  </button>
+                  )
                 ) : (
                   <Text>{t("no_stock")} stock</Text>
                 )

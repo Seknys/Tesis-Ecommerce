@@ -9,6 +9,7 @@ import {
   Container,
   Button,
   useMediaQuery,
+  Spinner,
 } from "native-base";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -43,6 +44,7 @@ export const CartDisplay = ({ history }: any) => {
   const [auxQuantity, setAuxQuantity] = useState(0);
   const myAux = useRef<any>(0);
   const subTotal = useRef(0);
+  const [loadingBuy, setLoadingBuy] = useState<boolean>(false);
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
     maxWidth: 790,
@@ -82,16 +84,27 @@ export const CartDisplay = ({ history }: any) => {
     }
   };
 
-  const handleBuyProducts = (paypal: boolean) => {
+  const handleBuyProducts = async (paypal: boolean) => {
+    setLoadingBuy(true);
     updateProductBought(cartProducts);
     let uidShop = getDateString();
 
     if (user) {
-      addCartToShoppingHistory(user?.uid, uidShop, new Date(), cartProducts);
+      await addCartToShoppingHistory(
+        user?.uid,
+        uidShop,
+        new Date(),
+        cartProducts
+      );
     }
-    setTimeout(() => {
-      paypal ? history.push("/home") : history.push("/checkout");
-    }, 3000);
+
+    console.log("END¿¿?");
+
+    setLoadingBuy(false);
+    history.push("/checkout");
+    // setTimeout(() => {
+    //
+    // }, 3000);
   };
 
   let aux = 0;
@@ -102,6 +115,7 @@ export const CartDisplay = ({ history }: any) => {
       <Text italic bold fontFamily="heading" fontSize={"3xl"}>
         {t("cart")}
       </Text>
+      {loadingBuy && <Spinner size={55} color="black"></Spinner>}
       {isMediumScreen || isSmallScreen ? (
         <Box
           w="90%"
@@ -111,15 +125,8 @@ export const CartDisplay = ({ history }: any) => {
             {cartProducts &&
               cartProducts.map((product, index) => {
                 if (product.quantity) {
-                  console.log(
-                    "Product: ",
-                    product.quantity,
-                    "*",
-                    product.price
-                  );
                   aux += product.quantity * product.price;
 
-                  console.log("Aux: ", Math.round(aux * 100) / 100);
                   subTotal.current = Math.round(aux * 100) / 100;
                   count.current = product.quantity;
                 }
@@ -398,13 +405,15 @@ export const CartDisplay = ({ history }: any) => {
                       />
 
                       <HStack w="80%" justifyContent="space-between">
-                        <Box justifyContent="space-between">
+                        <Box justifyContent="space-between" w="90%">
                           <Link
                             target={"_blank"}
                             to={`/product/${product.productUid}`}
                             className="text-Url"
                           >
-                            <Text fontSize={"3xl"}>{product.name}</Text>
+                            <Text fontSize={"3xl"} w="100%">
+                              {product.name}
+                            </Text>
                           </Link>
 
                           <HStack
@@ -499,7 +508,7 @@ export const CartDisplay = ({ history }: any) => {
                         </Box>
                       </HStack>
                     </HStack>
-                    <Divider thickness="2" bg="gray.300" />
+                    <Divider w={"100%"} thickness="2" bg="gray.300" />
                   </Box>
                 );
               })}
@@ -567,7 +576,7 @@ export const CartDisplay = ({ history }: any) => {
                 }}
                 className="button-cart"
               >
-                {t("cart_confirm")} btw
+                {t("cart_confirm")}
               </button>
               <Text alignSelf={"center"}>{t("another_pay")}</Text>
               <PayPalScriptProvider

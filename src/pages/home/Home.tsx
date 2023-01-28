@@ -21,6 +21,8 @@ import { Interface } from "readline";
 import { Icategories, Iproducts } from "../../interfaces/interface";
 import { getProductsByBuy, getProductsByViews } from "../../services/admin";
 import { getCategories } from "../../services/basicOperations";
+import { getProductTest } from "../../services/products";
+
 import { ProductCarousel } from "./carousel/ProductCarousel";
 import MainHome from "./MainHome";
 import "./style.css";
@@ -48,6 +50,12 @@ export default function HomePage({ history }: any) {
   } | null>();
 
   useEffect(() => {
+    console.log("DEBUG");
+
+    getProductTest().then((res) => {
+      console.log("SOMETHING:", res.docs);
+    });
+
     const getProductsByViewsSnapshot = (snapshot: DocumentData) => {
       const productsData = snapshot.docs.map((doc: DocumentData) => doc.data());
       //set just 10 products

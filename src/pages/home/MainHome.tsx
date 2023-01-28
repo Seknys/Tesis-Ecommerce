@@ -33,9 +33,13 @@ import { useTranslation } from "react-i18next";
 
 export default function MainHome({ history }: any) {
   const { t } = useTranslation();
+  //Special category boolean
   const { value } = useParams<{ value: string }>();
+  //category id
   const { id } = useParams<{ id: string }>();
+  //Is admin
   const { admin } = useParams<{ admin: string }>();
+  //Is analyst
   const { analyst } = useParams<{ analyst: string }>();
   const [auxCategory, setAuxCategory] = useState<Icategories>();
   const [adminCategory, setAdminCategory] = useState<Icategories>();
@@ -73,7 +77,6 @@ export default function MainHome({ history }: any) {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
           doc.data()
         );
-        console.log("productsData", productsData);
 
         setProductsByView(productsData);
       };
@@ -189,6 +192,27 @@ export default function MainHome({ history }: any) {
                     }}
                   />
                 ))}
+              {/* {id &&
+                user &&
+                user.role === "client" &&
+                products?.map((product, index) => (
+                  <CardProduct
+                    index={index}
+                    isClient={true}
+                    key={product.uid + index}
+                    product={product}
+                    handleOnPress={async () => {
+                      await updateViews(product.uid)
+                        .then(() => {
+                          console.log("Views updated");
+                          history.push(`/product/${product.uid}`);
+                        })
+                        .catch((error) => {
+                          console.log("ViewsError", error);
+                        });
+                    }}
+                  />
+                ))} */}
               {value &&
                 productsByView?.map((product, index) => (
                   <CardProduct

@@ -191,8 +191,7 @@ export const AnalysisxProduct = () => {
           <Image
             shadow={9}
             source={{
-              // uri: product?.img[0],
-              uri: "https://www.timeoutdubai.com/cloud/timeoutdubai/2021/09/11/udHvbKwV-IMG-Dubai-UAE-1.jpg",
+              uri: product?.img[0],
             }}
             alt={product ? product.name : "Img desc"}
             w="380"
@@ -264,14 +263,14 @@ export const AnalysisxProduct = () => {
           </Text>
         </div>
       </HStack>
-
+      {/* 
       <button onClick={downloadPDF} type="button">
         NEW PDF?
       </button>
 
       <button onClick={downloadImage} type="button">
         downloadImage
-      </button>
+      </button> */}
 
       {/* <Box h="550px">
         <PDFViewer>
