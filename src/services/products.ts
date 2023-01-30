@@ -14,6 +14,7 @@ import {
   orderBy,
   increment,
   getDocs,
+  limit,
 } from "firebase/firestore";
 import { db } from "../firebase/configFirebase";
 import { IComments, Iproducts } from "../interfaces/interface";
@@ -109,13 +110,6 @@ export const getProductsSearch = (
   onSnapshot(collection(db, "products"), fSnapshot);
 };
 
-export const getProductTest = async () => {
-  // return await getDocs(collection(db, "products"));
-  return await new Promise<any>((resolve, reject) => {
-    resolve({ data: 32 });
-    reject({ data: 35 });
-  });
-};
 
 export const getCommetsbyProduct = (
   uid: string,
