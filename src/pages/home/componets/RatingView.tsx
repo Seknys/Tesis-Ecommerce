@@ -72,10 +72,15 @@ export const RatingCustomView = ({
         onChange={(event, newValue) => {
           if (newValue && setRating) {
             setRating(newValue);
+            setHover(newValue);
           }
         }}
         onChangeActive={(event, newHover) => {
-          setHover(newHover);
+          if (newHover !== -1) {
+            setHover(newHover);
+          } else {
+            setHover(rating);
+          }
         }}
         getLabelText={(value: number) => customIcons[value].label}
       />
@@ -99,7 +104,7 @@ export const RatingCustomView = ({
         </Box>
       )} */}
 
-      {isReadOnly ? (
+      {/* {isReadOnly ? (
         <Box ml="2" justifyContent={"center"} w="150">
           <Text fontSize={"sm"}>{customIcons[rating].label}</Text>
         </Box>
@@ -113,6 +118,17 @@ export const RatingCustomView = ({
         <Box ml="2" justifyContent={"center"} w="150">
           <Text bold fontSize={"sm"}>
             {customIcons[1].label}
+          </Text>
+        </Box>
+      )} */}
+      {isReadOnly ? (
+        <Box ml="2" justifyContent={"center"} w="150">
+          <Text fontSize={"sm"}>{customIcons[rating].label}</Text>
+        </Box>
+      ) : (
+        <Box ml="2" justifyContent={"center"} w="150">
+          <Text bold fontSize={"sm"}>
+            {customIcons[hover].label}
           </Text>
         </Box>
       )}

@@ -15,6 +15,7 @@ import { AnalysisxCat } from "../analyst/pages/AnalysisxCategory/AnalysisxCat";
 import { AnalysisxProduct } from "../analyst/pages/AnalysisxProduct/AnalysisProduct";
 import { HomeAnalyst } from "../analyst/pages/home/HomeAnalyst";
 import MainHeader from "../components/MainHeader";
+import { MyFotter } from "../components/MyFotter";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import { CartDisplay } from "../pages/cart/CartDisplay";
@@ -54,6 +55,7 @@ export const RoutesClient = () => (
           <Route path="/search/:value" component={SearchHome} />
         </Box>
       </Switch>
+      {/* <MyFotter /> */}
     </Router>
   </Box>
 );

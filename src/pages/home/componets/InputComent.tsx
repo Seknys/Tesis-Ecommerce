@@ -35,10 +35,11 @@ export const InputComent = ({ productUid }: IInputComent) => {
         date: Timestamp.fromDate(new Date()),
         userImg: user.img ? user.img : "",
       };
-      console.log("newComment:", newComment);
+
       addCommentToProduct(productUid, newComment)
         .then(() => {
           console.log("Comment added successfully");
+          setMessage("");
         })
         .catch((error) => {
           console.log("Error adding comment: ", error);
@@ -57,11 +58,9 @@ export const InputComent = ({ productUid }: IInputComent) => {
           shadow={5}
           onFocus={() => {
             setFocus(true);
-            console.log("FOCUS:", focus);
           }}
           onBlur={() => {
             setFocus(false);
-            console.log("OUT?:", focus);
           }}
           w="100%"
           // size={focus ? "2xl" : "sm"}

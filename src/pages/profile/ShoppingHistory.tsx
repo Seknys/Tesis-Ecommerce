@@ -24,6 +24,8 @@ export const ShoppingHistory = ({ history }: any) => {
   const { t } = useTranslation();
   const { uid } = useParams<{ uid: string }>();
   const [productsShop, setProductsShop] = useState<Iproducts[]>();
+  const [newTotal, setNewTotal] = useState<any>(0);
+
   const [isSmallScreen] = useMediaQuery({
     minWidth: 10,
     maxWidth: 1050,
@@ -58,11 +60,11 @@ export const ShoppingHistory = ({ history }: any) => {
                 {productsShop.length}
               </Text>
             )}
-
+{/* 
             <Text fontSize={"2xl"} color="black">
               <MB> Total gastado: </MB>
-              {total.current}$
-            </Text>
+              {total.current}$ new {newTotal}
+            </Text> */}
           </HStack>
         </Center>
       ) : (
@@ -76,10 +78,10 @@ export const ShoppingHistory = ({ history }: any) => {
               {productsShop.length}
             </Text>
           )}
-          <Text fontSize={"2xl"} color="black">
+          {/* <Text fontSize={"2xl"} color="black">
             <MB> Total gastado: </MB>
-            {total.current}$
-          </Text>
+            {total.current}$ 
+          </Text> */}
         </Center>
       )}
 
@@ -99,8 +101,10 @@ export const ShoppingHistory = ({ history }: any) => {
                   }
                   if (product.price && product.quantity) {
                     auxTotal = product.price * product.quantity;
+                    console.log("AUTXTOTAL: ", auxTotal);
                   }
                   total.current += auxTotal;
+                  console.log("C7urrent: ", total.current);
 
                   return (
                     <Pressable
@@ -203,6 +207,7 @@ export const ShoppingHistory = ({ history }: any) => {
                       auxTotal = product.price * product.quantity;
                     }
                     total.current += auxTotal;
+
                     return (
                       <Pressable
                         key={product.uid + index}

@@ -325,9 +325,9 @@ export const CartDisplay = ({ history }: any) => {
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    //"AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                    //LIVE LCIENT
-                    "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
                 }}
               >
                 <PayPalButtons
@@ -338,9 +338,9 @@ export const CartDisplay = ({ history }: any) => {
                           amount: {
                             value:
                               //SandBox
-                              //(subTotal.current - discount).toString(),
-                              //LIVE
-                              "0.01",
+                              (subTotal.current - discount).toString(),
+                            //LIVE
+                            // "0.01",
                           },
                         },
                       ],
@@ -356,7 +356,6 @@ export const CartDisplay = ({ history }: any) => {
                         const name = details.payer.name.given_name;
                         // alert(`Transaction completed by ${name}`);
                         SuccesToast(`Transaction completed by ${name}`);
-                        console.log("DONE", details.payer);
                       }
                     });
                   }}
@@ -576,16 +575,16 @@ export const CartDisplay = ({ history }: any) => {
                 }}
                 className="button-cart"
               >
-                {t("cart_confirm")}
+                {t("cart_confirm")} 
               </button>
               <Text alignSelf={"center"}>{t("another_pay")}</Text>
               <PayPalScriptProvider
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    // "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
-                    //LIVE LCIENT
-                    "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                  //LIVE LCIENT
+                  // "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
                 }}
               >
                 <PayPalButtons
@@ -596,9 +595,9 @@ export const CartDisplay = ({ history }: any) => {
                           amount: {
                             value:
                               //SandBox
-                              //(subTotal.current - discount).toString(),
-                              //LIVE
-                              "0.01",
+                              (subTotal.current - discount).toString(),
+                            //LIVE
+                            // "0.01",
                           },
                         },
                       ],

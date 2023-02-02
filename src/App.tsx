@@ -114,6 +114,7 @@ import { Iuser } from "./interfaces/interface";
 import { RoutesAdmin, RoutesAnalyst, RoutesClient } from "./routes/Routes";
 import { use } from "i18next";
 
+
 // function Home() {
 //   return (
 //     <div>
@@ -167,6 +168,7 @@ export default function App() {
         ) : null}
         {user?.role === "analyst" && <RoutesAnalyst />}
       </UserContextProvider>
+ 
     </React.Fragment>
   );
 }

@@ -7,6 +7,7 @@ import "./i18n";
 import { Box, Center, NativeBaseProvider, Spinner, Text } from "native-base";
 import "./index.css";
 
+
 // extend the theme
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -28,6 +29,7 @@ root.render(
         <div className="main-container">
           <App />
         </div>
+
       </Suspense>
     </NativeBaseProvider>
   </React.StrictMode>
