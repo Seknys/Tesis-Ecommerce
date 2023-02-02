@@ -160,16 +160,16 @@ export default function AddProduct({ history }: any) {
     let array: string[] = [];
 
     for (const fileImg of files) {
-      console.log("FILES:", fileImg.file.name);
+   
       await uploadImage(fileImg.file, uid ? uid : uidSub).then(async (url) => {
         await getUrlImage(url.ref.fullPath).then((url) => {
-          console.log("URL:", url);
+      
           array.push(url);
         });
       });
     }
     allFiles.forEach((f: any) => f.remove());
-    console.log("ARRAY:", array);
+ 
 
     setArrayImages(array);
     setIsEnable(false);

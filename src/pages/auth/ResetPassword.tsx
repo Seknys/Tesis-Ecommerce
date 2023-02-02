@@ -50,14 +50,14 @@ export const ResetPasswordByEmail = ({
   const handleSubmitResetPass = () => {
     sendEmailToResetPassword(email)
       .then((res) => {
-        console.log("reset success", res);
+  
         SuccesToast(t("reset_success"));
         setTimeout(() => {
           handleClose();
         }, 2000);
       })
       .catch((err) => {
-        console.log("reset error", err);
+
         ErrorToast(t("auth_unknown_error"));
       });
   };

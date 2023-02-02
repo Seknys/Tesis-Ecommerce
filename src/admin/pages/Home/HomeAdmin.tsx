@@ -32,7 +32,7 @@ export default function HomeAdmin() {
       h="55vh"
     >
       <Pressable
-        onPress={() => console.log("")}
+   
         onHoverIn={() => setHover({ value: true, index: 1 })}
         onHoverOut={() => setHover(null)}
         my="150"
@@ -92,7 +92,7 @@ export default function HomeAdmin() {
         </Link>
       </Pressable>
       <Pressable
-        onPress={() => console.log("Pressed")}
+     
         onHoverIn={() => setHover({ value: true, index: 3 })}
         onHoverOut={() => setHover(null)}
         my="150"

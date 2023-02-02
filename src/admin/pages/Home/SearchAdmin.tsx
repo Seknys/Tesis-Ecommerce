@@ -15,7 +15,7 @@ export const SearchHomeADMIN = ({ history }: any) => {
 
   useEffect(() => {
     if (value) {
-      console.log("value SEARCH", value);
+
       //Value should be the attribute to fetch the data with a filter
       const getProductsBySearchSnapshot = (snapshot: DocumentData) => {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
@@ -38,7 +38,6 @@ export const SearchHomeADMIN = ({ history }: any) => {
 
         setProductsSearch(result.length > 0 ? result : null);
 
-        console.log("Search result", result);
       };
 
       getProductsSearch(getProductsSearchSnapshot);

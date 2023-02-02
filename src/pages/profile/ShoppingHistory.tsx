@@ -32,7 +32,7 @@ export const ShoppingHistory = ({ history }: any) => {
   });
   const total = useRef(0);
   const shoppingProductsFunction = (products: Iproducts[]) => {
-    console.log("products", products);
+   
     setProductsShop(products);
   };
   useEffect(() => {
@@ -101,10 +101,10 @@ export const ShoppingHistory = ({ history }: any) => {
                   }
                   if (product.price && product.quantity) {
                     auxTotal = product.price * product.quantity;
-                    console.log("AUTXTOTAL: ", auxTotal);
+               
                   }
                   total.current += auxTotal;
-                  console.log("C7urrent: ", total.current);
+      
 
                   return (
                     <Pressable
@@ -119,7 +119,7 @@ export const ShoppingHistory = ({ history }: any) => {
                           if (product.productUid) {
                             updateViews(product.productUid)
                               .then(() => {
-                                console.log("Views updated");
+                     
                                 history.push(`/product/${product.productUid}`);
                               })
                               .catch((error) => {
@@ -223,7 +223,7 @@ export const ShoppingHistory = ({ history }: any) => {
                             if (product.productUid) {
                               updateViews(product.productUid)
                                 .then(() => {
-                                  console.log("Views updated");
+                     
                                   history.push(
                                     `/product/${product.productUid}`
                                   );

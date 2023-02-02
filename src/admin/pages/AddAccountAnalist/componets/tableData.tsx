@@ -20,7 +20,7 @@ const ButtonsTable = (cell: any, row: any, rowIndex: any) => {
         _hover={{ bg: "danger.700" }}
         bg={"danger.600"}
         // leftIcon={<FontAwesomeIcon icon={faXmark} color="black" />}
-        onPress={() => console.log("Row", row)}
+     
       >
         <Text color="white" bold fontSize="15px">
           Delete

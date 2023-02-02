@@ -1,6 +1,6 @@
 import Zdog from "zdog";
 
-console.log("DOG¿?");
+
 
 const illo = new Zdog.Illustration({
   // set canvas with selector

@@ -55,9 +55,10 @@ export const CartDisplay = ({ history }: any) => {
   });
 
   useEffect(() => {
+   
     const cartProductsFunction = (products: Iproducts[]) => {
       if (products) {
-        console.log("PRODUCTS: ", products);
+  
         setCartProducts(products);
       }
     };
@@ -71,12 +72,12 @@ export const CartDisplay = ({ history }: any) => {
     removeToCart: number,
     productUid: string
   ) => {
-    console.log("Delete product from cart", cartUid);
+
     if (user && cartUid) {
       deleteProductFromCart(user.uid, cartUid)
         .then(() => {
           updateRemoveFromCart(productUid, removeToCart);
-          console.log("Product deleted from cart Update VIEW");
+    
         })
         .catch((error) => {
           console.log("Error deleting product from cart: ", error);
@@ -98,7 +99,7 @@ export const CartDisplay = ({ history }: any) => {
       );
     }
 
-    console.log("END¿¿?");
+
 
     setLoadingBuy(false);
     history.push("/checkout");
@@ -209,7 +210,7 @@ export const CartDisplay = ({ history }: any) => {
                                       product.quantity += 1;
                                       myAux.current += 1;
                                       setAuxQuantity((myAux.current += 1));
-                                      console.log("Aux: ", myAux.current);
+                                   
                                     }
                                   }}
                                 >
@@ -233,7 +234,7 @@ export const CartDisplay = ({ history }: any) => {
                         >
                           <Pressable
                             onPress={() => {
-                              console.log("Product: ", product);
+                         
                               if (product.productUid) {
                                 deletePCart(
                                   product.uid,
@@ -325,9 +326,14 @@ export const CartDisplay = ({ history }: any) => {
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                    process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT
+                      ? process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT
+                      : "",
+
                   //LIVE LCIENT
-                  //"AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                  // process.env.REACT_APP_PAYPAL_LIVE_CLIENT
+                  // ? process.env.REACT_APP_PAYPAL_LIVE_CLIENT
+                  // : "",
                 }}
               >
                 <PayPalButtons
@@ -349,7 +355,7 @@ export const CartDisplay = ({ history }: any) => {
                   onApprove={(data, actions: any) => {
                     return actions.order.capture().then((details: any) => {
                       if (details.status === "COMPLETED") {
-                        console.log("Details: ", details);
+                     
                         handleBuyProducts(true);
                       }
                       if (details.payer.name) {
@@ -453,7 +459,7 @@ export const CartDisplay = ({ history }: any) => {
                                       product.quantity += 1;
                                       myAux.current += 1;
                                       setAuxQuantity((myAux.current += 1));
-                                      console.log("Aux: ", myAux.current);
+                                     
                                     }
                                   }}
                                 >
@@ -575,16 +581,21 @@ export const CartDisplay = ({ history }: any) => {
                 }}
                 className="button-cart"
               >
-                {t("cart_confirm")} 
+                {t("cart_confirm")}
               </button>
               <Text alignSelf={"center"}>{t("another_pay")}</Text>
               <PayPalScriptProvider
                 options={{
                   "client-id":
                     //SANDBOX CLIENT
-                    "AakzSsjVghPnwP40WgCb2hYcP4oPqoP9orP58P-fBVgQJg9Fa3OMvZcg6CMDGL9P82VHvzKQylK4wCX7",
+                    process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT
+                      ? process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT
+                      : "",
+
                   //LIVE LCIENT
-                  // "AYUN02PxCTNM4_OUTyXUFhWkYcMgl_wSi7ssf72jEdKfzjqO4fQG0oKDBOdYG4V-lWYUqM5wZpnM09oA",
+                  // process.env.REACT_APP_PAYPAL_LIVE_CLIENT
+                  // ? process.env.REACT_APP_PAYPAL_LIVE_CLIENT
+                  // : "",
                 }}
               >
                 <PayPalButtons
@@ -606,14 +617,14 @@ export const CartDisplay = ({ history }: any) => {
                   onApprove={(data, actions: any) => {
                     return actions.order.capture().then((details: any) => {
                       if (details.status === "COMPLETED") {
-                        console.log("Details: ", details);
+          
                         handleBuyProducts(true);
                       }
                       if (details.payer.name) {
                         const name = details.payer.name.given_name;
                         // alert(`Transaction completed by ${name}`);
                         SuccesToast(`Transaction completed by ${name}`);
-                        console.log("DONE", details.payer);
+                
                       }
                     });
                   }}

@@ -159,7 +159,7 @@ export const updatePassService = async (password: string) => {
 };
 
 export const uploadImageUser = async (uid: string, image: any) => {
-  console.log("Image", image.name);
+
   return await uploadBytes(
     ref(storage, "users/" + uid + "/profile.png"),
     image

@@ -31,7 +31,7 @@ interface IPropsPdf {
 
 // Create Document Component
 export const PdfViewProduct = ({ product }: IPropsPdf) => {
-  console.log("PRoduct FPDF: ", product);
+
 
   return (
     <Document>

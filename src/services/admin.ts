@@ -18,7 +18,7 @@ import { Iproducts } from "../interfaces/interface";
 const productRef = collection(db, "products");
 const userRef = collection(db, "users");
 export const uploadImage = (file: any, uid: string) => {
-  console.log("BACKUID: ", uid);
+
   return uploadBytes(ref(storage, `images/${uid}/${file.name}`), file);
 };
 

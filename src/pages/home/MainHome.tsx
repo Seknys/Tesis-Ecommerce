@@ -71,7 +71,7 @@ export default function MainHome({ history }: any) {
 
   useEffect(() => {
     if (value) {
-      console.log("value", value);
+   
       //Value should be the attribute to fetch the data with a filter
       const getProductsByViewsSnapshot = (snapshot: DocumentData) => {
         const productsData = snapshot.docs.map((doc: DocumentData) =>
@@ -183,7 +183,7 @@ export default function MainHome({ history }: any) {
                     handleOnPress={async () => {
                       await updateViews(product.uid)
                         .then(() => {
-                          console.log("Views updated");
+                   
                           history.push(`/product/${product.uid}`);
                         })
                         .catch((error) => {
@@ -221,7 +221,7 @@ export default function MainHome({ history }: any) {
                     handleOnPress={async () => {
                       await updateViews(product.uid)
                         .then(() => {
-                          console.log("Views updated");
+            
                           history.push(`/product/${product.uid}`);
                         })
                         .catch((error) => {
@@ -283,7 +283,7 @@ export default function MainHome({ history }: any) {
                   handleOnPress={async () => {
                     await updateViews(product.uid)
                       .then(() => {
-                        console.log("Views updated");
+         
                         history.push(`/product/${product.uid}`);
                       })
                       .catch((error) => {
@@ -300,7 +300,7 @@ export default function MainHome({ history }: any) {
                   handleOnPress={async () => {
                     await updateViews(product.uid)
                       .then(() => {
-                        console.log("Views updated");
+                
                         history.push(`/product/${product.uid}`);
                       })
                       .catch((error) => {

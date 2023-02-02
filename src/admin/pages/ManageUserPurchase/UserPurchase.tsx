@@ -10,7 +10,7 @@ export const UserPurchase = () => {
 
   useEffect(() => {
     const shoppingProductsFunction = (products: Iproducts[]) => {
-      console.log("products", products);
+    
       setProductsShop(products);
     };
     if (uid) {

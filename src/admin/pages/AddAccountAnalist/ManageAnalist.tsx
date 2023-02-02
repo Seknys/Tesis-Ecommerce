@@ -18,7 +18,7 @@ export const ManageAnalystUsers = () => {
     const getUserByRoleSnapshot = (snapshot: DocumentData) => {
       const usersData = snapshot.docs.map((doc: DocumentData) => doc.data());
 
-      console.log("Users: ", usersData);
+     
       setUsers(usersData);
     };
 

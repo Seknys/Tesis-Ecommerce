@@ -18,7 +18,7 @@ export default function SelectCategory({
   categoryArray,
 }: ISelectProps) {
   const handleChange = (event: any) => {
-    console.log("Event: ", event.target.value);
+
     if (setCategory) {
       setCategory(event.target.value as string);
     }

@@ -38,7 +38,7 @@ export default function MainHeader({ history }: any) {
   const [showSearch, setShowSearch] = useState(false);
 
   const { user } = useContext(UserContext);
-  console.log("USER", user?.role);
+
   // const [isSmallScreen] = useMediaQuery({
   //   minWidth: 10,
   //   maxWidth: 915,
@@ -63,7 +63,7 @@ export default function MainHeader({ history }: any) {
   });
 
   useEffect(() => {
-    // console.log("User", user);
+
   }, []);
 
   return (
@@ -236,7 +236,7 @@ export default function MainHeader({ history }: any) {
                     borderRadius="10"
                     onKeyPress={(e: any) => {
                       if (e.key === "Enter") {
-                        console.log("Target", e.target.value);
+                 
                         window.location.href = `/search/${e.target.value}`;
                       }
                     }}

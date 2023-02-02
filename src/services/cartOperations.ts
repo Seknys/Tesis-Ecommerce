@@ -33,9 +33,7 @@ export const updateProductBought = (product: Iproducts[] | null) => {
         updateDoc(doc(db, "products", product.productUid), {
           buy: increment(1),
           stock: increment(-product.quantity),
-        }).then(() => {
-          console.log("ProductoBOUGHT actualizado: ", product);
-        });
+        })
       }
     });
   }

@@ -27,7 +27,7 @@ export const HomeAnalyst = () => {
       h="55vh"
     >
       <Pressable
-        onPress={() => console.log("")}
+   
         onHoverIn={() => setHover({ value: true, index: 1 })}
         onHoverOut={() => setHover(null)}
         my="150"
@@ -93,7 +93,7 @@ export const HomeAnalyst = () => {
         </Link>
       </Pressable>
       <Pressable
-        onPress={() => console.log("Pressed")}
+   
         onHoverIn={() => setHover({ value: true, index: 3 })}
         onHoverOut={() => setHover(null)}
         my="150"

@@ -171,9 +171,7 @@ export const updateViews = async (uid: string) => {
 export const updateAddedToCart = async (uid: string, addedToCart: number) => {
   await updateDoc(doc(db, "products", uid), {
     addedToCart: increment(1),
-  }).then(() => {
-    console.log("addedToCart updated");
-  });
+  })
 };
 
 export const productExistOnCart = (

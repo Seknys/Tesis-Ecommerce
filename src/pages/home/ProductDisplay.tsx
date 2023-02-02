@@ -71,13 +71,13 @@ export default function ProductDisplay({ history }: { history: any }) {
       //   const productDatac
 
       if (snapshot.docs.length > 0) {
-        console.log("LENGth: ", snapshot.docs.length);
+   
         setAlreadyCart(true);
         // snapshot.docs.map((doc: DocumentData) => {
         //   console.log("EXIST", doc.data());
         // });
       } else {
-        console.log("NO");
+   
         setAlreadyCart(false);
       }
     };

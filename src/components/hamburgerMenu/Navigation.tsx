@@ -26,7 +26,7 @@ export const Navigation = () => {
 
   useEffect(() => {
     const cartProductsFunction = (products: Iproducts[]) => {
-      console.log("CartProducts: ", products);
+     
       if (products.length > 10) {
         products = products.slice(0, 10);
         setCartProducts(products);

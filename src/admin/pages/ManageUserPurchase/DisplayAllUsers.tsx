@@ -10,7 +10,7 @@ export const DisplayUsersShopping = () => {
   useEffect(() => {
     const getUserByRoleSnap = (snapshot: DocumentData) => {
       const usersData = snapshot.docs.map((doc: DocumentData) => doc.data());
-      console.log("USER CLIENTE:", usersData);
+  
       setUsers(usersData);
     };
     getUsersByRole("client", getUserByRoleSnap);

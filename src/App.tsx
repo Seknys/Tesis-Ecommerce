@@ -144,7 +144,7 @@ export default function App() {
   useEffect(() => {
     const getUserByUidSnapshot = (snapshot: any) => {
       const user = snapshot.data();
-      // console.log("UserRole: ", user);
+    
 
       setUser(user);
     };

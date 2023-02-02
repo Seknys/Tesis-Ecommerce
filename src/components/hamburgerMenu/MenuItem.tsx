@@ -35,7 +35,7 @@ interface IPropsMenuItem {
 
 export const MenuItem = ({ i, product }: IPropsMenuItem) => {
   const style = { border: `2px solid ${colors[i]}` };
-  console.log("name¿=?¿?: ", product?.name, "length: ", product?.name.length);
+
   if (product) {
     if (product.name.length > 13) {
       product.name = `${product.name.substring(0, 10)}... `;
@@ -61,7 +61,7 @@ export const MenuItem = ({ i, product }: IPropsMenuItem) => {
         <HStack w="100%" alignItems="center">
           <Pressable
             onPress={() => {
-              console.log("delete");
+              // console.log("delete");
             }}
           >
             <IconContext.Provider

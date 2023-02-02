@@ -53,7 +53,7 @@ export default function Register({ history, isAdmin }: IRegisterProps) {
   const onSubmit = () => {
     setBttnSubmit(false);
     let originalUser = auth.currentUser;
-    console.log("ORIGINAL USER", originalUser);
+
 
     if (isValid.current) {
       RegisterWithEmail(email, password, name, lastName, role)
@@ -63,10 +63,10 @@ export default function Register({ history, isAdmin }: IRegisterProps) {
             setTimeout(() => {
               SuccesToast(t("admin_register_success"));
               auth.updateCurrentUser(originalUser);
-              console.log("AUTH UPDATE");
+         
             }, 2000);
           } else {
-            console.log("NO?");
+   
             SuccesToast(t("auth_register_success"));
             setTimeout(() => {
               history.push("/home");
@@ -82,7 +82,7 @@ export default function Register({ history, isAdmin }: IRegisterProps) {
           // }, 2000);
         })
         .catch((errCode) => {
-          console.log("Test Front", errCode.message);
+   
           let message = "";
           switch (errCode.message) {
             case "auth/email-already-in-use":

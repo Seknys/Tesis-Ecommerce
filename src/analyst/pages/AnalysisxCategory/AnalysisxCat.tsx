@@ -283,7 +283,7 @@ export const AnalysisxCat = () => {
 
               //   console.log("RES DOC: ", doc.data());
               // });
-              console.log("RESLENG:¿ ", res.docs.length);
+          
             });
           }
 
@@ -318,8 +318,7 @@ export const AnalysisxCat = () => {
             commentsSum,
             buySum,
           ]);
-          console.log("PieValues: ", pieValues);
-          console.log("CommentsPie", comentsLenght);
+
           setOption(viewsArray);
           setName(nameArray);
         }
@@ -330,7 +329,7 @@ export const AnalysisxCat = () => {
   }, [categoryUid]);
 
   useEffect(() => {
-    console.log("CHANGE COMETNS?");
+
   }, [comentsLenght]);
 
   useEffect(() => {
@@ -350,7 +349,7 @@ export const AnalysisxCat = () => {
       } else {
         products.forEach((product: any) => {
           optionsArray.push(product[boxValue]);
-          console.log("ArrayV: ", product[boxValue]);
+        
         });
       }
 
@@ -360,7 +359,7 @@ export const AnalysisxCat = () => {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let auxName = "";
-    console.log("Label: ", event.target.labels);
+
     setBoxValue((event.target as HTMLInputElement).value);
     switch ((event.target as HTMLInputElement).value) {
       case "views":

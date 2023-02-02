@@ -38,7 +38,7 @@ export const InputComent = ({ productUid }: IInputComent) => {
 
       addCommentToProduct(productUid, newComment)
         .then(() => {
-          console.log("Comment added successfully");
+   
           setMessage("");
         })
         .catch((error) => {

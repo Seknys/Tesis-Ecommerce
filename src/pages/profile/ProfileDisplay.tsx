@@ -89,10 +89,10 @@ export default function ProfileDisplay({ history }: any) {
       setLoadingImg(true);
       uploadImageUser(user?.uid, fileObj)
         .then((res) => {
-          console.log("res", res.ref);
+    
           getDownloadURL(res.ref).then((url) => {
             updateImageUser(user.uid, url).then((res) => {
-              console.log("res", res);
+          
               setLoadingImg(false);
               SuccesToast(t("profile_img"));
             });
@@ -106,7 +106,7 @@ export default function ProfileDisplay({ history }: any) {
   };
 
   useEffect(() => {
-    console.log("USE EFECCT");
+
     if (user) {
       setName(user.name);
       setLastName(user.lastName);
@@ -130,7 +130,7 @@ export default function ProfileDisplay({ history }: any) {
       if (passAux !== "" && email) {
         reauthenticateUserActions(passAux)
           .then((res) => {
-            console.log("Reauthenticate", res);
+   
             updateEmailAdress(email)
               .then((res) => {
                 updateUser(user.uid, newUpdatedData)
@@ -157,7 +157,7 @@ export default function ProfileDisplay({ history }: any) {
             .then(() => {
               updatePassService(pass)
                 .then((res) => {
-                  console.log("updatePassService", res);
+               
                   updateUser(user.uid, newUpdatedData)
                     .then((res) => {
                       SuccesToast(t("profile_updated"));
@@ -213,7 +213,7 @@ export default function ProfileDisplay({ history }: any) {
                   signOutUser();
                   // setLoading(false);
                   setTimeout(() => {
-                    console.log("SUPPOSED TO REDIRECT TO HOME");
+             
                     history.push("/home");
                   }, 1500);
 
@@ -510,7 +510,7 @@ export default function ProfileDisplay({ history }: any) {
                         }
                         onChange={(text) => {
                           setConfirmPass(text.target.value);
-                          console.log("Pass", pass);
+                        
 
                           if (text.target.value.length <= 0) {
                             setErrors({
@@ -571,9 +571,7 @@ export default function ProfileDisplay({ history }: any) {
                 onPress={() => {
                   setLoading(true);
 
-                  signOutUser().then(() => {
-                    console.log("InsideUser logged out");
-                  });
+                  signOutUser()
                   // SuccesToast(t("log_out"));
 
                   setTimeout(() => {
@@ -852,7 +850,7 @@ export default function ProfileDisplay({ history }: any) {
                         }
                         onChange={(text) => {
                           setConfirmPass(text.target.value);
-                          console.log("Pass", pass);
+                    
 
                           if (text.target.value.length <= 0) {
                             setErrors({

@@ -113,7 +113,7 @@ export default function SpecialCategory({ history }: any) {
                   handleOnPress={async () => {
                     await updateViews(product.uid)
                       .then(() => {
-                        console.log("Views updated");
+               
                         history.push(`/product/${product.uid}`);
                       })
                       .catch((error) => {

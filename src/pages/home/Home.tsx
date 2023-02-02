@@ -49,6 +49,7 @@ export default function HomePage({ history }: any) {
   } | null>();
 
   useEffect(() => {
+  
     const getProductsByViewsSnapshot = (snapshot: DocumentData) => {
       const productsData = snapshot.docs.map((doc: DocumentData) => doc.data());
       //set just 10 products
@@ -65,7 +66,7 @@ export default function HomePage({ history }: any) {
       if (productsData.length > 10) {
         productsData.length = 10;
       }
-      console.log("BUY: ", productsData);
+    
 
       setProductsBuy(productsData);
     };
