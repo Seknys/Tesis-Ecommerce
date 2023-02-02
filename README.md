@@ -72,3 +72,7 @@ npm start
 
 Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el puerto ``` 3000 ``` del localhost
 
+
+
+### Adicional
+- Version de node usada: [16.16.0](https://nodejs.org/en/blog/release/v16.16.0/)
