@@ -70,7 +70,7 @@ En la terminal  ejecutar el comando.
 npm start
 ```
 
-Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el puerto ``` 3000 ``` del localhost
+Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el puerto ``` 3000 ``` del localhost.
 
 
 
