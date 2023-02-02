@@ -2,11 +2,17 @@
 
 <p align="center"><img width='200px' height='200px' src="https://firebasestorage.googleapis.com/v0/b/ecommerce-tesis.appspot.com/o/Junk%2FLogoT.png?alt=media&token=2857c39b-afd2-4bea-8a3a-569634c8a6ba"></p>
 
-Upworld es un ecommerce web para la venta de productos computacionales.
+[Upworld](https://ecommerce-epn.web.app/home) es un ecommerce web para la venta de productos computacionales.
+
+Este es el repositorio que almacena el codigo del componente Front-End.
+
 El sismtema web maneja 3 roles de usuario principales:
 - Cliente
 - Administrador
 - Analista
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
