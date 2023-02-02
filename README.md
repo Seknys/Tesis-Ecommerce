@@ -13,7 +13,7 @@ El sismtema web maneja 3 roles de usuario principales:
 ## Descarga e instalacion
 
 ### Descargar las  siguientes herramientas antes de empezar: 
-- [NodeJs] (https://nodejs.org/en/).
+- [NodeJs](https://nodejs.org/en/).
     Descargar y ejecutar el archivo de instalacion. Para verificar la correcta instalacion de node ejecutar el siguiente comando en la terminal.
     ```sh
     node -v
@@ -30,3 +30,14 @@ git clone https://github.com/Seknys/Tesis-Ecommerce.git
 
 ### Ejecutar el proyecto
 En el mismo terminal donde ejecuto el comando anterior 
+```sh
+cd Tesis-Ecommerce
+```
+Abrir el codigo en el editor descargado anteriormente, en el caso de VisualStudio Code ejecutar el siguiente comando 
+```sh
+code .
+```
+Instalar los paquetes 
+```sh
+npm install
+```
