@@ -41,3 +41,25 @@ Instalar los paquetes
 ```sh
 npm install
 ```
+### Añadir claves de acceso
+El proyecto usa diferentes servicios y Apis para ejecutarse correctamente. Crear y generar las respectivas credenciales en cada servicio
+- Firebase ([Crear Proyecto](https://cloud.google.com/firestore/docs/client/get-firebase)) ([Genrar credenciales](https://support.google.com/firebase/answer/9326094?hl=en))
+- PayPal ([Crear cuenta](https://developer.paypal.com/home/)) ([Generar credenciales](https://developer.paypal.com/api/rest/))
+- i18nexus ([Crear cuenta](https://i18nexus.com/)) ([Tutorial React](https://i18nexus.com/react-tutorial/))
+
+Despues de generar todas las credenciales correspondientes cree un nuevo archivo en el root del proyecto con el nombre  ``` .env.development ``` y añadir el siguiente contenido
+
+```sh
+REACT_APP_FIREBASE_API_KEY ='Your firebase api key'
+REACT_APP_FIREBASE_AUTH_DOMAIN = 'Your firebase auth domain'
+REACT_APP_FIREBASE_PROJECT_ID = 'Your firebase project id'
+REACT_APP_FIREBASE_STORAGE_BUCKET = 'Your firebase storage bucket'
+REACT_APP_FIREBASE_MESSAGIN_SENDER_ID = 'Your firebase messagin senderid'
+REACT_APP_FIREBASE_APP_ID = 'Your firebase app id'
+REACT_APP_FIREBASE_MEASUREMENTID = 'Your firebase measurement id'
+
+REACT_APP_PAYPAL_SANDBOX_CLIENT = 'Your paypal sandbox client'
+REACT_APP_PAYPAL_LIVE_CLIENT = 'Your paypal live client'
+
+REACT_APP_I18NEXT_API_KEY = 'Your i18next api key'
+```
