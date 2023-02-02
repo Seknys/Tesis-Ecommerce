@@ -28,7 +28,7 @@ Abrir una nueva terminal y ejecutar el siguiente comando
 git clone https://github.com/Seknys/Tesis-Ecommerce.git 
 ```
 
-### Ejecutar el proyecto
+### Preparar el proyecto
 En el mismo terminal donde ejecuto el comando anterior 
 ```sh
 cd Tesis-Ecommerce
@@ -63,3 +63,12 @@ REACT_APP_PAYPAL_LIVE_CLIENT = 'Your paypal live client'
 
 REACT_APP_I18NEXT_API_KEY = 'Your i18next api key'
 ```
+
+### Ejecutar el proyecto
+En la terminal  ejecutar el comando.
+``` sh
+npm start
+```
+
+Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el puerto ``` 3000 ``` del localhost
+
