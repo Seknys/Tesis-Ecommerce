@@ -72,9 +72,9 @@ npm start
 
 Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el puerto ``` 3000 ``` del localhost.
 
-<p align="center"><img  src="https://user-images.githubusercontent.com/74793607/216442750-e7cf147a-671a-4827-bf98-05d74869209b.png"></p>
+<p align="center"><img width='800px' height='600px'  src="https://user-images.githubusercontent.com/74793607/216442750-e7cf147a-671a-4827-bf98-05d74869209b.png"></p>
 
-[https://user-images.githubusercontent.com/74793607/216442750-e7cf147a-671a-4827-bf98-05d74869209b.png](https://user-images.githubusercontent.com/74793607/216442750-e7cf147a-671a-4827-bf98-05d74869209b.png)
+
 ### Adicional
 - Version de node usada: [16.16.0](https://nodejs.org/en/blog/release/v16.16.0/)
 - Version react usada: 18.2.0
