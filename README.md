@@ -24,7 +24,9 @@ El sismtema web maneja 3 roles de usuario principales:
 ### Clonar el repositorio
 Abrir una nueva terminal y ejecutar el siguiente comando
 
-```sh git clone https://github.com/Seknys/Tesis-Ecommerce.git ```
+```sh
+git clone https://github.com/Seknys/Tesis-Ecommerce.git 
+```
 
 ### Ejecutar el proyecto
 En el mismo terminal donde ejecuto el comando anterior 
