@@ -78,4 +78,5 @@ Si todos los pasos se siguieron correctamente el proyecto se ejecutara en el pue
 ### Adicional
 - Version de node usada: [16.16.0](https://nodejs.org/en/blog/release/v16.16.0/)
 - Version react usada: 18.2.0
+- Contactame en: stevfgc@hotmail.com
 
